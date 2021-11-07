@@ -6,13 +6,23 @@ export const log = (store: any) => {
 }
 
 const initialState: GlobalState = {
-    worlds: [
+    players: [
         {
-            key: 'testWorld',
-            lager: [
+            name: 'Jack',
+            key: 'jack',
+            worlds: [
                 {
-                    key: 'testlager-key',
-                    city: 'Testcity'
+                    key: 'testWorld',
+                    cities: [
+                        {
+                            key: 'Everfall',
+                            name: 'Everfall',
+                            lager: {
+                                key: 'everfall-lager',
+                                content: 'something'
+                            }
+                        }
+                    ]
                 }
             ]
         }
