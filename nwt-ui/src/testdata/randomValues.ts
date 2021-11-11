@@ -1,10 +1,20 @@
+import faker from 'faker'
+import {CityName, CityNames, ItemType, ItemTypes} from "../common/commonTypes";
 
-
-export const randomEnum = <T>(anEnum: T): T[keyof T] => {
-    return randomArray(Object.values(anEnum))
-}
-
-export const randomArray = <T>(anArray: T[]): T => {
-    const randomIndex = Math.floor(Math.random() * anArray.length)
-    return anArray[randomIndex]
+export const RandomValues = {
+    arrayElement: <T>(anArray: T[]): T => {
+        return faker.random.arrayElement(anArray)
+    },
+    name: (): string => {
+        return faker.name.findName()
+    },
+    cityName: (): CityName => {
+        return RandomValues.arrayElement(Object.values(CityNames))
+    },
+    itemType: (): ItemType => {
+        return RandomValues.arrayElement(Object.values(ItemTypes))
+    },
+    randomNumber: (): number => {
+        return Math.floor(Math.random() * 100)
+    }
 }

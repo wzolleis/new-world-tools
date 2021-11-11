@@ -1,4 +1,4 @@
-import {WithKey} from "../app/types/appTypes";
+import {WithKey} from "app/types/appTypes";
 
 export const remove = <T extends WithKey>(values: T[], toRemove: T): T[] => {
     return values.filter((value) => value.key !== toRemove.key)

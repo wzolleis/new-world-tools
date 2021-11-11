@@ -1,3 +1,5 @@
+import {CityName} from "../../common/commonTypes";
+
 export type ObjectKey = string
 
 
@@ -16,7 +18,7 @@ export interface Lager extends WithKey {
 }
 
 export interface City extends WithKey {
-    name: string
+    name: CityName
     lager: Lager
 }
 
@@ -33,3 +35,4 @@ export interface Game extends WithKey {
     name: string
     players: Player[]
 }
+

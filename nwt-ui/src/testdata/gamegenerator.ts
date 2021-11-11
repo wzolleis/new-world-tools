@@ -1,8 +1,6 @@
 import {v4 as uuidv4} from 'uuid';
-import faker from 'faker'
-import {City, Game, Item, Lager, Player, World} from "../app/types/appTypes";
-import {randomEnum} from "./randomValues";
-import {CityName, ItemCategory} from "../app/types/constants";
+import {City, Game, Item, Lager, Player, World} from "app/types/appTypes";
+import {RandomValues} from "./randomValues";
 
 interface GeneratorOptions {
     worlds: number,
@@ -23,7 +21,7 @@ const defaultOptions: GeneratorOptions = {
 export const generateGame = (options: GeneratorOptions = defaultOptions): Game => {
     return {
         key: uuidv4(),
-        name: 'New World',
+        name: RandomValues.name(),
         players: generatePlayer(options)
     }
 }
@@ -34,7 +32,7 @@ const generatePlayer = (options: GeneratorOptions = defaultOptions): Player[] =>
         result.push({
             key: uuidv4(),
             worlds: generateWorld(options),
-            name: faker.name.findName()
+            name: RandomValues.name()
         })
     }
     return result
@@ -57,7 +55,7 @@ const generateCity = (options: GeneratorOptions = defaultOptions): City[] => {
     for (let i = 0; i < options.cities; i++) {
         result.push({
             key: uuidv4(),
-            name: CityName[randomEnum(CityName)],
+            name: RandomValues.cityName(),
             lager: generateLager({...defaultOptions, lager: 1})[0]
         })
     }
@@ -82,9 +80,9 @@ const generateItem = (options: GeneratorOptions = defaultOptions): Item[] => {
     for (let i = 0; i < options.items; i++) {
         result.push({
             key: uuidv4(),
-            name: faker.name.findName(),
-            quantity: Math.floor(Math.random() * 100),
-            category: ItemCategory[randomEnum(ItemCategory)]
+            name: RandomValues.name(),
+            quantity: RandomValues.randomNumber(),
+            category: RandomValues.itemType()
         })
     }
     return result
