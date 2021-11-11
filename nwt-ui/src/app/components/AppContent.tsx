@@ -1,9 +1,8 @@
 import React from "react";
-import {useStateMachine} from "little-state-machine";
+import {GamesView} from "../../domain/game/components/GamesView";
 
 export const AppContent = () => {
-    const {state} = useStateMachine();
     return (
-        <div>Games: {JSON.stringify(state.games[0])}</div>
+        <GamesView/>
     )
 }

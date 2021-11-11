@@ -1,6 +1,6 @@
 import {v4 as uuidv4} from 'uuid';
 import {City, Game, Item, Lager, Player, World} from "app/types/appTypes";
-import {RandomValues} from "./randomValues";
+import RandomValues from "testdata/randomValues";
 
 interface GeneratorOptions {
     worlds: number,
@@ -25,6 +25,7 @@ export const generateGame = (options: GeneratorOptions = defaultOptions): Game =
         players: generatePlayer(options)
     }
 }
+
 
 const generatePlayer = (options: GeneratorOptions = defaultOptions): Player[] => {
     const result: Player[] = []
