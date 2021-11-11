@@ -1,11 +1,18 @@
 export type ObjectKey = string
 
+
 export interface WithKey {
     key: ObjectKey
 }
 
+export interface Item extends WithKey {
+    name: string
+    quantity: number
+    category: string
+}
+
 export interface Lager extends WithKey {
-    content: string
+    content: Item[]
 }
 
 export interface City extends WithKey {
@@ -20,4 +27,9 @@ export interface World extends WithKey{
 export interface Player extends WithKey {
     name: string,
     worlds: World[]
+}
+
+export interface Game extends WithKey {
+    name: string
+    players: Player[]
 }
