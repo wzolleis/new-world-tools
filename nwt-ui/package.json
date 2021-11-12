@@ -25,12 +25,21 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test-coverage": "npm run test -- --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
+    ]
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "node_modules",
+      "src/testdata",
+      "src/app/types",
+      "src/common/types"
     ]
   },
   "browserslist": {

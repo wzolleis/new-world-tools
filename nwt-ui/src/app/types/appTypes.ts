@@ -1,4 +1,4 @@
-import {CityName} from "../../common/commonTypes";
+import {ItemType, CityName} from "common/types/commonTypes";
 
 export type ObjectKey = string
 
@@ -10,7 +10,7 @@ export interface WithKey {
 export interface Item extends WithKey {
     name: string
     quantity: number
-    category: string
+    category: ItemType
 }
 
 export interface Lager extends WithKey {

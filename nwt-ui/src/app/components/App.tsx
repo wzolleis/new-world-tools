@@ -1,10 +1,7 @@
 import React from "react";
 import {StateMachineProvider} from "little-state-machine";
-import {AppMenu} from "./AppMenu";
+import {AppMenu} from "app/components/AppMenu";
 import {AppContent} from "./AppContent";
-import {initStore} from "../state/store";
-
-initStore()
 
 export const App = () => {
     return (

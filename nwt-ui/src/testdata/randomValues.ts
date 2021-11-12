@@ -1,5 +1,5 @@
 import faker from 'faker'
-import {CityName, CityNames, ItemType, ItemTypes} from "common/commonTypes";
+import {CityName, CityNames, ItemType, ItemTypes} from "common/types/commonTypes";
 
 
 class RandomValues {
