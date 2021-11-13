@@ -1,5 +1,5 @@
 import {createStore, GlobalState} from "little-state-machine";
-import {generateGame} from "../../testdata/gamegenerator";
+import {defaultOptions, generateGame} from "testdata/gamegenerator";
 
 export const log = (store: any) => {
     console.log(store);
@@ -8,7 +8,11 @@ export const log = (store: any) => {
 
 
 const initialState: GlobalState = {
-    games: [generateGame()]
+    games: [generateGame({
+        ...defaultOptions,
+        worlds: 2,
+        players: 5
+    })]
 }
 
 export const initStore = () => {

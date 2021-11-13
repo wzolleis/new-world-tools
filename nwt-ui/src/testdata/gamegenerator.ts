@@ -10,7 +10,7 @@ interface GeneratorOptions {
     items: number
 }
 
-const defaultOptions: GeneratorOptions = {
+export const defaultOptions: GeneratorOptions = {
     worlds: 1,
     players: 1,
     cities: 1,
@@ -21,7 +21,7 @@ const defaultOptions: GeneratorOptions = {
 export const generateGame = (options: GeneratorOptions = defaultOptions): Game => {
     return {
         key: uuidv4(),
-        name: RandomValues.name(),
+        name: 'New World',
         players: generatePlayer(options)
     }
 }

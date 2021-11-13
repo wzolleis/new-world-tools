@@ -1,21 +1,21 @@
-import React, {useMemo} from "react";
+import React from "react";
 import {useStateMachine} from "little-state-machine";
-import {Game} from "app/types/appTypes";
-import {Column} from "react-table";
-import {BootstrapTable} from "common/components/BootstrapTable";
+import BootstrapTable, {ColumnDescription} from 'react-bootstrap-table-next';
+
+
+const columns = (): ColumnDescription[] => {
+    return [
+        {
+            text: 'Name',
+            dataField: 'name'
+        }
+    ]
+}
 
 export const GamesView = () => {
     const {state: {games}} = useStateMachine();
-    const columns: Array<Column<Game>> = useMemo(() => [
-        {
-            Header: 'Name',
-            accessor: 'name'
-        }
-    ], [])
 
     return (
-        <BootstrapTable columns={columns} data={games}/>
+        <BootstrapTable bootstrap4={true} keyField='key' data={ games } columns={ columns() } />
     )
-
-
 }
