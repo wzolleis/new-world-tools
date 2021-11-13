@@ -1,6 +1,7 @@
 import React from "react";
 import {useStateMachine} from "little-state-machine";
-import BootstrapTable, {ColumnDescription} from 'react-bootstrap-table-next';
+import BootstrapTable, {BootstrapTableProps, ColumnDescription} from 'react-bootstrap-table-next';
+import {Game} from "app/types/appTypes";
 
 
 const columns = (): ColumnDescription[] => {
@@ -15,7 +16,22 @@ const columns = (): ColumnDescription[] => {
 export const GamesView = () => {
     const {state: {games}} = useStateMachine();
 
+    const tableProps: BootstrapTableProps<Game> = {
+        bootstrap4: true,
+        columns: columns(),
+        data: games,
+        keyField: 'key',
+        selectRow: {
+            mode: 'radio',
+            clickToSelect :true,
+            hideSelectColumn: true,
+            onSelect: (row, isSelect, rowIndex, e) => {
+                console.log('game selected:', row)
+            }
+        }
+    }
+
     return (
-        <BootstrapTable bootstrap4={true} keyField='key' data={ games } columns={ columns() } />
+        <BootstrapTable {...tableProps} />
     )
 }
