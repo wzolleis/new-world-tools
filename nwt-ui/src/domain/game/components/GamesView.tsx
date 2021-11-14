@@ -17,13 +17,13 @@ interface GameListItem {
 }
 
 const mapToGameListItem = (games: Game[]): GameListItem[] => {
-    return games.map(game => {
+    return games?.map(game => {
         return {
             game,
             key: game.key,
             title: game.name
         }
-    })
+    }) || []
 }
 
 

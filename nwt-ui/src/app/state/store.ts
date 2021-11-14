@@ -15,8 +15,8 @@ const initialState: GlobalState = {
     })]
 }
 
-export const initStore = () => {
-    createStore(initialState,
+export const initStore = (state = initialState) => {
+    createStore(state,
         {
             middleWares: [log]
         }
