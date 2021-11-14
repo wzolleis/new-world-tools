@@ -32,7 +32,6 @@ export const GamesView = () => {
     const [selectedIndex, setSelectedIndex] = React.useState(-1);
 
     const handleListItemClick = (event: React.MouseEvent, index: number) => {
-        console.log("selected index=", selectedIndex)
         setSelectedIndex(index);
     };
 
