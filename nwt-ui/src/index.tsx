@@ -2,15 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import reportWebVitals from 'reportWebVitals';
 import {initStore} from "app/state/store";
-import {BrowserRouter} from "react-router-dom";
-import {AppRoutes} from "app/components/AppRoutes";
+import {App} from "app/components/App";
+import { BrowserRouter } from 'react-router-dom';
 
 initStore()
 
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
-            <AppRoutes/>
+            <App/>
         </BrowserRouter>
     </React.StrictMode>,
     document.getElementById('root')

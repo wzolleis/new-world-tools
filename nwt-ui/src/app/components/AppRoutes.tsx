@@ -4,7 +4,7 @@ import {GamesView} from "domain/game/components/GamesView";
 import {PlayersView} from "domain/player/components/PlayersView";
 import {GameView} from "domain/game/components/GameView";
 import {RouteObject} from "react-router";
-import {App} from "app/components/App";
+import {ApplicationMainArea} from "app/components/ApplicationMainArea";
 
 export const NotFoundView = () => {
     return (
@@ -17,7 +17,7 @@ export const NotFoundView = () => {
 const nestedPaths: RouteObject[] = [
     {
         path: "/",
-        element: <App/>,
+        element: <ApplicationMainArea/>,
         children: [
             {
                 path: "games",

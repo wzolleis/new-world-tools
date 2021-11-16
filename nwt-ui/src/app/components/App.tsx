@@ -1,17 +1,15 @@
 import React from "react";
 import {StateMachineProvider} from "little-state-machine";
-import {AppMenu} from "app/components/AppMenu";
 import {DevTool} from "little-state-machine-devtools";
-import {Outlet} from "react-router-dom";
 import {ConfirmProvider} from "material-ui-confirm";
+import {AppRoutes} from "app/components/AppRoutes";
 
 export const App = () => {
     return (
         <StateMachineProvider>
-            <AppMenu/>
             <DevTool/>
             <ConfirmProvider>
-                <Outlet/>
+                <AppRoutes/>
             </ConfirmProvider>
         </StateMachineProvider>
     )
