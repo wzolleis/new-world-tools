@@ -1,29 +1,47 @@
 import React, {PropsWithChildren} from "react";
-import {Drawer, List, ListItem, ListItemIcon, ListItemText, Typography} from "@mui/material";
+import {AppBar, Drawer, List, ListItem, ListItemIcon, ListItemText, Theme, Toolbar, Typography} from "@mui/material";
 import {makeStyles} from '@mui/styles';
 import {AppMenuEntry} from "app/menu/components/MenuItemView";
 import {getIcon} from "common/icons/iconFactory";
 import {useLocation, useNavigate} from "react-router-dom";
 import {Outlet} from 'react-router-dom'
+import { format } from 'date-fns'
 
 const drawerWidth = 240
 
-const useStyles = makeStyles({
-    page: {
-        background: '#f9f9f9',
-        width: '100%',
-    },
-    root: {
-        display: 'flex',
-    },
-    drawer: {
-        width: drawerWidth,
-    },
-    drawerPaper: {
-        width: drawerWidth,
-    },
-    active: {
-        background: '#f4f4f4'
+const useStyles = makeStyles((theme) => {
+    return {
+        page: {
+            background: '#f9f9f9',
+            width: '100%',
+            // @ts-ignore
+            padding: theme.spacing(3)
+        },
+        root: {
+            display: 'flex',
+        },
+        drawer: {
+            width: drawerWidth,
+        },
+        drawerPaper: {
+            width: drawerWidth,
+        },
+        active: {
+            background: '#f4f4f4'
+        },
+        title: {
+            // @ts-ignore
+            padding: theme.spacing(2)
+        },
+        appBar: {
+            width: `calc(100% - ${drawerWidth}px)`,
+            marginLeft: drawerWidth,
+        },
+        date: {
+            flexGrow: 1
+        },
+        // @ts-ignore
+        toolbar: theme.mixins.toolbar
     }
 })
 
@@ -35,35 +53,36 @@ const Layout = ({children}: PropsWithChildren<{}>) => {
     // const {state: {games}} = useStateMachine();
     const menuItems: AppMenuEntry[] = [
         {
-            path: 'games',
-            title: 'Games',
-            key: 'games',
+            path: 'welcome',
+            title: 'New World',
+            key: 'New World',
             iconType: "Game"
         },
         {
             path: 'cities',
-            title: 'City',
+            title: 'Cities',
             key: 'cities',
             iconType: "City"
         },
-        {
-            path: 'worlds',
-            title: 'Worlds',
-            key: 'worlds',
-            iconType: "World"
-        },
-        {
-            path: 'players',
-            title: 'Player',
-            key: 'players',
-            iconType: 'Player'
-        }
     ]
 
     console.log('path = ', location.pathname)
 
     return (
         <div className={classes.root}>
+            {/* App Bar */}
+            <AppBar className={classes.appBar}
+                    position='fixed'
+                    elevation={0}
+                    color='primary'
+            >
+                <Toolbar>
+                    <Typography className={classes.date}>
+                        Today is the {format(new Date(), 'do MMMM Y')}
+                    </Typography>
+                    <Typography>Welcome to Brave New World</Typography>
+                </Toolbar>
+            </AppBar>
             {/* main content */}
             <div className={classes.page}>
                 <Drawer
@@ -72,10 +91,6 @@ const Layout = ({children}: PropsWithChildren<{}>) => {
                     classes={{paper: classes.drawerPaper}}
                     anchor="left"
                 >
-                    <div>
-                        <Typography variant="h5">New World</Typography>
-                    </div>
-
                     {/* links/list section */}
                     <List>
                         {menuItems.map(item => (
@@ -90,6 +105,8 @@ const Layout = ({children}: PropsWithChildren<{}>) => {
                         ))}
                     </List>
                 </Drawer>
+            </div>
+            <div className={classes.page}>
                 <Outlet/>
             </div>
         </div>

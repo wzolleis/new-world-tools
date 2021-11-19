@@ -10,6 +10,7 @@
     "@mui/styles": "^5.1.1",
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/user-event": "^12.8.3",
+    "date-fns": "^2.26.0",
     "faker": "^5.5.3",
     "history": "^5.1.0",
     "little-state-machine": "^4.2.0",

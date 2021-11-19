@@ -1,10 +1,9 @@
-import {City, Game, Player, World} from "app/types/appTypes";
+import {City, Player, World} from "app/types/appTypes";
 import {AppMenuEntry} from "app/menu/components/MenuItemView";
 
 
-export const createMenu = (game: Game): AppMenuEntry[] => {
-    const {players} = game
-    return players.map(mapPlayer)
+export const createMenu = (ciites: City[]): AppMenuEntry[] => {
+    return ciites.map(mapCity)
 }
 
 const mapPlayer = (player: Player): AppMenuEntry => {

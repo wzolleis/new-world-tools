@@ -1,10 +1,9 @@
 import React from "react";
 import {useRoutes} from "react-router-dom";
-import {GamesView} from "domain/game/components/GamesView";
-import {PlayersView} from "domain/player/components/PlayersView";
-import {GameView} from "domain/game/components/GameView";
 import {RouteObject} from "react-router";
 import Layout from "app/components/Layout";
+import CitiesView from "domain/cities/components/CitiesView";
+import WelcomeView from "common/components/WelcomeView";
 
 export const NotFoundView = () => {
     return (
@@ -16,27 +15,23 @@ export const NotFoundView = () => {
 
 const nestedPaths: RouteObject[] = [
     {
-        path: "/nw",
+        path: "/",
         element: <Layout/>,
         children: [
             {
-                path: "games",
-                element: <GamesView/>
+                path: 'welcome',
+                element: <WelcomeView/>,
             },
             {
-                path: "games/:id/",
-                element: <GameView/>
+                path: "cities",
+                element: <CitiesView/>
             },
-            {
-                path: "games/:id/players",
-                element: <PlayersView/>
-            },
-            {
-                path: "*",
-                element: <NotFoundView/>
-            }
-        ]
+        ],
     },
+    {
+        path: "*",
+        element: <NotFoundView/>
+    }
 ]
 
 

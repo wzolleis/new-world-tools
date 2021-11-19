@@ -1,7 +1,6 @@
 import InboxIcon from "@mui/icons-material/Inbox";
 import React from "react";
-import {AccountBox, DeviceUnknown, LocationCity, SentimentVeryDissatisfied, Workspaces} from "@mui/icons-material";
-import {IconTypeMap} from "@mui/material";
+import {AccountBox, DeviceUnknown, LocationCity,  Workspaces} from "@mui/icons-material";
 
 export type IconType = 'Game' | "Player" | "World" | "City"
 
