@@ -23,6 +23,7 @@ export interface City extends WithKey {
 }
 
 export interface World extends WithKey{
+    name: string,
     cities: City[]
 }
 

@@ -44,6 +44,7 @@ const generateWorld = (options: GeneratorOptions = defaultOptions): World[] => {
     const result: World[] = []
     for (let i = 0; i < options.worlds; i++) {
         result.push({
+            name: RandomValues.name(),
             key: uuidv4(),
             cities: generateCity(options)
         })
