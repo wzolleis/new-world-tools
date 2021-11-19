@@ -1,13 +1,11 @@
-import React, {ReactElement} from "react";
+import React from "react";
 import {useStateMachine} from "little-state-machine";
 import {Game} from "app/types/appTypes";
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
-import InboxIcon from '@mui/icons-material/Inbox';
+import {ListItem} from "@mui/material";
 
 interface GameListItem {
     game: Game,
@@ -29,11 +27,7 @@ const mapToGameListItem = (games: Game[]): GameListItem[] => {
 
 export const GamesView = () => {
     const {state: {games}} = useStateMachine();
-    const [selectedIndex, setSelectedIndex] = React.useState(-1);
-
-    const handleListItemClick = (event: React.MouseEvent, index: number) => {
-        setSelectedIndex(index);
-    };
+    console.log('games: ', games.length)
 
     interface GameListItemProps {
         items: GameListItem[]
@@ -43,16 +37,11 @@ export const GamesView = () => {
         const {items} = props
 
         return items.map((item, index) => {
-            return <ListItemButton
-                key={item.key}
-                selected={selectedIndex === index}
-                onClick={(event) => handleListItemClick(event, 0)}
-            >
-                <ListItemIcon>
-                    <InboxIcon/>
-                </ListItemIcon>
-                <ListItemText primary={item.title}/>
-            </ListItemButton>
+            return (
+                <ListItem key={item.key}>
+                    <ListItemText primary={item.title}/>
+                </ListItem>
+            )
         })
     }
 

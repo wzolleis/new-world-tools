@@ -4,9 +4,12 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import {Collapse, List, ListItem, ListItemIcon, ListItemText, Menu} from "@mui/material";
 import {WithKey} from "app/types/appTypes";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
+import {IconType} from "common/icons/iconFactory";
 export interface AppMenuEntry extends WithKey{
     title: string,
     items?: AppMenuEntry[]
+    iconType?: IconType,
+    path: string
 }
 
 interface MenuItemProps extends WithKey {
