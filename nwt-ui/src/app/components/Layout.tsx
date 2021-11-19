@@ -5,17 +5,17 @@ import {AppMenuEntry} from "app/menu/components/MenuItemView";
 import {getIcon} from "common/icons/iconFactory";
 import {useLocation, useNavigate} from "react-router-dom";
 import {Outlet} from 'react-router-dom'
-import { format } from 'date-fns'
+import {format} from 'date-fns'
+import {useStateMachine} from "little-state-machine";
 
 const drawerWidth = 240
 
-const useStyles = makeStyles((theme) => {
+const useStyles = makeStyles((theme: Theme) => {
     return {
         page: {
             background: '#f9f9f9',
             width: '100%',
-            // @ts-ignore
-            padding: theme.spacing(3)
+            padding: theme.spacing(3),
         },
         root: {
             display: 'flex',
@@ -30,8 +30,7 @@ const useStyles = makeStyles((theme) => {
             background: '#f4f4f4'
         },
         title: {
-            // @ts-ignore
-            padding: theme.spacing(2)
+            padding: theme.spacing(2),
         },
         appBar: {
             width: `calc(100% - ${drawerWidth}px)`,
@@ -40,7 +39,6 @@ const useStyles = makeStyles((theme) => {
         date: {
             flexGrow: 1
         },
-        // @ts-ignore
         toolbar: theme.mixins.toolbar
     }
 })
@@ -49,17 +47,17 @@ const Layout = ({children}: PropsWithChildren<{}>) => {
     const classes = useStyles()
     const navigate = useNavigate()
     const location = useLocation()
-
-    // const {state: {games}} = useStateMachine();
+    const {state: {games}} = useStateMachine()
+    const player = games[0].players[0]
     const menuItems: AppMenuEntry[] = [
         {
-            path: 'welcome',
+            path: '/welcome',
             title: 'New World',
             key: 'New World',
             iconType: "Game"
         },
         {
-            path: 'cities',
+            path: '/cities',
             title: 'Cities',
             key: 'cities',
             iconType: "City"
@@ -67,6 +65,7 @@ const Layout = ({children}: PropsWithChildren<{}>) => {
     ]
 
     console.log('path = ', location.pathname)
+    console.log('player = ', player?.name)
 
     return (
         <div className={classes.root}>
@@ -78,12 +77,12 @@ const Layout = ({children}: PropsWithChildren<{}>) => {
             >
                 <Toolbar>
                     <Typography className={classes.date}>
-                        Today is the {format(new Date(), 'do MMMM Y')}
+                        Today is the
                     </Typography>
-                    <Typography>Welcome to Brave New World</Typography>
+                    <Typography>{player.name}</Typography>
                 </Toolbar>
             </AppBar>
-            {/* main content */}
+            {/* side drawer */}
             <div className={classes.page}>
                 <Drawer
                     className={classes.drawer}
@@ -93,20 +92,28 @@ const Layout = ({children}: PropsWithChildren<{}>) => {
                 >
                     {/* links/list section */}
                     <List>
-                        {menuItems.map(item => (
-                            <ListItem key={item.key}
-                                      button={true}
-                                      className={location.pathname === item.path ? classes.active : undefined}
-                                      onClick={() => navigate(item.path)}
-                            >
-                                <ListItemIcon>{getIcon(item.iconType)}</ListItemIcon>
-                                <ListItemText primary={item.title}/>
-                            </ListItem>
-                        ))}
+                        {menuItems.map(item => {
+                            const active = location.pathname === item.path
+                            const className = active ? classes.active : undefined
+                            console.log(`item ${item.title} is active =`, active)
+
+                            return (
+                                <ListItem key={item.key}
+                                          button={true}
+                                          className={className}
+                                          onClick={() => navigate(item.path)}
+                                >
+                                    <ListItemIcon>{getIcon(item.iconType)}</ListItemIcon>
+                                    <ListItemText primary={item.title}/>
+                                </ListItem>
+                            )
+                        })}
                     </List>
                 </Drawer>
             </div>
+            {/* main content */}
             <div className={classes.page}>
+                <div className={classes.toolbar}/>
                 <Outlet/>
             </div>
         </div>
