@@ -13,4 +13,10 @@ export const menuItems: AppMenuEntry[] = [
         key: 'cities',
         iconType: "City"
     },
+    {
+        path: '/favorites',
+        title: 'Favoriten',
+        key: 'favorites',
+        iconType: "Favorites"
+    },
 ]

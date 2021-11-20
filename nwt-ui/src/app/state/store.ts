@@ -18,17 +18,29 @@ const initialData = {
     },
     world: {
         key: 'antilia',
-        name: 'Antilia',
+        name: 'Antillia',
         cities: []
     },
-    city: {
-        key: 'everfall',
-        name: 'Everfall',
-        lager: {
-            key: 'everfall_lager',
-            content: []
+    cities: [
+        {
+            key: 'everfall',
+            name: 'Everfall',
+            details: "Metall, Stein, Leder, Schmelzen, Schmiede Lvl 5",
+            lager: {
+                key: 'everfall_lager',
+                content: []
+            }
+        },
+        {
+            key: 'windsward',
+            name: 'Windsward Town',
+            details: "das meiste Lvl3-4, Arcane Lvl 5, Workshop Lvl5",
+            lager: {
+                key: 'windsward_lager',
+                content: []
+            }
         }
-    }
+    ]
 }
 
 
@@ -39,12 +51,17 @@ const initialState: GlobalState = {
             ...initialData.player,
             worlds: [{
                 ...initialData.world,
-                cities: [{
-                    ...initialData.city
-                }]
+                cities: [
+                    ...initialData.cities
+                ]
             }]
         }],
-    }]
+    }],
+    selection: {
+        game: initialData.game.key,
+        world: initialData.world.key,
+        player: initialData.player.key
+    }
 }
 
 export const initStore = (state = initialState) => {

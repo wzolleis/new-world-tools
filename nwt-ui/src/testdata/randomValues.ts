@@ -23,6 +23,10 @@ class RandomValues {
         return Math.floor(Math.random() * 100)
     }
 
+    randomCityDetails(): string {
+        return faker.lorem.lines(3)
+    }
+
 }
 
 export default new RandomValues()

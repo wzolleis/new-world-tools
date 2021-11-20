@@ -58,6 +58,7 @@ const generateCity = (options: GeneratorOptions = defaultOptions): City[] => {
         result.push({
             key: uuidv4(),
             name: RandomValues.cityName(),
+            details: RandomValues.randomCityDetails(),
             lager: generateLager({...defaultOptions, lager: 1})[0]
         })
     }
