@@ -11,7 +11,7 @@ const CitiesView = () => {
     const cities = world?.cities || []
 
     return (
-        <Grid sx={{flexGrow: 1}} container spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 12}}>
+        <Grid sx={{flexGrow: 1}} container spacing={{xs: 2, md: 3}} columns={{xs: 1, sm: 1, md: 1}}>
             {cities.map((city: City) => {
                 return (
                     <Grid item key={city.key}>

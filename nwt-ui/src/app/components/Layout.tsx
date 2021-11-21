@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: AppTheme) => {
         drawerPaper: {
             width: drawerWidth,
         },
-         title: {
+        title: {
             padding: theme.spacing(2),
         },
         appBar: {
@@ -59,36 +59,34 @@ const Layout = ({children}: PropsWithChildren<{}>) => {
             >
                 <Toolbar>
                     <div className={classes.userName}>
-                    <Typography>{player.name}</Typography>
+                        <Typography>{player.name}</Typography>
                     </div>
                 </Toolbar>
             </AppBar>
             {/* side drawer */}
-            <div className={classes.page}>
-                <Drawer
-                    className={classes.drawer}
-                    variant="permanent"
-                    classes={{paper: classes.drawerPaper}}
-                    anchor="left"
-                >
-                    {/* links/list section */}
-                    <List>
-                        {menuItems.map(item => {
-                            const active = location.pathname === item.path
-                            return (
-                                <ListItem key={item.key}
-                                          button={true}
-                                          selected={active}
-                                          onClick={() => navigate(item.path)}
-                                >
-                                    <ListItemIcon>{getIcon(item.iconType)}</ListItemIcon>
-                                    <ListItemText primary={item.title}/>
-                                </ListItem>
-                            )
-                        })}
-                    </List>
-                </Drawer>
-            </div>
+            <Drawer
+                className={classes.drawer}
+                variant="permanent"
+                classes={{paper: classes.drawerPaper}}
+                anchor="left"
+            >
+                {/* links/list section */}
+                <List className={classes.drawer}>
+                    {menuItems.map(item => {
+                        const active = location.pathname === item.path
+                        return (
+                            <ListItem key={item.key}
+                                      button={true}
+                                      selected={active}
+                                      onClick={() => navigate(item.path)}
+                            >
+                                <ListItemIcon>{getIcon(item.iconType)}</ListItemIcon>
+                                <ListItemText primary={item.title}/>
+                            </ListItem>
+                        )
+                    })}
+                </List>
+            </Drawer>
             {/* main content */}
             <div className={classes.page}>
                 <div className={classes.toolbar}/>
