@@ -1,12 +1,28 @@
 export const CityNames = {
-    everfall: 'Everfall',
-    windward: 'Windward'
+    "windward": "",
+    "everfall": ""
 }
 
 export const ItemTypes = {
-    resource: 'Resource'
+    resource: ''
 }
 
-export type CityName = typeof CityNames.windward | typeof CityNames.everfall
+export const ItemCategories = {
+    rewards: "",
+    refining: "",
+    weapons: "",
+    apparel: "",
+    smelting: "",
+    cooking: "",
+    leatherworking: "",
+    woodworking: "",
+    stonecutting: "",
+    alchemy: "",
+    fishing: "",
+    craft_mods: "",
+    resources: "",
+}
 
-export type ItemType = typeof ItemTypes.resource
+export type ItemType = keyof typeof ItemTypes
+export type CityName = keyof typeof CityNames // e.g. "windward | "everfall"
+export type ItemCategory = keyof typeof ItemCategories

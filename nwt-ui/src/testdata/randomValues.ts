@@ -12,11 +12,13 @@ class RandomValues {
     }
 
     cityName(): CityName {
-        return this.arrayElement(Object.values(CityNames))
+        const values: CityName[] = Object.keys(CityNames) as CityName[]
+        return this.arrayElement(values)
     }
 
     itemType(): ItemType {
-        return this.arrayElement(Object.values(ItemTypes))
+        const values: ItemType[] = Object.keys(ItemTypes) as ItemType[]
+        return this.arrayElement(values)
     }
 
     randomNumber(): number {
