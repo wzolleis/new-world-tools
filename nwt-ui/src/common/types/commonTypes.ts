@@ -1,6 +1,6 @@
 export const CityNames = {
-    "windward": "",
-    "everfall": ""
+    "windward": "windward",
+    "everfall": "everfall"
 }
 
 export const ItemTypes = {
