@@ -8,6 +8,12 @@ export const menuItems: AppMenuEntry[] = [
         iconType: "Game"
     },
     {
+        path: '/players',
+        title: 'Spieler',
+        key: 'players',
+        iconType: "Player"
+    },
+    {
         path: '/cities',
         title: 'Cities',
         key: 'cities',

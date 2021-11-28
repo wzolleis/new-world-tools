@@ -57,7 +57,6 @@ export interface World extends WithKey{
 
 export interface Player extends WithKey {
     name: string,
-    worlds: World[]
 }
 
 export interface Game extends WithKey {
@@ -66,9 +65,7 @@ export interface Game extends WithKey {
 }
 
 export interface Selection {
-    game: Nullable<Game>
-    player: Nullable<Player>
-    world: Nullable<World>
+    city: Nullable<City>
 }
 
 export type Nullable<T> = T | null

@@ -1,15 +1,14 @@
 import 'little-state-machine';
-import {Game, ObjectKey} from "common/types/commonTypes";
+import {City, Nullable, ObjectKey} from "common/types/commonTypes";
 import 'jest-extended';
 
 declare module 'little-state-machine' {
     // noinspection JSUnusedGlobalSymbols
     interface GlobalState {
-        games: Game[],
+        cities: City[],
+        player: Player,
         selection: {
-            game: ObjectKey,
-            player: ObjectKey,
-            world: ObjectKey,
+            city: Nullable<ObjectKey>
         }
     }
 }

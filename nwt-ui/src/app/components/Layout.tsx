@@ -46,8 +46,7 @@ const Layout = ({children}: PropsWithChildren<{}>) => {
     const classes = useStyles()
     const navigate = useNavigate()
     const location = useLocation()
-    const {state: {games}} = useStateMachine()
-    const player = games[0].players[0]
+    const {state: {player}} = useStateMachine()
 
     return (
         <div className={classes.root}>
