@@ -15,6 +15,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import {ClassNameMap, makeStyles} from "@mui/styles";
+import {messages} from "common/i18n/messages";
 
 
 const styles = {
@@ -101,9 +102,10 @@ const CityCardMenu = ({handleCityMenuClose, anchorEl, open}: CityCardMenuProps) 
                 'aria-labelledby': 'basic-button',
             }}
         >
-            <MenuItem onClick={handleCityMenuClose}>Edit</MenuItem>
-            <MenuItem onClick={handleCityMenuClose}>Save</MenuItem>
-            <MenuItem onClick={handleCityMenuClose}>delete</MenuItem>
+            <MenuItem onClick={handleCityMenuClose}>{messages.crudActions.create}</MenuItem>
+            <MenuItem onClick={handleCityMenuClose}>{messages.crudActions.edit}</MenuItem>
+            <MenuItem onClick={handleCityMenuClose}>{messages.crudActions.save}</MenuItem>
+            <MenuItem onClick={handleCityMenuClose}>{messages.crudActions.delete}</MenuItem>
         </Menu>
     )
 }
