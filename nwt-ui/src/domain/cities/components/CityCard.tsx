@@ -6,7 +6,7 @@ import {
     CardActions,
     CardContent,
     CardHeader, Collapse,
-    IconButton,
+    IconButton, Menu, MenuItem,
     Typography
 } from "@mui/material";
 import {red} from "@mui/material/colors";
@@ -34,7 +34,7 @@ export interface CityCardProps {
 }
 
 interface CityCardHeaderProps extends CityCardProps {
-    handleMoreActionsClick: () => void
+    handleMoreActionsClick: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 interface CityCardActionsProps extends CityCardProps {
@@ -84,17 +84,45 @@ const CityCardHeader = ({city, handleMoreActionsClick}: CityCardHeaderProps) => 
     )
 }
 
+interface CityCardMenuProps {
+    open: boolean
+    anchorEl: null | HTMLElement
+    handleCityMenuClose: () => void
+}
+
+const CityCardMenu = ({handleCityMenuClose, anchorEl, open}: CityCardMenuProps) => {
+    return (
+        <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleCityMenuClose}
+            MenuListProps={{
+                'aria-labelledby': 'basic-button',
+            }}
+        >
+            <MenuItem onClick={handleCityMenuClose}>Edit</MenuItem>
+            <MenuItem onClick={handleCityMenuClose}>Save</MenuItem>
+            <MenuItem onClick={handleCityMenuClose}>delete</MenuItem>
+        </Menu>
+    )
+}
+
 const CityCard = (props: CityCardProps) => {
     const [expanded, setExpanded] = React.useState(false);
     const classes = useStyles()
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleMoreActionsClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleCityMenuClose = () => {
+        setAnchorEl(null);
+    };
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
-
-    const handleMoreActionsClick = () => {
-
-    }
 
     const {city} = props
 
@@ -102,6 +130,7 @@ const CityCard = (props: CityCardProps) => {
     return (
         <Card>
             <CityCardHeader city={city} handleMoreActionsClick={handleMoreActionsClick}/>
+            <CityCardMenu open={open} anchorEl={anchorEl} handleCityMenuClose={handleCityMenuClose}/>
             <CityCardContent city={city}/>
             <CityCardActions city={city} classes={classes} handleExpandClick={handleExpandClick} expanded={expanded}/>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
