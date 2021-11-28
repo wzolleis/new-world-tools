@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import {Collapse, List, ListItem, ListItemIcon, ListItemText, Menu} from "@mui/material";
-import {WithKey} from "app/types/appTypes";
+import {WithKey} from "common/types/commonTypes";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import {IconType} from "common/icons/iconFactory";
 export interface AppMenuEntry extends WithKey{

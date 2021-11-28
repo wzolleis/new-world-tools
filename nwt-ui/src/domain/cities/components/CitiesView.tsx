@@ -1,9 +1,9 @@
 import React from "react";
 import {useStateMachine} from "little-state-machine";
 import {Grid} from "@mui/material";
-import {City} from "app/types/appTypes";
 import CityCard from "domain/cities/components/CityCard";
 import {selectedData} from "domain/selection/roles/selectionRole";
+import {City} from "common/types/commonTypes";
 
 const CitiesView = () => {
     const {state} = useStateMachine()

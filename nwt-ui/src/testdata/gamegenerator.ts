@@ -1,5 +1,5 @@
 import {v4 as uuidv4} from 'uuid';
-import {City, Game, Item, Lager, Player, World} from "app/types/appTypes";
+import {City, Game, Item, Lager, Player, World} from "common/types/commonTypes";
 import RandomValues from "testdata/randomValues";
 
 interface GeneratorOptions {

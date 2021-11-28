@@ -1,6 +1,5 @@
 import {createStore, GlobalState} from "little-state-machine";
-import {CityNames} from "common/types/commonTypes";
-import {City} from "app/types/appTypes";
+import {City, CityNames} from "common/types/commonTypes";
 
 export const log = (store: any) => {
     console.log(store);

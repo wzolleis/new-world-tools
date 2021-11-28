@@ -4,14 +4,19 @@ import React from "react";
 import {screen, render} from "@testing-library/react";
 import {GlobalState, StateMachineProvider} from "little-state-machine";
 import {generateGame} from "testdata/gamegenerator";
-import {Game} from "app/types/appTypes";
+import {Game} from "common/types/commonTypes";
 import {GamesView} from "domain/game/components/GamesView";
 import {initStore} from "app/state/store";
 
 describe('games table', () => {
     const setup = (data: Game[]) => {
         const state: GlobalState = {
-            games: [...data]
+            games: [...data],
+            selection: {
+                world: '',
+                player: '',
+                game: ''
+            }
         }
         initStore(state)
         render(

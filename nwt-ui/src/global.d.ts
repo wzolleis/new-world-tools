@@ -1,5 +1,5 @@
 import 'little-state-machine';
-import {Game, ObjectKey} from "app/types/appTypes";
+import {Game, ObjectKey} from "common/types/commonTypes";
 import 'jest-extended';
 
 declare module 'little-state-machine' {

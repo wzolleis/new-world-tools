@@ -1,5 +1,4 @@
 import React from "react";
-import {City} from "app/types/appTypes";
 import {
     Avatar,
     Card,
@@ -16,6 +15,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import {ClassNameMap, makeStyles} from "@mui/styles";
 import {messages} from "common/i18n/messages";
+import {City} from "common/types/commonTypes";
 
 
 const styles = {
@@ -94,19 +94,32 @@ interface CityCardMenuProps extends CityCardProps {
 const CityCardMenu = ({city, handleCityMenuClose, anchorEl, open}: CityCardMenuProps) => {
     return (
         <Menu
-            id="basic-menu"
+            id="city-menu"
             anchorEl={anchorEl}
             open={open}
             onClose={handleCityMenuClose}
-            MenuListProps={{
-                'aria-labelledby': 'basic-button',
-            }}
+            MenuListProps={{'aria-labelledby': 'basic-button',}}
         >
             <MenuItem onClick={handleCityMenuClose}>{messages.crudActions.create}</MenuItem>
             <MenuItem onClick={handleCityMenuClose}>{messages.crudActions.edit}</MenuItem>
             <MenuItem onClick={handleCityMenuClose}>{messages.crudActions.save}</MenuItem>
             <MenuItem onClick={handleCityMenuClose}>{messages.crudActions.delete}</MenuItem>
         </Menu>
+    )
+}
+interface CityCardDetailViewProps extends CityCardProps {
+    expanded: boolean
+}
+
+const CityCardDetailView = ({city, expanded}: CityCardDetailViewProps) => {
+    return (
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <CardContent>
+                <Typography paragraph>
+                    Anzahl Items: {city.lager.content.length}
+                </Typography>
+            </CardContent>
+        </Collapse>
     )
 }
 
@@ -135,13 +148,7 @@ const CityCard = (props: CityCardProps) => {
             <CityCardMenu city={city} open={open} anchorEl={anchorEl} handleCityMenuClose={handleCityMenuClose}/>
             <CityCardContent city={city}/>
             <CityCardActions city={city} classes={classes} handleExpandClick={handleExpandClick} expanded={expanded}/>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
-                    <Typography paragraph>
-                        More Info
-                    </Typography>
-                </CardContent>
-            </Collapse>
+           <CityCardDetailView city={city} expanded={expanded}/>
         </Card>
     )
 }

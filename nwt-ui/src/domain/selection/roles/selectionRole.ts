@@ -1,4 +1,4 @@
-import {Selection} from "app/types/appTypes";
+import {Selection} from "common/types/commonTypes";
 import {GlobalState} from "little-state-machine";
 
 export const selectedData = (state: GlobalState): Selection => {

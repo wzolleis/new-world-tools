@@ -1,4 +1,4 @@
-import {City, Player, World} from "app/types/appTypes";
+import {City, Player, World} from "common/types/commonTypes";
 import {AppMenuEntry} from "app/menu/components/MenuItemView";
 
 

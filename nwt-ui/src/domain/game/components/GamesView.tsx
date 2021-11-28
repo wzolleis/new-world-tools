@@ -1,6 +1,6 @@
 import React from "react";
 import {useStateMachine} from "little-state-machine";
-import {Game} from "app/types/appTypes";
+import {Game} from "common/types/commonTypes";
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
