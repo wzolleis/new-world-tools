@@ -85,13 +85,13 @@ const CityCardHeader = ({city, handleMoreActionsClick}: CityCardHeaderProps) => 
     )
 }
 
-interface CityCardMenuProps {
+interface CityCardMenuProps extends CityCardProps {
     open: boolean
     anchorEl: null | HTMLElement
     handleCityMenuClose: () => void
 }
 
-const CityCardMenu = ({handleCityMenuClose, anchorEl, open}: CityCardMenuProps) => {
+const CityCardMenu = ({city, handleCityMenuClose, anchorEl, open}: CityCardMenuProps) => {
     return (
         <Menu
             id="basic-menu"
@@ -132,7 +132,7 @@ const CityCard = (props: CityCardProps) => {
     return (
         <Card>
             <CityCardHeader city={city} handleMoreActionsClick={handleMoreActionsClick}/>
-            <CityCardMenu open={open} anchorEl={anchorEl} handleCityMenuClose={handleCityMenuClose}/>
+            <CityCardMenu city={city} open={open} anchorEl={anchorEl} handleCityMenuClose={handleCityMenuClose}/>
             <CityCardContent city={city}/>
             <CityCardActions city={city} classes={classes} handleExpandClick={handleExpandClick} expanded={expanded}/>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
