@@ -7,6 +7,7 @@ import {Outlet} from 'react-router-dom'
 import {useStateMachine} from "little-state-machine";
 import {menuItems} from "app/menu/data/appMenuEntries";
 import {AppTheme} from "app/components/App";
+import {selectedData} from "domain/selection/roles/selectionRole";
 
 const drawerWidth = 240
 
@@ -46,7 +47,8 @@ const Layout = ({children}: PropsWithChildren<{}>) => {
     const classes = useStyles()
     const navigate = useNavigate()
     const location = useLocation()
-    const {state: {player}} = useStateMachine()
+    const {state} = useStateMachine()
+    const {player} = selectedData(state)
 
     return (
         <div className={classes.root}>

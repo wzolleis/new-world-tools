@@ -50,22 +50,14 @@ export interface City extends WithKey {
     details: string
 }
 
-export interface World extends WithKey{
+export interface Player extends WithKey {
     name: string,
     cities: City[]
 }
 
-export interface Player extends WithKey {
-    name: string,
-}
-
-export interface Game extends WithKey {
-    name: string
-    players: Player[]
-}
-
 export interface Selection {
-    city: Nullable<City>
+    player: Player
+    city: City
 }
 
 export type Nullable<T> = T | null
