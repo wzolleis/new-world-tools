@@ -1,6 +1,6 @@
 export const messages = {
-    game: {
-        notFound: (id: string) => `Das Spiel mit der ID ${id} wurde nicht gefunden`
+    common: {
+        noSelection: 'Es ist nichts selektiert'
     },
     crudActions: {
         edit: 'Ändern..',

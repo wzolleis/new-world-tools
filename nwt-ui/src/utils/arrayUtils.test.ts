@@ -1,4 +1,4 @@
-import {remove, replace} from "utils/arrayUtils";
+import {remove, update} from "utils/arrayUtils";
 import faker from "faker";
 
 describe('array utils', () => {
@@ -10,13 +10,13 @@ describe('array utils', () => {
             ...toReplace,
             value: faker.name.firstName()
         }
-        const updated = replace(values, toReplace, replaceWith)
+        const updated = update(values, replaceWith)
         expect(updated.find(v => v.key === replaceWith.key)).toBe(replaceWith)
     })
 
     it('should remove value', () => {
         const toRemove = faker.random.arrayElement(values)
-        const updated = remove(values, toRemove)
+        const updated = remove(values, toRemove.key)
         expect(updated.find(v => v.key === toRemove.key)).toBeUndefined()
     })
 })

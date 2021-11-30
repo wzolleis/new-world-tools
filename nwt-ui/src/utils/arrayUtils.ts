@@ -1,12 +1,16 @@
-import {WithKey} from "common/types/commonTypes";
+import {ObjectKey, WithKey} from "common/types/commonTypes";
 
-export const remove = <T extends WithKey>(values: T[], toRemove: T): T[] => {
-    return values.filter((value) => value.key !== toRemove.key)
+export const remove = <T extends WithKey>(values: T[], key: ObjectKey): T[] => {
+    return values.filter((value) => value.key !== key)
 }
 
-export const replace = <T extends WithKey>(values: T[], toReplace: T,replaceWith: T ): T[] => {
+export const update = <T extends WithKey>(values: T[], replaceWith: T): T[] => {
     return [
-        ...remove(values, toReplace),
+        ...remove(values, replaceWith.key),
         replaceWith
     ]
+}
+
+export const findByKey = <T extends WithKey>(values: T[], key: ObjectKey): (T | undefined) => {
+    return values.find(value => value.key === key)
 }

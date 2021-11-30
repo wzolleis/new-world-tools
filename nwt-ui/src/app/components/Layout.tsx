@@ -4,10 +4,13 @@ import {makeStyles} from '@mui/styles';
 import {getIcon} from "common/icons/iconFactory";
 import {useLocation, useNavigate} from "react-router-dom";
 import {Outlet} from 'react-router-dom'
-import {useStateMachine} from "little-state-machine";
 import {menuItems} from "app/menu/data/appMenuEntries";
 import {AppTheme} from "app/components/App";
-import {selectedData} from "domain/selection/roles/selectionRole";
+import {useAppSelector} from "app/state/hooks";
+import {selectSelectionState} from "app/state/selectionSlice";
+import {selectPlayerState} from "domain/player/state/playerSlice";
+import {findByKey} from "utils/arrayUtils";
+import {messages} from "common/i18n/messages";
 
 const drawerWidth = 240
 
@@ -47,8 +50,9 @@ const Layout = ({children}: PropsWithChildren<{}>) => {
     const classes = useStyles()
     const navigate = useNavigate()
     const location = useLocation()
-    const {state} = useStateMachine()
-    const {player} = selectedData(state)
+    const {players} = useAppSelector(selectPlayerState)
+    const {selection} = useAppSelector(selectSelectionState)
+    const player = findByKey(players, selection.player)
 
     return (
         <div className={classes.root}>
@@ -60,7 +64,7 @@ const Layout = ({children}: PropsWithChildren<{}>) => {
             >
                 <Toolbar>
                     <div className={classes.userName}>
-                        <Typography>{player.name}</Typography>
+                        <Typography>{player?.name || messages.common.noSelection}</Typography>
                     </div>
                 </Toolbar>
             </AppBar>

@@ -15,8 +15,11 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import {ClassNameMap, makeStyles} from "@mui/styles";
 import {messages} from "common/i18n/messages";
-import {City} from "common/types/commonTypes";
-
+import {City, Player} from "common/types/commonTypes";
+import {useAppSelector} from "app/state/hooks";
+import {selectPlayerState} from "domain/player/state/playerSlice";
+import {findByKey} from "utils/arrayUtils";
+import {selectSelectionState} from "app/state/selectionSlice";
 
 const styles = {
     parentFlexSplit: {
@@ -35,6 +38,7 @@ export interface CityCardProps {
 }
 
 interface CityCardHeaderProps extends CityCardProps {
+    player: Player | undefined
     handleMoreActionsClick: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
@@ -66,7 +70,7 @@ const CityCardContent = ({city: {details}}: CityCardProps) => {
     )
 }
 
-const CityCardHeader = ({city, handleMoreActionsClick}: CityCardHeaderProps) => {
+const CityCardHeader = ({city, player, handleMoreActionsClick}: CityCardHeaderProps) => {
     return (
         <CardHeader
             avatar={
@@ -80,7 +84,7 @@ const CityCardHeader = ({city, handleMoreActionsClick}: CityCardHeaderProps) => 
                 </IconButton>
             }
             title={city.name}
-            subheader="TBD"
+            subheader={player?.name || messages.common.noSelection}
         />
     )
 }
@@ -124,6 +128,8 @@ const CityCardDetailView = ({city, expanded}: CityCardDetailViewProps) => {
 }
 
 const CityCard = (props: CityCardProps) => {
+    const {players} = useAppSelector(selectPlayerState)
+    const {selection} = useAppSelector(selectSelectionState)
     const [expanded, setExpanded] = React.useState(false);
     const classes = useStyles()
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -140,11 +146,11 @@ const CityCard = (props: CityCardProps) => {
     };
 
     const {city} = props
-
+    const player = findByKey(players, selection.player)
 
     return (
         <Card>
-            <CityCardHeader city={city} handleMoreActionsClick={handleMoreActionsClick}/>
+            <CityCardHeader player={player} city={city} handleMoreActionsClick={handleMoreActionsClick}/>
             <CityCardMenu city={city} open={open} anchorEl={anchorEl} handleCityMenuClose={handleCityMenuClose}/>
             <CityCardContent city={city}/>
             <CityCardActions city={city} classes={classes} handleExpandClick={handleExpandClick} expanded={expanded}/>

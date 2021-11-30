@@ -1,12 +1,12 @@
 import React from "react";
-import {StateMachineProvider} from "little-state-machine";
 import {ConfirmProvider} from "material-ui-confirm";
 import {AppRoutes} from "app/components/AppRoutes";
 import {createTheme} from '@mui/material/styles';
 import {ThemeProvider} from "@mui/styles";
 import {Theme} from "@mui/material";
 import {blue} from "@mui/material/colors";
-import {DevTool} from "little-state-machine-devtools";
+import store from 'app/state/store'
+import {Provider} from 'react-redux'
 
 export interface AppTheme extends Theme {
     custom: {
@@ -36,12 +36,11 @@ export const App = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            <StateMachineProvider>
-                <DevTool/>
+            <Provider store={store}>
                 <ConfirmProvider>
                     <AppRoutes/>
                 </ConfirmProvider>
-            </StateMachineProvider>
+            </Provider>
         </ThemeProvider>
     )
 }

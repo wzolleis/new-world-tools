@@ -1,14 +1,5 @@
-import {City, Player, Selection} from "common/types/commonTypes";
-import {GlobalState} from "little-state-machine";
+import {Selection} from "common/types/commonTypes";
+import {AppState} from "app/state/store";
 
 
-export const selectedData = (state: GlobalState): Selection => state.selection
-
-export const selectedPlayer = (state: GlobalState): Player => {
-    return state.selection.player
-}
-
-export const selectedCity = (state: GlobalState): City => {
-    return state.selection.city
-}
-
+export const selectedData = (state: AppState): Selection => state.selectionState.selection

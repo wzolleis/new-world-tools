@@ -45,6 +45,7 @@ export interface Lager extends WithKey {
 }
 
 export interface City extends WithKey {
+    player: ObjectKey
     name: CityName
     lager: Lager
     details: string
@@ -52,12 +53,11 @@ export interface City extends WithKey {
 
 export interface Player extends WithKey {
     name: string,
-    cities: City[]
 }
 
 export interface Selection {
-    player: Player
-    city: City
+    player: ObjectKey
+    city: ObjectKey
 }
 
 export type Nullable<T> = T | null
