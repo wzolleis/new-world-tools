@@ -34,30 +34,38 @@ export interface WithKey {
     key: ObjectKey
 }
 
-export interface Item extends WithKey {
-    name: string
-    quantity: number
-    category: ItemType
+export interface User extends WithKey {
+    player: {
+        [name: string]: Player
+    }
 }
 
-export interface Lager extends WithKey {
-    content: Item[]
-}
-
-export interface City extends WithKey {
-    player: ObjectKey
-    name: CityName
-    lager: Lager
-    details: string
+export interface World extends WithKey {
+    cities: City[]
 }
 
 export interface Player extends WithKey {
     name: string,
+    worlds: { [name: string]: World }
 }
 
-export interface Selection {
-    player: ObjectKey
-    city: ObjectKey
+export interface City extends WithKey {
+    name: CityName
+    details: string
+    lager: Lager
+}
+
+export interface Lager extends WithKey {
+    items: Item[]
+}
+
+export interface Item extends WithKey {
+    name: string
+    quantity: number
+    category: ItemType
+    attributes: {
+        [attr: string]: string
+    }
 }
 
 export type Nullable<T> = T | null
