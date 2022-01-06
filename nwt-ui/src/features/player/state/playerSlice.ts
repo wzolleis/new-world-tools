@@ -1,6 +1,6 @@
 import {Player} from "common/types/commonTypes";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {AppState} from "app/state/store";
+import {RootState} from "app/state/store";
 import {remove, update} from "utils/arrayUtils";
 import objectKeys from "app/state/objectKeys";
 
@@ -11,6 +11,7 @@ interface PlayerState {
 const dschaeck: Player = {
     key: objectKeys.players.dschaeck,
     name: 'Dschaeck',
+    worlds: {}
 }
 
 const initialState: PlayerState = {
@@ -39,6 +40,6 @@ export const playerSlice = createSlice({
 export const {createPlayerAction, updatePlayerAction, listPlayerAction, removePlayerAction} = playerSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectPlayerState = (state: AppState) => state.playerState
+export const selectPlayerState = (state: RootState) => state.playerState
 
 export default playerSlice.reducer

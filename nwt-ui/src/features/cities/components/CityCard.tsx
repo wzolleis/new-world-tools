@@ -4,8 +4,11 @@ import {
     Card,
     CardActions,
     CardContent,
-    CardHeader, Collapse,
-    IconButton, Menu, MenuItem,
+    CardHeader,
+    Collapse,
+    IconButton,
+    Menu,
+    MenuItem,
     Typography
 } from "@mui/material";
 import {red} from "@mui/material/colors";
@@ -16,10 +19,6 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import {ClassNameMap, makeStyles} from "@mui/styles";
 import {messages} from "common/i18n/messages";
 import {City, Player} from "common/types/commonTypes";
-import {useAppSelector} from "app/state/hooks";
-import {selectPlayerState} from "domain/player/state/playerSlice";
-import {findByKey} from "utils/arrayUtils";
-import {selectSelectionState} from "app/state/selectionSlice";
 
 const styles = {
     parentFlexSplit: {
@@ -120,7 +119,7 @@ const CityCardDetailView = ({city, expanded}: CityCardDetailViewProps) => {
         <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent>
                 <Typography paragraph>
-                    Anzahl Items: {city.lager.content.length}
+                    Anzahl Items: {0}
                 </Typography>
             </CardContent>
         </Collapse>
@@ -128,8 +127,6 @@ const CityCardDetailView = ({city, expanded}: CityCardDetailViewProps) => {
 }
 
 const CityCard = (props: CityCardProps) => {
-    const {players} = useAppSelector(selectPlayerState)
-    const {selection} = useAppSelector(selectSelectionState)
     const [expanded, setExpanded] = React.useState(false);
     const classes = useStyles()
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -146,7 +143,11 @@ const CityCard = (props: CityCardProps) => {
     };
 
     const {city} = props
-    const player = findByKey(players, selection.player)
+    const player: Player = {
+        name: 'dummy.player',
+        key: '4031e661-91a5-4130-b61e-6c063cfe48ac',
+        worlds: {}
+    }
 
     return (
         <Card>

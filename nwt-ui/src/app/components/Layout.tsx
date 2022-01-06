@@ -7,10 +7,12 @@ import {Outlet} from 'react-router-dom'
 import {menuItems} from "app/menu/data/appMenuEntries";
 import {AppTheme} from "app/components/App";
 import {useAppSelector} from "app/state/hooks";
-import {selectSelectionState} from "app/state/selectionSlice";
-import {selectPlayerState} from "domain/player/state/playerSlice";
 import {findByKey} from "utils/arrayUtils";
 import {messages} from "common/i18n/messages";
+import {selectPlayerState} from "features/player/state/playerSlice";
+import {Player} from "common/types/commonTypes";
+import {selectUser} from "features/user/state/userSlice";
+import {AppLinks} from "app/components/AppRoutes";
 
 const drawerWidth = 240
 
@@ -50,9 +52,14 @@ const Layout = ({children}: PropsWithChildren<{}>) => {
     const classes = useStyles()
     const navigate = useNavigate()
     const location = useLocation()
-    const {players} = useAppSelector(selectPlayerState)
-    const {selection} = useAppSelector(selectSelectionState)
-    const player = findByKey(players, selection.player)
+    const {user} = useAppSelector(selectUser)
+    const dummyPlayer =  {
+        name: 'dummy.player',
+        key: '4031e661-91a5-4130-b61e-6c063cfe48ac',
+        worlds: {}
+    }
+
+    const player = user?.player || dummyPlayer
 
     return (
         <div className={classes.root}>

@@ -1,21 +1,19 @@
 import {configureStore} from '@reduxjs/toolkit'
-import playerReducer from 'domain/player/state/playerSlice'
-import fetchingReducer from 'app/state/fetchingSlice'
-import citiesReducer from 'domain/cities/state/citiesSlice'
-import selectionReducer from 'app/state/selectionSlice'
+import playerReducer from 'features/player/state/playerSlice'
+import citiesReducer from 'features/cities/state/citiesSlice'
+import userReducer from 'features/user/state/userSlice'
 
 const store = configureStore({
     reducer: {
-        fetchingState: fetchingReducer,
-        selectionState: selectionReducer,
         playerState: playerReducer,
-        cityState: citiesReducer
+        cityState: citiesReducer,
+        userState: userReducer
     },
 })
 
 
 // Infer the `AppState` and `AppDispatch` types from the store itself
-export type AppState = ReturnType<typeof store.getState>
+export type RootState = ReturnType<typeof store.getState>
 // Inferred type: {players: PlayerState, selection: SelectionState, fetching: FetchingState}
 export type AppDispatch = typeof store.dispatch
 

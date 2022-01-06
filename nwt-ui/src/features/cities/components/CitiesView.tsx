@@ -1,9 +1,9 @@
 import React from "react";
 import {Grid} from "@mui/material";
-import CityCard from "domain/cities/components/CityCard";
+import CityCard from "features/cities/components/CityCard";
 import {City} from "common/types/commonTypes";
 import {useAppSelector} from "app/state/hooks";
-import {selectCities} from "domain/cities/state/citiesSlice";
+import {selectCities} from "features/cities/state/citiesSlice";
 
 const CitiesView = () => {
     const {cities} = useAppSelector(selectCities)

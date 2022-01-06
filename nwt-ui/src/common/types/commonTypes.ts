@@ -7,6 +7,11 @@ export const ItemTypes = {
     resource: ''
 }
 
+export type Email = string
+export type Password = string
+
+export type RequestState = 'rejected' | 'fullfilled' | 'pending'
+
 export const ItemCategories = {
     rewards: "",
     refining: "",

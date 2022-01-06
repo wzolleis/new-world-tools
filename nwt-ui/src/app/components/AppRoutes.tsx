@@ -2,15 +2,16 @@ import React from "react";
 import {useRoutes} from "react-router-dom";
 import {RouteObject} from "react-router";
 import Layout from "app/components/Layout";
-import CitiesView from "domain/cities/components/CitiesView";
+import CitiesView from "features/cities/components/CitiesView";
+import SignInView from "features/user/components/SignInView";
+import {NotFoundView} from "common/components/NotFoundView";
 import WelcomeView from "common/components/WelcomeView";
 
-export const NotFoundView = () => {
-    return (
-        <main style={{padding: "1rem"}}>
-            <p>There's nothing here!</p>
-        </main>
-    )
+export const AppLinks = {
+    root: '/',
+    signin: 'signin',
+    cities: 'cities',
+    welcome: 'welcome',
 }
 
 const nestedPaths: RouteObject[] = [
@@ -19,11 +20,17 @@ const nestedPaths: RouteObject[] = [
         element: <Layout/>,
         children: [
             {
-                path: 'welcome',
-                element: <WelcomeView/>,
+                path: AppLinks.signin,
+                element: <SignInView/>,
+                index: true
             },
             {
-                path: "cities",
+                path: AppLinks.welcome,
+                element: <WelcomeView/>,
+                index: true
+            },
+            {
+                path: AppLinks.cities,
                 element: <CitiesView/>
             },
         ],
