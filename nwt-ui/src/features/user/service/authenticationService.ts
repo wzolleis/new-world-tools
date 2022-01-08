@@ -7,6 +7,7 @@ const authenticate = async ({email, password}: { email: Email, password: Passwor
     return Promise.resolve({
         key: "9f818bba-3c17-42e2-9aff-168cd2c8f387",
         name: 'dummy user 1',
+        password: 'geheim',
         player: {
             "dschaeck": {
                 name: 'dummy.player',

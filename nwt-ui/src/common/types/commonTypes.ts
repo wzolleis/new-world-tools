@@ -40,6 +40,8 @@ export interface WithKey {
 }
 
 export interface User extends WithKey {
+    name: string,
+    password: string,
     player: {
         [name: string]: Player
     }

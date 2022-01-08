@@ -3,14 +3,14 @@ import {useRoutes} from "react-router-dom";
 import {RouteObject} from "react-router";
 import Layout from "app/components/Layout";
 import CitiesView from "features/cities/components/CitiesView";
-import SignInView from "features/user/components/SignInView";
 import {NotFoundView} from "common/components/NotFoundView";
 import WelcomeView from "common/components/WelcomeView";
+import UsersView from "features/user/components/UsersView";
 
 export const AppLinks = {
     root: '/',
-    signin: 'signin',
     cities: 'cities',
+    users: 'users',
     welcome: 'welcome',
 }
 
@@ -20,9 +20,8 @@ const nestedPaths: RouteObject[] = [
         element: <Layout/>,
         children: [
             {
-                path: AppLinks.signin,
-                element: <SignInView/>,
-                index: true
+                path: AppLinks.users,
+                element: <UsersView/>,
             },
             {
                 path: AppLinks.welcome,

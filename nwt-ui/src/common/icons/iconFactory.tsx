@@ -1,8 +1,9 @@
 import InboxIcon from "@mui/icons-material/Inbox";
+import PersonIcon from '@mui/icons-material/Person';
 import React from "react";
 import {AccountBox, DeviceUnknown, Favorite, LocationCity, Workspaces} from "@mui/icons-material";
 
-export type IconType = 'Game' | "Player" | "World" | "City" | "Favorites"
+export type IconType = 'Game' | "Player" | "World" | "City" | "Favorites" | "User"
 
 export const getIcon = (icon: IconType | undefined): React.ReactElement => {
     const color = 'secondary'
@@ -17,6 +18,8 @@ export const getIcon = (icon: IconType | undefined): React.ReactElement => {
             return <LocationCity color={color}/>
         case "Favorites":
             return <Favorite color={color}/>
+        case "User":
+            return <PersonIcon color={color}/>
         default:
             return <DeviceUnknown color={color}/>
     }

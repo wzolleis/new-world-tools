@@ -2,17 +2,12 @@ import React, {PropsWithChildren} from "react";
 import {AppBar, Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar, Typography} from "@mui/material";
 import {makeStyles} from '@mui/styles';
 import {getIcon} from "common/icons/iconFactory";
-import {useLocation, useNavigate} from "react-router-dom";
-import {Outlet} from 'react-router-dom'
+import {Outlet, useLocation, useNavigate} from "react-router-dom";
 import {menuItems} from "app/menu/data/appMenuEntries";
 import {AppTheme} from "app/components/App";
 import {useAppSelector} from "app/state/hooks";
-import {findByKey} from "utils/arrayUtils";
 import {messages} from "common/i18n/messages";
-import {selectPlayerState} from "features/player/state/playerSlice";
-import {Player} from "common/types/commonTypes";
 import {selectUser} from "features/user/state/userSlice";
-import {AppLinks} from "app/components/AppRoutes";
 
 const drawerWidth = 240
 
@@ -59,7 +54,7 @@ const Layout = ({children}: PropsWithChildren<{}>) => {
         worlds: {}
     }
 
-    const player = user?.player || dummyPlayer
+    const player = user?.player
 
     return (
         <div className={classes.root}>

@@ -3,14 +3,16 @@ import {User} from "common/types/commonTypes";
 import {RootState} from "app/state/store";
 import authenticationService from "features/user/service/authenticationService";
 
-interface AuthenticationState {
-    user: User | undefined,
-    loading: string | undefined
+interface UserState {
+    users: User[]
+    user: User | undefined
+    loading: 'rejected' | 'pending' | 'fulfilled'
 }
 
-const initialState: AuthenticationState = {
+const initialState: UserState = {
+    users: [],
     user: undefined,
-    loading: undefined
+    loading: 'rejected'
 }
 
 // First, create the thunk
@@ -25,9 +27,13 @@ export const userSlice = createSlice({
     name: 'login',
     initialState,
     reducers: {
-        logout: (state: AuthenticationState, action: PayloadAction<User>) => {
+        logout: (state: UserState) => {
             state.user = undefined
+            state.loading = 'fulfilled'
         },
+        listUser: (state: UserState, action: PayloadAction<User[]>) => {
+            state.users = action.payload
+        }
     },
     extraReducers: (builder) => {
         // Add reducers for additional action types here, and handle loading state as needed
