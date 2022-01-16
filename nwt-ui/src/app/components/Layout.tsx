@@ -48,12 +48,6 @@ const Layout = ({children}: PropsWithChildren<{}>) => {
     const navigate = useNavigate()
     const location = useLocation()
     const {user} = useAppSelector(selectUser)
-    const dummyPlayer =  {
-        name: 'dummy.player',
-        key: '4031e661-91a5-4130-b61e-6c063cfe48ac',
-        worlds: {}
-    }
-
     const player = user?.player
 
     return (

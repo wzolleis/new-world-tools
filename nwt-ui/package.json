@@ -46,7 +46,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "server": "json-server --watch --port 5000 --snapshots ./server/database/snapshots ./server/database/data.json",
+    "server": "json-server --watch --port 5000 --snapshots ./server/database/snapshots ./server/database/data.json --routes ./server/routes.json",
     "test-coverage": "npm run test -- --coverage",
     "eject": "react-scripts eject"
   },

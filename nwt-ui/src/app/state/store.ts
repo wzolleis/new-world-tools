@@ -2,12 +2,14 @@ import {configureStore} from '@reduxjs/toolkit'
 import playerReducer from 'features/player/state/playerSlice'
 import citiesReducer from 'features/cities/state/citiesSlice'
 import userReducer from 'features/user/state/userSlice'
+import dataReducer from 'features/data/state/dataSlice'
 
 const store = configureStore({
     reducer: {
         playerState: playerReducer,
         cityState: citiesReducer,
-        userState: userReducer
+        userState: userReducer,
+        dataState: dataReducer
     },
 })
 

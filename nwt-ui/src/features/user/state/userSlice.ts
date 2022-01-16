@@ -58,6 +58,6 @@ export const userSlice = createSlice({
 // Other code such as selectors can use the imported `RootState` type
 export const selectUser = (state: RootState) => state.userState
 
-export const {logout} = userSlice.actions
+export const {logout, listUser} = userSlice.actions
 
 export default userSlice.reducer
