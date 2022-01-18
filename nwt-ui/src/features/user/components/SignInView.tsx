@@ -15,7 +15,6 @@ import {Email, Password} from "common/types/commonTypes";
 import {useNavigate} from "react-router-dom";
 import {AppLinks} from "app/components/AppRoutes";
 import {useAppDispatch} from "app/state/hooks";
-import {loginUser} from "features/user/state/userSlice";
 
 
 const SignInView = () => {
@@ -31,8 +30,8 @@ const SignInView = () => {
         };
 
         if (email != null && password != null) {
-            dispatch(loginUser({email, password}))
-            navigate(`/${AppLinks.cities}`)
+            // dispatch(loginUser({email, password}))
+            // navigate(`/${AppLinks.cities}`)
         }
     };
 

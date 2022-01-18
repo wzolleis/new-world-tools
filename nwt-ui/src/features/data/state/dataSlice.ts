@@ -1,6 +1,5 @@
 import axios from "axios";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {listUser, userSlice} from "features/user/state/userSlice";
 import {User} from "common/types/commonTypes";
 import {RootState} from "app/state/store";
 
@@ -21,11 +20,9 @@ interface FetchDataResponse {
 export const loadData = createAsyncThunk(
     'loadData',
     async (_, thunkAPI) => {
-        console.log("load data in thunk: ")
         const response = await restApi.get<FetchDataResponse>('/data')
-        const data = response.data
+        const data: FetchDataResponse = response.data
         const {user} = data
-        // thunkAPI.dispatch(listUser(user))
         return {user}
     }
 )

@@ -7,7 +7,7 @@ import {menuItems} from "app/menu/data/appMenuEntries";
 import {AppTheme} from "app/components/App";
 import {useAppSelector} from "app/state/hooks";
 import {messages} from "common/i18n/messages";
-import {selectUser} from "features/user/state/userSlice";
+import {selectData} from "features/data/state/dataSlice";
 
 const drawerWidth = 240
 
@@ -47,8 +47,13 @@ const Layout = ({children}: PropsWithChildren<{}>) => {
     const classes = useStyles()
     const navigate = useNavigate()
     const location = useLocation()
-    const {user} = useAppSelector(selectUser)
-    const player = user?.player
+    const {user} = useAppSelector(selectData)
+    let player = null;
+    if (user.length > 0) {
+        // todo: Player aus der Selektion ermitteln
+        const keys = Object.keys(user[0].player)
+        player = user[0].player[keys[0]]
+    }
 
     return (
         <div className={classes.root}>
