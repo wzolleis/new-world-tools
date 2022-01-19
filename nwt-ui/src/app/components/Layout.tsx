@@ -51,8 +51,7 @@ const Layout = ({children}: PropsWithChildren<{}>) => {
     let player = null;
     if (user.length > 0) {
         // todo: Player aus der Selektion ermitteln
-        const keys = Object.keys(user[0].player)
-        player = user[0].player[keys[0]]
+        player = user[0].player[0]
     }
 
     return (

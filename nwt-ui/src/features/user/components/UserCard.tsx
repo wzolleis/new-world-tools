@@ -1,5 +1,5 @@
 import React from "react";
-import {User} from "common/types/commonTypes";
+import {Player, User} from "common/types/commonTypes";
 import {
     Avatar,
     Card,
@@ -70,6 +70,8 @@ const UserCardContent = ({user: {player}}: UserCardProps) => {
 }
 
 const UserCardHeader = ({user, handleMoreActionsClick}: UserCardHeaderProps) => {
+    const players: Player[] = user.player
+
     return (
         <CardHeader
             avatar={
@@ -83,7 +85,7 @@ const UserCardHeader = ({user, handleMoreActionsClick}: UserCardHeaderProps) => 
                 </IconButton>
             }
             title={user.name}
-            subheader={'hier kommt der Player hin'}
+            subheader={players.map((player => player.name)).join()}
         />
     )
 }

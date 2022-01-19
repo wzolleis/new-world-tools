@@ -8,13 +8,13 @@ const authenticate = async ({email, password}: { email: Email, password: Passwor
         key: "9f818bba-3c17-42e2-9aff-168cd2c8f387",
         name: 'dummy user 1',
         password: 'geheim',
-        player: {
-            "dschaeck": {
+        player: [
+            {
                 name: 'dummy.player',
                 key: '4031e661-91a5-4130-b61e-6c063cfe48ac',
                 worlds: {}
             }
-        }
+        ]
     })
 }
 
