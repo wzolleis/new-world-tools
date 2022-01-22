@@ -12,7 +12,7 @@ const authenticate = async ({email, password}: { email: Email, password: Passwor
             {
                 name: 'dummy.player',
                 key: '4031e661-91a5-4130-b61e-6c063cfe48ac',
-                worlds: {}
+                worlds: []
             }
         ]
     })

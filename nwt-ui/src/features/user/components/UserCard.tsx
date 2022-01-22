@@ -61,7 +61,7 @@ const UserCardActions = ({classes, handleExpandClick, expanded}: UserCardActions
 }
 
 const UserCardContent = ({user: {player}}: UserCardProps) => {
-    const playerNames = Object.keys(player)
+    const playerNames = player.map(p => p.name)
     return (
         <CardContent>
             <Typography variant="body2" color="text.secondary">{playerNames.join()}</Typography>
@@ -70,7 +70,6 @@ const UserCardContent = ({user: {player}}: UserCardProps) => {
 }
 
 const UserCardHeader = ({user, handleMoreActionsClick}: UserCardHeaderProps) => {
-    const players: Player[] = user.player
 
     return (
         <CardHeader
@@ -85,7 +84,6 @@ const UserCardHeader = ({user, handleMoreActionsClick}: UserCardHeaderProps) => 
                 </IconButton>
             }
             title={user.name}
-            subheader={players.map((player => player.name)).join()}
         />
     )
 }

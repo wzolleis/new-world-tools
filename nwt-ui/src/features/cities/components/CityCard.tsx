@@ -146,7 +146,7 @@ const CityCard = (props: CityCardProps) => {
     const player: Player = {
         name: 'dummy.player',
         key: '4031e661-91a5-4130-b61e-6c063cfe48ac',
-        worlds: {}
+        worlds: []
     }
 
     return (

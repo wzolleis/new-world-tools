@@ -8,14 +8,8 @@ interface PlayerState {
     players: Player[]
 }
 
-const dschaeck: Player = {
-    key: objectKeys.players.dschaeck,
-    name: 'Dschaeck',
-    worlds: {}
-}
-
 const initialState: PlayerState = {
-    players: [dschaeck]
+    players: []
 }
 
 export const playerSlice = createSlice({

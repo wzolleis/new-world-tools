@@ -51,7 +51,7 @@ export interface World extends WithKey {
 
 export interface Player extends WithKey {
     name: string,
-    worlds: { [name: string]: World }
+    worlds: World[]
 }
 
 export interface City extends WithKey {
@@ -78,4 +78,9 @@ export type Nullable<T> = T | null
 export interface AppError {
     reason: string
     code: number
+}
+
+export interface AppSelection {
+    user: ObjectKey,
+    player: ObjectKey
 }
