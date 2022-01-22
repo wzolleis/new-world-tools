@@ -5,8 +5,8 @@ import {
     Card,
     CardActions,
     CardContent,
-    CardHeader,
-    Collapse,
+    CardHeader, Checkbox,
+    Collapse, FormControlLabel,
     IconButton,
     Menu,
     MenuItem,
@@ -61,11 +61,33 @@ const UserCardActions = ({classes, handleExpandClick, expanded}: UserCardActions
     )
 }
 
-const UserCardContent = ({user: {player}}: UserCardProps) => {
+const UserCardContent = ({user: {player}, selection}: UserCardProps) => {
     const playerNames = player.map(p => p.name)
+    const [checked, setChecked] = React.useState(false);
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setChecked(event.target.checked);
+    };
+
     return (
         <CardContent>
-            <Typography variant="body2" color="text.secondary">{playerNames.join()}</Typography>
+            {
+                player.map((p => {
+                    return (
+                        <FormControlLabel
+                            key={p.key}
+                            control={
+                                <Checkbox
+                                    checked={checked}
+                                    onChange={handleChange}
+                                    inputProps={{'aria-label': 'controlled'}}
+                                />
+                            }
+                            label={p.name}
+                        />
+                    )
+                }))
+            }
         </CardContent>
     )
 }
@@ -148,9 +170,11 @@ const UserCard = ({user, selection}: UserCardProps) => {
     return (
         <Card>
             <UserCardHeader user={user} selection={selection} handleMoreActionsClick={handleMoreActionsClick}/>
-            <UserCardMenu user={user} selection={selection} open={open} anchorEl={anchorEl} handleUserMenuClose={handleUserMenuClose}/>
+            <UserCardMenu user={user} selection={selection} open={open} anchorEl={anchorEl}
+                          handleUserMenuClose={handleUserMenuClose}/>
             <UserCardContent user={user} selection={selection}/>
-            <UserCardActions user={user} selection={selection} classes={classes} handleExpandClick={handleExpandClick} expanded={expanded}/>
+            <UserCardActions user={user} selection={selection} classes={classes} handleExpandClick={handleExpandClick}
+                             expanded={expanded}/>
             <UserCardDetailView user={user} selection={selection} expanded={expanded}/>
         </Card>
     )
