@@ -52,10 +52,8 @@
       }
     ]
   },
-  "state": {
-    "user": {
-      "key": "9f818bba-3c17-42e2-9aff-168cd2c8f387"
-    },
+  "selection": {
+    "user": "9f818bba-3c17-42e2-9aff-168cd2c8f387",
     "player": "4031e661-91a5-4130-b61e-6c063cfe48ac"
   }
 }

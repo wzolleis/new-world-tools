@@ -1,6 +1,6 @@
 import axios from "axios";
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {AppSelection} from "common/types/commonTypes";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {AppSelection, Player} from "common/types/commonTypes";
 import {RootState} from "app/state/store";
 
 const restApi = axios.create({
@@ -13,13 +13,13 @@ interface SelectionState {
 }
 
 interface FetchSelectionResponse {
-    user: string
-    player: string
+    user: string | undefined
+    player: string | undefined
 }
 
 // First, create the thunk
 export const loadSelection = createAsyncThunk<FetchSelectionResponse>(
-    'loadSelection',
+    'selection/loadSelection',
     async (_, thunkAPI) => {
         const response = await restApi.get<FetchSelectionResponse>('/selection')
         const responseData: FetchSelectionResponse = response.data
@@ -30,10 +30,22 @@ export const loadSelection = createAsyncThunk<FetchSelectionResponse>(
     }
 )
 
+// First, create the thunk
+export const saveSelection = createAsyncThunk(
+    'selection/saveSelection',
+    async (selection: AppSelection, thunkAPI) => {
+        await restApi.post('/selection', {
+            user: selection.user,
+            player: selection.player
+        })
+        return selection
+    }
+)
+
 const initialState: SelectionState = {
     selection: {
-        user: '',
-        player: ''
+        user: undefined,
+        player: undefined
     }
 }
 
@@ -43,12 +55,20 @@ const selectionSlice = createSlice({
     name: 'selection',
     initialState,
     reducers: {
+        updateSelection: (state: SelectionState, action: PayloadAction<AppSelection>) => {
+            console.log('set selected player', action.payload)
+            state.selection = action.payload
+        }
         // standard reducer logic, with auto-generated action types per reducer
     },
     extraReducers: (builder) => {
         // Add reducers for additional action types here, and handle loading state as needed
         builder.addCase(loadSelection.fulfilled, (state, action) => {
-            // Add user to the state array
+            state.selection = {
+                ...action.payload
+            }
+        })
+        builder.addCase(saveSelection.fulfilled, (state, action) => {
             state.selection = {
                 ...action.payload
             }
@@ -59,6 +79,8 @@ const selectionSlice = createSlice({
 // Other code such as selectors can use the imported `RootState` type
 export const selectSelection = (state: RootState) => state.selectionState
 
-export const {} = selectionSlice.actions
+const {actions, reducer} = selectionSlice
 
-export default selectionSlice.reducer
+export const {updateSelection} = actions
+
+export default reducer

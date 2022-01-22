@@ -1,5 +1,5 @@
 import React from "react";
-import {AppSelection, User} from "common/types/commonTypes";
+import {AppSelection, Player, User} from "common/types/commonTypes";
 import {
     Avatar,
     Card,
@@ -19,10 +19,13 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {red} from "@mui/material/colors";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {messages} from "common/i18n/messages";
+import {updateSelection} from 'features/data/state/selectionSlice'
+import {useAppDispatch} from "app/state/hooks";
 
 export interface UserCardProps {
     user: User
     selection: AppSelection
+    handleUpdateSelection: (selection: AppSelection) => void
 }
 
 const styles = {
@@ -61,13 +64,17 @@ const UserCardActions = ({classes, handleExpandClick, expanded}: UserCardActions
     )
 }
 
-const UserCardContent = ({user: {player}, selection}: UserCardProps) => {
-    const playerNames = player.map(p => p.name)
-    const [checked, setChecked] = React.useState(false);
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setChecked(event.target.checked);
+const UserCardContent = ({user: {player}, selection, handleUpdateSelection}: UserCardProps) => {
+    const handleChange = (player: Player, event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log('checked', event.target.checked)
+        const selectedPlayer = event.target.checked ? player : undefined
+        handleUpdateSelection({
+            ...selection,
+            player: selectedPlayer?.key
+        })
     };
+
+    const checked = !!selection.player
 
     return (
         <CardContent>
@@ -79,7 +86,7 @@ const UserCardContent = ({user: {player}, selection}: UserCardProps) => {
                             control={
                                 <Checkbox
                                     checked={checked}
-                                    onChange={handleChange}
+                                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleChange(p, event)}
                                     inputProps={{'aria-label': 'controlled'}}
                                 />
                             }
@@ -151,8 +158,9 @@ const UserCardDetailView = ({user, expanded}: UserCardDetailViewProps) => {
 }
 
 
-const UserCard = ({user, selection}: UserCardProps) => {
+const UserCard = ({user, selection, handleUpdateSelection}: UserCardProps) => {
     const [expanded, setExpanded] = React.useState(false);
+
     const classes = useStyles()
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -169,13 +177,29 @@ const UserCard = ({user, selection}: UserCardProps) => {
 
     return (
         <Card>
-            <UserCardHeader user={user} selection={selection} handleMoreActionsClick={handleMoreActionsClick}/>
+            <UserCardHeader user={user}
+                            selection={selection}
+                            handleMoreActionsClick={handleMoreActionsClick}
+                            handleUpdateSelection={handleUpdateSelection}
+            />
             <UserCardMenu user={user} selection={selection} open={open} anchorEl={anchorEl}
-                          handleUserMenuClose={handleUserMenuClose}/>
-            <UserCardContent user={user} selection={selection}/>
-            <UserCardActions user={user} selection={selection} classes={classes} handleExpandClick={handleExpandClick}
-                             expanded={expanded}/>
-            <UserCardDetailView user={user} selection={selection} expanded={expanded}/>
+                          handleUserMenuClose={handleUserMenuClose}
+                          handleUpdateSelection={handleUpdateSelection}
+            />
+            <UserCardContent user={user} selection={selection} handleUpdateSelection={handleUpdateSelection}/>
+            <UserCardActions user={user}
+                             selection={selection}
+                             classes={classes}
+                             handleExpandClick={handleExpandClick}
+                             handleUpdateSelection={handleUpdateSelection}
+                             expanded={expanded}
+            />
+            <UserCardDetailView
+                user={user}
+                selection={selection}
+                expanded={expanded}
+                handleUpdateSelection={handleUpdateSelection}
+            />
         </Card>
     )
 }

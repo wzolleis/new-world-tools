@@ -2,7 +2,6 @@ import {Player} from "common/types/commonTypes";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {RootState} from "app/state/store";
 import {remove, update} from "utils/arrayUtils";
-import objectKeys from "app/state/objectKeys";
 
 interface PlayerState {
     players: Player[]

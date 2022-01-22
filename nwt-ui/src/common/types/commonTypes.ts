@@ -81,6 +81,6 @@ export interface AppError {
 }
 
 export interface AppSelection {
-    user: ObjectKey,
-    player: ObjectKey
+    user: ObjectKey | undefined,
+    player: ObjectKey | undefined
 }
