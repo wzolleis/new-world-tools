@@ -13,20 +13,19 @@ interface SelectionState {
 }
 
 interface FetchSelectionResponse {
-    selection: AppSelection
+    user: string
+    player: string
 }
 
 // First, create the thunk
-export const loadSelection = createAsyncThunk(
+export const loadSelection = createAsyncThunk<FetchSelectionResponse>(
     'loadSelection',
     async (_, thunkAPI) => {
         const response = await restApi.get<FetchSelectionResponse>('/selection')
-        const {selection}: FetchSelectionResponse = response.data
+        const responseData: FetchSelectionResponse = response.data
+        console.log('selection loaded', responseData)
         return {
-            selection: {
-                user: selection.user,
-                player: selection.player
-            }
+            ...responseData
         }
     }
 )
@@ -50,13 +49,15 @@ const selectionSlice = createSlice({
         // Add reducers for additional action types here, and handle loading state as needed
         builder.addCase(loadSelection.fulfilled, (state, action) => {
             // Add user to the state array
-            state.selection = action.payload.selection
+            state.selection = {
+                ...action.payload
+            }
         })
     },
 })
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectData = (state: RootState) => state.dataState
+export const selectSelection = (state: RootState) => state.selectionState
 
 export const {} = selectionSlice.actions
 

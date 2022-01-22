@@ -1,5 +1,5 @@
 import React from "react";
-import {Player, User} from "common/types/commonTypes";
+import {AppSelection, User} from "common/types/commonTypes";
 import {
     Avatar,
     Card,
@@ -22,6 +22,7 @@ import {messages} from "common/i18n/messages";
 
 export interface UserCardProps {
     user: User
+    selection: AppSelection
 }
 
 const styles = {
@@ -110,6 +111,7 @@ const UserCardMenu = ({user, handleUserMenuClose, anchorEl, open}: UserCardMenuP
         </Menu>
     )
 }
+
 interface UserCardDetailViewProps extends UserCardProps {
     expanded: boolean
 }
@@ -127,8 +129,7 @@ const UserCardDetailView = ({user, expanded}: UserCardDetailViewProps) => {
 }
 
 
-
-const UserCard = ({user}: UserCardProps) => {
+const UserCard = ({user, selection}: UserCardProps) => {
     const [expanded, setExpanded] = React.useState(false);
     const classes = useStyles()
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -143,15 +144,16 @@ const UserCard = ({user}: UserCardProps) => {
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
-    
+
     return (
         <Card>
-            <UserCardHeader user={user} handleMoreActionsClick={handleMoreActionsClick}/>
-            <UserCardMenu user={user} open={open} anchorEl={anchorEl} handleUserMenuClose={handleUserMenuClose}/>
-            <UserCardContent user={user}/>
-            <UserCardActions user={user} classes={classes} handleExpandClick={handleExpandClick} expanded={expanded}/>
-            <UserCardDetailView user={user} expanded={expanded}/>
+            <UserCardHeader user={user} selection={selection} handleMoreActionsClick={handleMoreActionsClick}/>
+            <UserCardMenu user={user} selection={selection} open={open} anchorEl={anchorEl} handleUserMenuClose={handleUserMenuClose}/>
+            <UserCardContent user={user} selection={selection}/>
+            <UserCardActions user={user} selection={selection} classes={classes} handleExpandClick={handleExpandClick} expanded={expanded}/>
+            <UserCardDetailView user={user} selection={selection} expanded={expanded}/>
         </Card>
-    )}
+    )
+}
 
 export default UserCard
