@@ -8,4 +8,13 @@ export const messages = {
         delete: 'Löschen...',
         create: 'Neu...'
     },
+    menu: {
+        user: 'User',
+        player: 'Spieler',
+        cities: 'Städte',
+        favorites: 'Lesezeichen'
+    },
+    welcomePage: {
+        title: 'New World'
+    }
 }

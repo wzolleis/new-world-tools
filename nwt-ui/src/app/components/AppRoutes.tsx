@@ -1,18 +1,13 @@
 import React from "react";
 import {useRoutes} from "react-router-dom";
 import {RouteObject} from "react-router";
-import Layout from "app/components/Layout";
 import CitiesView from "features/cities/components/CitiesView";
 import {NotFoundView} from "common/components/NotFoundView";
 import WelcomeView from "common/components/WelcomeView";
 import UsersView from "features/user/components/UsersView";
-
-export const AppLinks = {
-    root: '/',
-    cities: 'cities',
-    users: 'users',
-    welcome: 'welcome',
-}
+import {PlayersView} from "features/player/components/PlayersView";
+import {AppLinks} from "app/menu/data/appLinks";
+import Layout from "common/components/Layout";
 
 const nestedPaths: RouteObject[] = [
     {
@@ -24,13 +19,16 @@ const nestedPaths: RouteObject[] = [
                 element: <UsersView/>,
             },
             {
-                path: AppLinks.welcome,
                 element: <WelcomeView/>,
                 index: true
             },
             {
                 path: AppLinks.cities,
                 element: <CitiesView/>
+            },
+            {
+                path: AppLinks.players,
+                element: <PlayersView/>
             },
         ],
     },
