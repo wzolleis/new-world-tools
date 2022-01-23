@@ -10,6 +10,6 @@ export const PlayersView = () => {
     const selectedData = selectionService.selectedData(user, selection)
 
     return (
-        <div>{`Spieler: ${selectedData.player?.name}`}</div>
+        <div>{`Spieler: ${selectedData.player?.name || 'Kein Spieler ausgewählt'}`}</div>
     )
 }
