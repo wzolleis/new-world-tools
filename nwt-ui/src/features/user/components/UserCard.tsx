@@ -19,8 +19,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {red} from "@mui/material/colors";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {messages} from "common/i18n/messages";
-import {updateSelection} from 'features/data/state/selectionSlice'
-import {useAppDispatch} from "app/state/hooks";
 
 export interface UserCardProps {
     user: User
@@ -182,11 +180,17 @@ const UserCard = ({user, selection, handleUpdateSelection}: UserCardProps) => {
                             handleMoreActionsClick={handleMoreActionsClick}
                             handleUpdateSelection={handleUpdateSelection}
             />
-            <UserCardMenu user={user} selection={selection} open={open} anchorEl={anchorEl}
+            <UserCardMenu user={user}
+                          selection={selection}
+                          open={open}
+                          anchorEl={anchorEl}
                           handleUserMenuClose={handleUserMenuClose}
                           handleUpdateSelection={handleUpdateSelection}
             />
-            <UserCardContent user={user} selection={selection} handleUpdateSelection={handleUpdateSelection}/>
+            <UserCardContent user={user}
+                             selection={selection}
+                             handleUpdateSelection={handleUpdateSelection}
+            />
             <UserCardActions user={user}
                              selection={selection}
                              classes={classes}
