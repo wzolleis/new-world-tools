@@ -1,4 +1,12 @@
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
+import {
+    DataGrid,
+    GridCallbackDetails,
+    GridCellParams,
+    GridColDef,
+    GridRowParams,
+    GridSelectionModel,
+    MuiEvent
+} from '@mui/x-data-grid';
 import {Player} from "common/types/commonTypes";
 import {messages} from "common/i18n/messages";
 
@@ -46,6 +54,19 @@ export const CitiesTable = ({player}: CitiesTableProps) => {
 
     const rows: CityTableData[] = mapToTableData(player!)
 
+    const onCellClicked = (params: GridCellParams, event: MuiEvent<React.MouseEvent>, details: GridCallbackDetails) => {
+        console.log('onCellClicked', params)
+    }
+
+    const onRowClicked = (params: GridRowParams, event: MuiEvent<React.MouseEvent>, details: GridCallbackDetails) => {
+        console.log('onRowClicked', params)
+        console.log('onRowClicked event', event)
+    }
+
+    const onSelectionChange = (selectionModel: GridSelectionModel, details: GridCallbackDetails) => {
+        console.log('selection model', selectionModel)
+    }
+
     return (
         <div style={{height: 400, width: '100%'}}>
             <div style={{display: 'flex', height: '100%'}}>
@@ -57,6 +78,8 @@ export const CitiesTable = ({player}: CitiesTableProps) => {
                         rowsPerPageOptions={[10]}
                         showCellRightBorder={true}
                         showColumnRightBorder={true}
+                        onRowClick={onRowClicked}
+                        onSelectionModelChange={onSelectionChange}
                     />
                 </div>
             </div>
