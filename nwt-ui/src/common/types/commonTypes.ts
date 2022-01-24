@@ -46,6 +46,7 @@ export interface User extends WithKey {
 }
 
 export interface World extends WithKey {
+    name: string
     cities: City[]
 }
 

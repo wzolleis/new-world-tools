@@ -16,5 +16,10 @@ export const messages = {
     },
     welcomePage: {
         title: 'New World'
+    },
+    citiesTable: {
+        world: 'Welt',
+        city: 'Stadt',
+        details: 'Details'
     }
 }

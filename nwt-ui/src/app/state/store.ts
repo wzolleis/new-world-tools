@@ -1,13 +1,11 @@
 import {configureStore} from '@reduxjs/toolkit'
 import playerReducer from 'features/player/state/playerSlice'
-import citiesReducer from 'features/cities/state/citiesSlice'
 import dataReducer from 'features/data/state/dataSlice'
 import selectionReducer from 'features/data/state/selectionSlice'
 
 const store = configureStore({
     reducer: {
         playerState: playerReducer,
-        cityState: citiesReducer,
         dataState: dataReducer,
         selectionState: selectionReducer
     },
