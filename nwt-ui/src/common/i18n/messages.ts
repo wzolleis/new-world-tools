@@ -20,6 +20,7 @@ export const messages = {
     citiesTable: {
         world: 'Welt',
         city: 'Stadt',
-        details: 'Details'
+        details: 'Details',
+        actions: 'Aktionen'
     }
 }
