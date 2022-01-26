@@ -1,6 +1,5 @@
 import {City, Item} from "common/types/commonTypes";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
-import * as React from "react";
 import {messages} from "common/i18n/messages";
 
 interface CityItemTableProps {
