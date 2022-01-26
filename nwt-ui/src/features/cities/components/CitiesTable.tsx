@@ -1,4 +1,4 @@
-import {DataGrid, GridColDef, GridRenderCellParams} from '@mui/x-data-grid';
+import {DataGrid, GridCallbackDetails, GridColDef, GridRenderCellParams, GridSelectionModel} from '@mui/x-data-grid';
 import {City, ObjectKey, Player} from "common/types/commonTypes";
 import {messages} from "common/i18n/messages";
 import * as React from "react";
@@ -8,6 +8,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 interface CitiesTableProps {
     player: Player | undefined
+    onRowSelected: (city: City | undefined) => void
 }
 
 interface CityTableData {
@@ -61,7 +62,31 @@ const mapToTableData = (player: Player): CityTableData[] => {
     })
 }
 
-export const CitiesTable = ({player}: CitiesTableProps) => {
+interface CitiesTableMenuProps {
+    anchorEl: HTMLElement | null
+    handleMenuClose: () => void
+}
+
+const CitiesTableMenu = ({anchorEl, handleMenuClose}: CitiesTableMenuProps) => {
+    return (
+        <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+            MenuListProps={{
+                'aria-labelledby': 'basic-button',
+            }}
+        >
+            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+        </Menu>
+
+    )
+}
+
+export const CitiesTable = ({player, onRowSelected}: CitiesTableProps) => {
     // anchor element fuer das Menu der Tabelle, wird beim Klick auf eine Zelle gesetzt
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -75,10 +100,16 @@ export const CitiesTable = ({player}: CitiesTableProps) => {
 
     const cities = mapToCities(player)
     const rows: CityTableData[] = mapToTableData(player)
-    const handleTableActionsClick = (event: React.MouseEvent<HTMLButtonElement>, cityKey: ObjectKey) => {
-        const city = cities.find(city => city.key === cityKey)
-        console.log('city', city?.name)
+    const handleTableActionsClick = (event: React.MouseEvent<HTMLButtonElement>, _: ObjectKey) => {
+        // const city = cities.find(city => city.key === cityKey)
+        // console.log('city', city?.name)
         setAnchorEl(event.currentTarget)
+    }
+
+    const onSelectionChange = (selectionModel: GridSelectionModel, _: GridCallbackDetails) => {
+        const cityKey = selectionModel.length > 0 ? selectionModel[0] : null
+        const city = cities.find(city => city.key === cityKey)
+        onRowSelected(city)
     }
 
     return (
@@ -92,23 +123,11 @@ export const CitiesTable = ({player}: CitiesTableProps) => {
                         rowsPerPageOptions={[10]}
                         showCellRightBorder={true}
                         showColumnRightBorder={true}
+                        onSelectionModelChange={onSelectionChange}
                     />
                 </div>
 
-                <Menu
-                    id="basic-menu"
-                    anchorEl={anchorEl}
-                    open={Boolean(anchorEl)}
-                    onClose={handleMenuClose}
-                    MenuListProps={{
-                        'aria-labelledby': 'basic-button',
-                    }}
-                >
-                    <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-                    <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
-                </Menu>
-
+                <CitiesTableMenu handleMenuClose={handleMenuClose} anchorEl={anchorEl}/>
             </div>
         </div>
     )

@@ -22,5 +22,10 @@ export const messages = {
         city: 'Stadt',
         details: 'Details',
         actions: 'Aktionen'
+    },
+    cityDetails: {
+        title: (name: string) => `Die Eigenschaften von ${name}`,
+        name: 'Name',
+        details: 'City Details'
     }
 }
