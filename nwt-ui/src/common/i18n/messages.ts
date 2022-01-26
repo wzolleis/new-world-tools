@@ -27,5 +27,11 @@ export const messages = {
         title: (name: string) => `Die Eigenschaften von ${name}`,
         name: 'Name',
         details: 'City Details'
+    },
+    citiesItemsTable: {
+        name: 'Name',
+        category: 'Kategorie',
+        quantity: 'Anzahl',
+        lager: 'Lager'
     }
 }

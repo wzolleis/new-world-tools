@@ -3,6 +3,7 @@ import {City} from "common/types/commonTypes";
 import {useForm} from 'react-hook-form'
 import React, {useEffect} from "react";
 import {messages} from "common/i18n/messages";
+import CityItemTable from "features/cities/components/CityItemTable";
 
 export interface CityDetailsViewProps {
     city: City | undefined
@@ -40,7 +41,7 @@ const CityDetailsView = ({city}: CityDetailsViewProps) => {
 
     return (
         <div>
-            <Typography gutterBottom variant="body1" component="div" color="text.primary">
+            <Typography variant="h6" align="left" margin="dense">
                 {messages.cityDetails.title(city.name)}
             </Typography>
 
@@ -65,8 +66,17 @@ const CityDetailsView = ({city}: CityDetailsViewProps) => {
                         {...register('details')}
                     />
                 </Grid>
-            </Grid>
 
+                <Grid item xs={6} sm={6}>
+                    <Typography variant="h6" align="left" margin="dense">
+                        {messages.citiesItemsTable.lager}
+                    </Typography>
+                </Grid>
+
+                <Grid item xs={6} sm={6}>
+                    <CityItemTable city={city}/>
+                </Grid>
+            </Grid>
         </div>
     )
 }
