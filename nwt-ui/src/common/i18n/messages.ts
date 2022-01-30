@@ -30,6 +30,8 @@ export const messages = {
         details: 'City Details'
     },
     citiesItemsTable: {
+        world: 'Welt',
+        city: 'Stadt',
         name: 'Name',
         category: 'Kategorie',
         quantity: 'Anzahl',

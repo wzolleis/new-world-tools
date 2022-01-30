@@ -11,7 +11,7 @@ interface CitiesTableProps {
     onRowSelected: (city: City | undefined) => void
 }
 
-interface CityTableData {
+interface CityTableRow {
     id: string
     world: string
     city: string
@@ -48,7 +48,7 @@ const mapToCities = (player: Player): City[] => {
 }
 
 
-const mapToTableData = (player: Player): CityTableData[] => {
+const mapToTableRow = (player: Player): CityTableRow[] => {
     return player.worlds.flatMap(world => {
         return world.cities.map(city => {
             return {
@@ -99,10 +99,9 @@ export const CitiesTable = ({player, onRowSelected}: CitiesTableProps) => {
     };
 
     const cities = mapToCities(player)
-    const rows: CityTableData[] = mapToTableData(player)
+    const rows: CityTableRow[] = mapToTableRow(player)
     const handleTableActionsClick = (event: React.MouseEvent<HTMLButtonElement>, _: ObjectKey) => {
         // const city = cities.find(city => city.key === cityKey)
-        // console.log('city', city?.name)
         setAnchorEl(event.currentTarget)
     }
 
