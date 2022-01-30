@@ -22,13 +22,19 @@ export const menuItems: AppMenuEntry[] = [
         iconType: "Player"
     },
     {
-        path:  `/${AppLinks.cities}`,
+        path: `/${AppLinks.cities}`,
         title: messages.menu.cities,
         key: 'cities',
         iconType: "City"
     },
     {
-        path:  `/${AppLinks.favorites}`,
+        path: `/${AppLinks.storages}`,
+        title: messages.menu.storages,
+        key: 'storages',
+        iconType: "Storage"
+    },
+    {
+        path: `/${AppLinks.favorites}`,
         title: messages.menu.favorites,
         key: 'favorites',
         iconType: "Favorites"

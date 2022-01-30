@@ -12,6 +12,7 @@ export const messages = {
         user: 'User',
         player: 'Spieler',
         cities: 'Städte',
+        storages: 'Lager',
         favorites: 'Lesezeichen'
     },
     welcomePage: {
