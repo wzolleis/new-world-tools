@@ -1,6 +1,14 @@
 import {ObjectKey, Player} from "common/types/commonTypes";
-import {DataGrid, GridCallbackDetails, GridColDef, GridRenderCellParams, GridSelectionModel} from "@mui/x-data-grid";
+import {
+    DataGrid,
+    GridCallbackDetails,
+    GridCellEditCommitParams,
+    GridColDef,
+    GridRenderCellParams,
+    GridSelectionModel
+} from "@mui/x-data-grid";
 import * as React from "react";
+import {useState} from "react";
 import {messages} from "common/i18n/messages";
 import {IconButton, Menu} from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -43,44 +51,51 @@ const mapToTableRows = (player: Player): ItemTableRow[] => {
 
 }
 
-interface ItemsTableMenuProps {
-    anchorEl: HTMLElement | null
-    handleMenuClose: () => void
+const ItemActions = {
+    delete: 'delete'
 }
 
-const ItemsTableMenu = ({anchorEl, handleMenuClose}: ItemsTableMenuProps) => {
+type ItemActionType = keyof typeof ItemActions
+
+interface ItemsTableMenuProps {
+    anchorEl: HTMLElement | null
+    handleMenuClick: (event: React.MouseEvent<HTMLElement>, row: ItemTableRow | undefined, action: ItemActionType) => void
+    handleMenuClose: () => void
+    row: ItemTableRow | undefined
+}
+
+const ItemsTableMenu = ({anchorEl, handleMenuClose, row, handleMenuClick}: ItemsTableMenuProps) => {
     return (
         <Menu
-            id="basic-menu"
+            id="item-menu"
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
             onClose={handleMenuClose}
-            MenuListProps={{
-                'aria-labelledby': 'basic-button',
-            }}
+            MenuListProps={{'aria-labelledby': 'basic-button'}}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+            <MenuItem
+                onClick={(event: React.MouseEvent<HTMLElement>) => handleMenuClick(event, row, 'delete')}>
+                {messages.citiesItemsTable.actions.delete}
+            </MenuItem>
         </Menu>
-
     )
 }
 
-
 const columns = (handleTableActionsClick: (event: React.MouseEvent<HTMLButtonElement>, rowId: ObjectKey) => void): GridColDef[] => [
     {
-        field: 'world', headerName: messages.citiesItemsTable.world, filterable: false, flex: 1
+        field: 'item', headerName: messages.citiesItemsTable.name, filterable: true, flex: 1
+    },
+    {
+        field: 'quantity', headerName: messages.citiesItemsTable.quantity, filterable: false, editable: true
+    },
+    {
+        field: 'category', headerName: messages.citiesItemsTable.category, filterable: false, flex: 1
     },
     {
         field: 'city', headerName: messages.citiesItemsTable.city, filterable: true, flex: 1
     },
     {
-        field: 'item', headerName: messages.citiesItemsTable.name, filterable: false, flex: 1
-    },
-    {
-        field: 'quantity', headerName: messages.citiesItemsTable.quantity, filterable: false, flex: 1
-    },
-    {
-        field: 'category', headerName: messages.citiesItemsTable.category, filterable: false, flex: 1
+        field: 'world', headerName: messages.citiesItemsTable.world, filterable: false, flex: 1
     },
     {
         field: 'actions',
@@ -101,9 +116,14 @@ const ItemsTable = ({player}: ItemsTableProps) => {
     // anchor element fuer das Menu der Tabelle, wird beim Klick auf eine Zelle gesetzt
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const rows: ItemTableRow[] = mapToTableRows(player)
+    const [selectedRow, setSelectedRow] = useState<ItemTableRow | undefined>(undefined)
 
     const handleTableActionsClick = (event: React.MouseEvent<HTMLButtonElement>, _: ObjectKey) => {
         setAnchorEl(event.currentTarget)
+    }
+
+    const handleMenuClick = (event: React.MouseEvent<HTMLElement>, row: ItemTableRow | undefined, action: ItemActionType) => {
+        handleMenuClose()
     }
 
     const handleMenuClose = () => {
@@ -111,9 +131,17 @@ const ItemsTable = ({player}: ItemsTableProps) => {
     };
 
     const onSelectionChange = (selectionModel: GridSelectionModel, _: GridCallbackDetails) => {
-        // const cityKey = selectionModel.length > 0 ? selectionModel[0] : null
-        // const city = cities.find(city => city.key === cityKey)
-        // onRowSelected(city)
+        if (selectionModel.length > 0) {
+            const key = selectionModel[0] as string
+            const selectedRow = rows.find(row => row.id == key)
+            setSelectedRow(selectedRow)
+        } else {
+            setSelectedRow(undefined)
+        }
+    }
+
+    const onEditCommit = (params: GridCellEditCommitParams) => {
+        console.log('edit cell', params)
     }
 
     return (
@@ -128,10 +156,12 @@ const ItemsTable = ({player}: ItemsTableProps) => {
                         showCellRightBorder={true}
                         showColumnRightBorder={true}
                         onSelectionModelChange={onSelectionChange}
+                        onCellEditCommit={onEditCommit}
                     />
                 </div>
             </div>
-            <ItemsTableMenu handleMenuClose={handleMenuClose} anchorEl={anchorEl}/>
+            <ItemsTableMenu handleMenuClose={handleMenuClose} handleMenuClick={handleMenuClick} anchorEl={anchorEl}
+                            row={selectedRow}/>
         </div>
     )
 }

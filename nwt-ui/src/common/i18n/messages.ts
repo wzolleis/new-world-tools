@@ -35,6 +35,9 @@ export const messages = {
         name: 'Name',
         category: 'Kategorie',
         quantity: 'Anzahl',
-        lager: 'Lager'
+        lager: 'Lager',
+        actions: {
+            delete: 'Löschen'
+        }
     }
 }
