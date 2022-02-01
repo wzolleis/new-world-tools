@@ -25,10 +25,10 @@ const CitiesView = () => {
             <Grid item xs={12} sm={4}>
                 <CitiesTable player={selectedData.player} onRowSelected={onUpdateCitySelection}/>
             </Grid>
-            <CitiesSpeedDial/>
             <Grid item xs={12} sm={4}>
                 <CityDetailsView city={selectedCity}/>
             </Grid>
+            <CitiesSpeedDial/>
         </Grid>
     )
 }

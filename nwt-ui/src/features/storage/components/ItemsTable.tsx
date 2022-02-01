@@ -13,6 +13,7 @@ import {messages} from "common/i18n/messages";
 import {IconButton, Menu} from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import MenuItem from "@mui/material/MenuItem";
+import {groupBy} from 'ramda'
 
 export interface ItemsTableProps {
     player: Player
@@ -28,7 +29,7 @@ interface ItemTableRow {
 }
 
 const mapToTableRows = (player: Player): ItemTableRow[] => {
-    return player.worlds.flatMap(world => {
+    const items = player.worlds.flatMap(world => {
         return world.cities.flatMap(city => {
             return {
                 world: world.name,
@@ -49,6 +50,10 @@ const mapToTableRows = (player: Player): ItemTableRow[] => {
             })
         })
 
+    const groupByItemName = groupBy<ItemTableRow>((item) => item.item, items)
+    console.log('groupby', groupByItemName)
+
+    return items
 }
 
 const ItemActions = {
@@ -133,7 +138,7 @@ const ItemsTable = ({player}: ItemsTableProps) => {
     const onSelectionChange = (selectionModel: GridSelectionModel, _: GridCallbackDetails) => {
         if (selectionModel.length > 0) {
             const key = selectionModel[0] as string
-            const selectedRow = rows.find(row => row.id == key)
+            const selectedRow = rows.find(row => row.id === key)
             setSelectedRow(selectedRow)
         } else {
             setSelectedRow(undefined)
