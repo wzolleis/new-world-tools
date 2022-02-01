@@ -64,7 +64,6 @@ const UserCardActions = ({classes, handleExpandClick, expanded}: UserCardActions
 
 const UserCardContent = ({user: {player}, selection, handleUpdateSelection}: UserCardProps) => {
     const handleChange = (player: Player, event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('checked', event.target.checked)
         const selectedPlayer = event.target.checked ? player : undefined
         handleUpdateSelection({
             ...selection,

@@ -46,6 +46,7 @@ export interface User extends WithKey {
 }
 
 export interface World extends WithKey {
+    name: string
     cities: City[]
 }
 
@@ -83,4 +84,9 @@ export interface AppError {
 export interface AppSelection {
     user: ObjectKey | undefined,
     player: ObjectKey | undefined
+}
+
+export interface AppSelectionData {
+    user: User | undefined
+    player: Player | undefined
 }

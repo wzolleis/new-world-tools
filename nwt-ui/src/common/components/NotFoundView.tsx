@@ -1,8 +1,8 @@
 import {useNavigate} from "react-router-dom";
 import {Button, Card, CardActions, CardContent, CardMedia, Grid, Typography} from "@mui/material";
 import React from "react";
-import {AppLinks} from "app/components/AppRoutes";
 import {makeStyles} from "@mui/styles";
+import {AppLinks} from "app/menu/data/appLinks";
 
 const styles = {
     parentFlexSplit: {

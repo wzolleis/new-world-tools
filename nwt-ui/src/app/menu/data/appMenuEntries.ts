@@ -1,33 +1,41 @@
 import {AppMenuEntry} from "app/menu/components/MenuItemView";
+import {messages} from "common/i18n/messages";
+import {AppLinks} from "app/menu/data/appLinks";
 
 export const menuItems: AppMenuEntry[] = [
     {
-        path: '/welcome',
+        path: '/',
         title: 'Übersicht',
         key: 'New World',
         iconType: "Game"
     },
     {
-        path: '/users',
-        title: 'User',
+        path: `/${AppLinks.users}`,
+        title: messages.menu.user,
         key: 'users',
         iconType: "User"
     },
     {
-        path: '/players',
-        title: 'Spieler',
+        path:  `/${AppLinks.players}`,
+        title: messages.menu.player,
         key: 'players',
         iconType: "Player"
     },
     {
-        path: '/cities',
-        title: 'Cities',
+        path: `/${AppLinks.cities}`,
+        title: messages.menu.cities,
         key: 'cities',
         iconType: "City"
     },
     {
-        path: '/favorites',
-        title: 'Favoriten',
+        path: `/${AppLinks.storages}`,
+        title: messages.menu.storages,
+        key: 'storages',
+        iconType: "Storage"
+    },
+    {
+        path: `/${AppLinks.favorites}`,
+        title: messages.menu.favorites,
         key: 'favorites',
         iconType: "Favorites"
     },

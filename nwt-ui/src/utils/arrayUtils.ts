@@ -14,3 +14,10 @@ export const update = <T extends WithKey>(values: T[], replaceWith: T): T[] => {
 export const findByKey = <T extends WithKey>(values: T[], key: ObjectKey): (T | undefined) => {
     return values.find(value => value.key === key)
 }
+
+export const pickRandom = <T>(values: T[]): T => {
+    let index = Math.floor(Math.random() * values.length)
+    if (index < 0) index = 0
+    if (index > values.length - 1) index = values.length - 1
+    return values[index]
+}

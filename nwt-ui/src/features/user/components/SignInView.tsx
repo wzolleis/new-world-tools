@@ -13,7 +13,6 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {Email, Password} from "common/types/commonTypes";
 import {useNavigate} from "react-router-dom";
-import {AppLinks} from "app/components/AppRoutes";
 import {useAppDispatch} from "app/state/hooks";
 
 

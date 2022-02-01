@@ -8,4 +8,36 @@ export const messages = {
         delete: 'Löschen...',
         create: 'Neu...'
     },
+    menu: {
+        user: 'User',
+        player: 'Spieler',
+        cities: 'Städte',
+        storages: 'Lager',
+        favorites: 'Lesezeichen'
+    },
+    welcomePage: {
+        title: 'New World'
+    },
+    citiesTable: {
+        world: 'Welt',
+        city: 'Stadt',
+        details: 'Details',
+        actions: 'Aktionen'
+    },
+    cityDetails: {
+        title: (name: string) => `Die Eigenschaften von ${name}`,
+        name: 'Name',
+        details: 'City Details'
+    },
+    citiesItemsTable: {
+        world: 'Welt',
+        city: 'Stadt',
+        name: 'Name',
+        category: 'Kategorie',
+        quantity: 'Anzahl',
+        lager: 'Lager',
+        actions: {
+            delete: 'Löschen'
+        }
+    }
 }

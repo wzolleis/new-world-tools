@@ -23,7 +23,6 @@ export const loadSelection = createAsyncThunk<FetchSelectionResponse>(
     async (_, thunkAPI) => {
         const response = await restApi.get<FetchSelectionResponse>('/selection')
         const responseData: FetchSelectionResponse = response.data
-        console.log('selection loaded', responseData)
         return {
             ...responseData
         }
@@ -56,7 +55,6 @@ const selectionSlice = createSlice({
     initialState,
     reducers: {
         updateSelection: (state: SelectionState, action: PayloadAction<AppSelection>) => {
-            console.log('set selected player', action.payload)
             state.selection = action.payload
         }
         // standard reducer logic, with auto-generated action types per reducer
