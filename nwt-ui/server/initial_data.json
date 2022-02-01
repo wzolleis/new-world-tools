@@ -43,6 +43,21 @@
                         }
                       ]
                     }
+                  },
+                  {
+                    "key": "ea92ca08-fa23-482e-9de5-196d0cb9628b",
+                    "name": "Monarch's Bluff",
+                    "details": "TBD",
+                    "lager": {
+                      "items": [
+                        {
+                          "key": "56afe97a-cde1-4a1c-a966-bb9e54d1ea7f",
+                          "name": "Gold",
+                          "category": "smelting",
+                          "quantity": 500
+                        }
+                      ]
+                    }
                   }
                 ]
               }
