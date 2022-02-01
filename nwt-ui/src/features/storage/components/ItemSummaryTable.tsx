@@ -28,14 +28,14 @@ const columns: GridColDef[] = [
     },
 ]
 
-interface ItemSummaryRawData {
+interface ItemSummaryData {
     id: string
     name: string
     quantity: number
     city: City
 }
 
-const mapToItemRawData = (player: Player): ItemSummaryRawData[] => {
+const mapToSummaryData = (player: Player): ItemSummaryData[] => {
     return player.worlds.flatMap(world => world.cities)
         .flatMap((city: City) => {
             return {
@@ -56,11 +56,11 @@ const mapToItemRawData = (player: Player): ItemSummaryRawData[] => {
 }
 
 const mapToTableRows = (player: Player): ItemSummaryTableRow[] => {
-    const data: ItemSummaryRawData[] = mapToItemRawData(player)
-    const groupedByItemName: Record<string, ItemSummaryRawData[]> = groupBy((value) => value.name, data)
+    const data: ItemSummaryData[] = mapToSummaryData(player)
+    const groupedByItemName: Record<string, ItemSummaryData[]> = groupBy((value) => value.name, data)
     return Object.keys(groupedByItemName)
         .map((itemName: string) => {
-            const items: ItemSummaryRawData[] = groupedByItemName[itemName]
+            const items: ItemSummaryData[] = groupedByItemName[itemName]
             const totalQuantity = sum(items.map(v => v.quantity))
             const cityNames = items.map(v => v.city.name).join()
             return {
