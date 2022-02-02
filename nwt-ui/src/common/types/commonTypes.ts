@@ -34,6 +34,11 @@ export type ItemCategory = keyof typeof ItemCategories
 
 export type ObjectKey = string
 
+export const CommonActions = {
+    save: 'save'
+}
+
+export type CommonActionType = keyof typeof CommonActions
 
 export interface WithKey {
     key: ObjectKey
@@ -42,7 +47,7 @@ export interface WithKey {
 export interface User extends WithKey {
     name: string,
     password: string,
-    player:Player[]
+    player: Player[]
 }
 
 export interface World extends WithKey {

@@ -1,6 +1,8 @@
 export const messages = {
     common: {
-        noSelection: 'Es ist nichts selektiert'
+        noSelection: 'Es ist nichts selektiert',
+        saveButton: 'Speichern',
+        cancelButton: 'Abbruch'
     },
     crudActions: {
         edit: 'Ändern..',

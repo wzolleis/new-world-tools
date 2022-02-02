@@ -1,18 +1,22 @@
-import FileCopyIcon from "@mui/icons-material/FileCopyOutlined";
 import SaveIcon from "@mui/icons-material/Save";
-import PrintIcon from "@mui/icons-material/Print";
-import ShareIcon from "@mui/icons-material/Share";
 import React from "react";
 import {SpeedDial, SpeedDialAction, SpeedDialIcon} from "@mui/material";
+import {CommonActionType} from "common/types/commonTypes";
 
-const actions = [
-    {icon: <FileCopyIcon/>, name: 'Copy'},
-    {icon: <SaveIcon/>, name: 'Save'},
-    {icon: <PrintIcon/>, name: 'Print'},
-    {icon: <ShareIcon/>, name: 'Share'},
+interface CitySpeedDialAction {
+    name: CommonActionType
+    icon: React.ReactElement
+}
+
+const actions: CitySpeedDialAction[] = [
+    {icon: <SaveIcon/>, name: "save"},
 ];
 
-const CitiesSpeedDial = () => {
+interface CitiesSpeedDialProps {
+    onAction: (action: CommonActionType) => void
+}
+
+const CitiesSpeedDial = ({onAction}: CitiesSpeedDialProps) => {
     return (
         <SpeedDial
             ariaLabel="SpeedDial basic example"
@@ -24,6 +28,7 @@ const CitiesSpeedDial = () => {
                     key={action.name}
                     icon={action.icon}
                     tooltipTitle={action.name}
+                    onClick={() => onAction(action.name)}
                 />
             ))}
         </SpeedDial>

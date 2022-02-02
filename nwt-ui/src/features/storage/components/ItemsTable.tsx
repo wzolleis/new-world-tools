@@ -161,7 +161,6 @@ const ItemsTable = ({player}: ItemsTableProps) => {
                         showCellRightBorder={true}
                         showColumnRightBorder={true}
                         onSelectionModelChange={onSelectionChange}
-                        onCellEditCommit={onEditCommit}
                     />
                 </div>
             </div>

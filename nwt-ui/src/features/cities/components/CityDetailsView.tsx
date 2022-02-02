@@ -7,6 +7,7 @@ import CityItemTable from "features/cities/components/CityItemTable";
 
 export interface CityDetailsViewProps {
     city: City | undefined
+    onModify: (city: City) => void
 }
 
 interface CityFormData {
@@ -14,30 +15,42 @@ interface CityFormData {
     details: string
 }
 
-const CityDetailsView = ({city}: CityDetailsViewProps) => {
-    const formValues: CityFormData = {
-        name: city?.name || '',
-        details: city?.details || ''
+const formValues = (city: City | undefined): CityFormData => {
+    const emptyFormValues = {
+        name: "",
+        details: ""
     }
+    return city ? {name: city.name, details: city.details} : emptyFormValues
+}
+
+const CityDetailsView = ({city, onModify}: CityDetailsViewProps) => {
+    const defaultValues = formValues(city)
     const {
         register,
         reset,
-        // onSubmit
+        handleSubmit,
+        getValues
     } = useForm({
-        defaultValues: formValues
+        defaultValues
     });
 
     useEffect(() => {
-        console.log('reset', city)
-        reset(formValues)
+        if (!!city) {
+            reset(defaultValues)
+        }
     }, [city])
 
     if (!city) return null
 
-
-    // const onSubmit: SubmitHandler<CityFormData> = (data: CityFormData) => {
-    //     console.log(JSON.stringify(data, null, 2));
-    // };
+    // ab hier ist die city nicht mehr undefined
+    const onFormChange = () => {
+        const values: CityFormData = getValues()
+        const updatedCity: City = {
+            ...city,
+            details: values.details
+        }
+        onModify(updatedCity)
+    };
 
     return (
         <div>
@@ -62,10 +75,20 @@ const CityDetailsView = ({city}: CityDetailsViewProps) => {
                         label={messages.cityDetails.details}
                         fullWidth
                         variant="outlined"
-                        disabled={true}
                         {...register('details')}
                     />
                 </Grid>
+                {/*<Grid item xs={6} sm={6}>*/}
+                {/*    <Button onClick={handleSubmit(onSubmit)}*/}
+                {/*            variant="contained">*/}
+                {/*        {messages.common.saveButton}*/}
+                {/*    </Button>*/}
+                {/*    <Button onClick={handleSubmit(onSubmit)}*/}
+                {/*            variant="outlined">*/}
+                {/*        {messages.common.cancelButton}*/}
+                {/*    </Button>*/}
+                {/*</Grid>*/}
+
 
                 <Grid item xs={6} sm={6}>
                     <Typography variant="h6" align="left" margin="dense">
