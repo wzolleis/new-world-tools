@@ -21,7 +21,7 @@ const columns: GridColDef[] = [
         field: 'name', headerName: messages.citiesItemsTable.name, filterable: true, flex: 1
     },
     {
-        field: 'totalQuantity', headerName: messages.citiesItemsTable.quantity, filterable: false, editable: true
+        field: 'totalQuantity', headerName: messages.citiesItemsTable.quantity, filterable: false
     },
     {
         field: 'cityNames', headerName: messages.citiesItemsTable.city, filterable: false, editable: true, flex: 1
@@ -58,11 +58,14 @@ const mapToSummaryData = (player: Player): ItemSummaryData[] => {
 const mapToTableRows = (player: Player): ItemSummaryTableRow[] => {
     const data: ItemSummaryData[] = mapToSummaryData(player)
     const groupedByItemName: Record<string, ItemSummaryData[]> = groupBy((value) => value.name, data)
+    const cityNameSingle = (item: ItemSummaryData): string => item.city.name
+    const cityNameMulti = (item: ItemSummaryData): string => `${item.city.name}:${item.quantity}`
     return Object.keys(groupedByItemName)
         .map((itemName: string) => {
             const items: ItemSummaryData[] = groupedByItemName[itemName]
             const totalQuantity = sum(items.map(v => v.quantity))
-            const cityNames = items.map(v => v.city.name).join()
+            const cityNameFn = items.length > 1 ? cityNameMulti : cityNameSingle
+            const cityNames = items.map(cityNameFn).join()
             return {
                 id: itemName,
                 name: itemName,
