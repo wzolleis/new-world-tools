@@ -3,7 +3,6 @@ export const AppLinks = {
     cities: 'cities',
     storages: 'storages',
     users: 'users',
-    welcome: 'welcome',
     players: 'players',
     favorites: 'favorites'
 }

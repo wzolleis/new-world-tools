@@ -19,7 +19,7 @@ export const NotFoundView = () => {
     const classes = useStyles()
     const navigate = useNavigate()
     const navigateToHome = () => {
-        navigate(AppLinks.welcome)
+        navigate(AppLinks.root)
     }
 
     return (

@@ -1,11 +1,11 @@
-import {AppMenuEntry} from "app/menu/components/MenuItemView";
 import {messages} from "common/i18n/messages";
 import {AppLinks} from "app/menu/data/appLinks";
+import {AppMenuEntry} from "app/menu/types/menuTypes";
 
 export const menuItems: AppMenuEntry[] = [
     {
         path: '/',
-        title: 'Übersicht',
+        title: messages.menu.welcome,
         key: 'New World',
         iconType: "Game"
     },
@@ -32,11 +32,5 @@ export const menuItems: AppMenuEntry[] = [
         title: messages.menu.storages,
         key: 'storages',
         iconType: "Storage"
-    },
-    {
-        path: `/${AppLinks.favorites}`,
-        title: messages.menu.favorites,
-        key: 'favorites',
-        iconType: "Favorites"
     },
 ]

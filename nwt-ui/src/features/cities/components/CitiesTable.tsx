@@ -91,7 +91,7 @@ export const CitiesTable = ({player, onRowSelected}: CitiesTableProps) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
     if (!player) {
-        return <div>{messages.common.noSelection}</div>
+        return null
     }
 
     const handleMenuClose = () => {

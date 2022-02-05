@@ -1,14 +1,15 @@
 import {City, Player} from "common/types/commonTypes";
 import * as React from "react";
-import {DataGrid, GridColDef} from "@mui/x-data-grid";
+import {DataGrid, GridCallbackDetails, GridColDef, GridSelectionModel} from "@mui/x-data-grid";
 import {messages} from "common/i18n/messages";
 import {groupBy, sum} from "ramda";
 
 export interface ItemSummaryTableProps {
-    player: Player
+    player: Player | undefined
+    onRowSelected: (itemSummary: ItemSummaryTableRow | undefined) => void
 }
 
-interface ItemSummaryTableRow {
+export interface ItemSummaryTableRow {
     id: string
     name: string
     totalQuantity: number
@@ -55,7 +56,9 @@ const mapToSummaryData = (player: Player): ItemSummaryData[] => {
         })
 }
 
-const mapToTableRows = (player: Player): ItemSummaryTableRow[] => {
+const mapToTableRows = (player: Player | undefined): ItemSummaryTableRow[] => {
+    if (!player) return []
+
     const data: ItemSummaryData[] = mapToSummaryData(player)
     const groupedByItemName: Record<string, ItemSummaryData[]> = groupBy((value) => value.name, data)
     const cityNameSingle = (item: ItemSummaryData): string => item.city.name
@@ -76,8 +79,14 @@ const mapToTableRows = (player: Player): ItemSummaryTableRow[] => {
         })
 }
 
-const ItemSummaryTable = ({player}: ItemSummaryTableProps) => {
+const ItemSummaryTable = ({player, onRowSelected}: ItemSummaryTableProps) => {
     const rows: ItemSummaryTableRow[] = mapToTableRows(player)
+
+    const onSelectionChange = (selectionModel: GridSelectionModel, _: GridCallbackDetails) => {
+        const rowId = selectionModel.length > 0 ? selectionModel[0] : null
+        const selectedRow = rows.find(row => row.id == rowId)
+        onRowSelected(selectedRow)
+    }
 
     return (
         <div style={{height: 400, width: '100%'}}>
@@ -90,6 +99,7 @@ const ItemSummaryTable = ({player}: ItemSummaryTableProps) => {
                         rowsPerPageOptions={[10]}
                         showCellRightBorder={true}
                         showColumnRightBorder={true}
+                        onSelectionModelChange={onSelectionChange}
                     />
                 </div>
             </div>
