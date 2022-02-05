@@ -38,9 +38,9 @@ const CitiesView = () => {
         console.log('modified city', city)
     }
 
-    const onSave = (city: City | undefined) => {
-        console.log('save city', city)
-    }
+    // const onSave = (city: City | undefined) => {
+    //     console.log('save city', city)
+    // }
 
     return (
         <>
