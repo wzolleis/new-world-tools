@@ -1,13 +1,17 @@
 import React from "react";
-import {AppSelection, Player, User} from "common/types/commonTypes";
+import {dataStates, Player, User} from "common/types/commonTypes";
 import {
     Avatar,
     Card,
     CardActions,
     CardContent,
-    CardHeader, Checkbox,
-    Collapse, FormControlLabel,
+    CardHeader,
+    Checkbox,
+    Collapse,
+    FormControlLabel,
     IconButton,
+    List,
+    ListItem,
     Menu,
     MenuItem,
     Typography
@@ -21,9 +25,8 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {messages} from "common/i18n/messages";
 
 export interface UserCardProps {
-    user: User
-    selection: AppSelection
-    handleUpdateSelection: (selection: AppSelection) => void
+    user: User,
+    players: Player[]
 }
 
 const styles = {
@@ -38,11 +41,12 @@ const styles = {
 type UserCardStyles = keyof typeof styles
 const useStyles = makeStyles(styles)
 
-interface UserCardHeaderProps extends UserCardProps {
+interface UserCardHeaderProps {
     handleMoreActionsClick: (event: React.MouseEvent<HTMLButtonElement>) => void
+    user: User
 }
 
-interface UserCardActionsProps extends UserCardProps {
+interface UserCardActionsProps {
     classes: ClassNameMap<UserCardStyles>
     handleExpandClick: () => void
     expanded: boolean
@@ -62,42 +66,52 @@ const UserCardActions = ({classes, handleExpandClick, expanded}: UserCardActions
     )
 }
 
-const UserCardContent = ({user: {player}, selection, handleUpdateSelection}: UserCardProps) => {
-    const handleChange = (player: Player, event: React.ChangeEvent<HTMLInputElement>) => {
-        const selectedPlayer = event.target.checked ? player : undefined
-        handleUpdateSelection({
-            ...selection,
-            player: selectedPlayer?.key
-        })
-    };
+interface PlayerListProps {
+    players: Player[]
+}
 
-    const checked = !!selection.player
+const PlayerList = ({players}: PlayerListProps) => {
+    return (
+        <List>
+            {
+                players.map(player => {
+                    const active = player.state === dataStates.active
+                    return (
+                        <ListItem key={player.key}>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={active}
+                                        disabled={true}
+                                    />
+                                }
+                                label={player.name}
+                            />
+                        </ListItem>
+                    )
+                })
+            }
+        </List>
+    )
+}
+
+const UserCardContent = ({user, players}: UserCardProps) => {
+    const detailsTxt = `${messages.userDetails.playersCount}: ${players.length}`
+    const userActive = user.state === dataStates.active ? messages.userDetails.userActive : messages.userDetails.userNotActive
 
     return (
         <CardContent>
-            {
-                player.map((p => {
-                    return (
-                        <FormControlLabel
-                            key={p.key}
-                            control={
-                                <Checkbox
-                                    checked={checked}
-                                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleChange(p, event)}
-                                    inputProps={{'aria-label': 'controlled'}}
-                                />
-                            }
-                            label={p.name}
-                        />
-                    )
-                }))
-            }
+            <Typography paragraph>
+                {userActive}
+            </Typography>
+            <Typography paragraph>
+                {detailsTxt}
+            </Typography>
         </CardContent>
     )
 }
 
 const UserCardHeader = ({user, handleMoreActionsClick}: UserCardHeaderProps) => {
-
     return (
         <CardHeader
             avatar={
@@ -115,13 +129,13 @@ const UserCardHeader = ({user, handleMoreActionsClick}: UserCardHeaderProps) => 
     )
 }
 
-interface UserCardMenuProps extends UserCardProps {
+interface UserCardMenuProps {
     open: boolean
     anchorEl: null | HTMLElement
     handleUserMenuClose: () => void
 }
 
-const UserCardMenu = ({user, handleUserMenuClose, anchorEl, open}: UserCardMenuProps) => {
+const UserCardMenu = ({handleUserMenuClose, anchorEl, open}: UserCardMenuProps) => {
     return (
         <Menu
             id="User-menu"
@@ -138,24 +152,25 @@ const UserCardMenu = ({user, handleUserMenuClose, anchorEl, open}: UserCardMenuP
     )
 }
 
-interface UserCardDetailViewProps extends UserCardProps {
+interface UserCardDetailViewProps {
+    user: User,
+    players: Player[]
     expanded: boolean
 }
 
-const UserCardDetailView = ({user, expanded}: UserCardDetailViewProps) => {
+const UserCardDetailView = ({user, players, expanded}: UserCardDetailViewProps) => {
     return (
         <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent>
-                <Typography paragraph>
-                    Anzahl Items: {0}
-                </Typography>
+                <Typography variant='h6'>{messages.userDetails.players}</Typography>
+                <PlayerList players={players}/>
             </CardContent>
         </Collapse>
     )
 }
 
 
-const UserCard = ({user, selection, handleUpdateSelection}: UserCardProps) => {
+const UserCard = ({user, players}: UserCardProps) => {
     const [expanded, setExpanded] = React.useState(false);
 
     const classes = useStyles()
@@ -174,34 +189,20 @@ const UserCard = ({user, selection, handleUpdateSelection}: UserCardProps) => {
 
     return (
         <Card>
-            <UserCardHeader user={user}
-                            selection={selection}
-                            handleMoreActionsClick={handleMoreActionsClick}
-                            handleUpdateSelection={handleUpdateSelection}
-            />
-            <UserCardMenu user={user}
-                          selection={selection}
-                          open={open}
+            <UserCardHeader user={user} handleMoreActionsClick={handleMoreActionsClick}/>
+            <UserCardMenu open={open}
                           anchorEl={anchorEl}
                           handleUserMenuClose={handleUserMenuClose}
-                          handleUpdateSelection={handleUpdateSelection}
             />
-            <UserCardContent user={user}
-                             selection={selection}
-                             handleUpdateSelection={handleUpdateSelection}
-            />
-            <UserCardActions user={user}
-                             selection={selection}
-                             classes={classes}
+            <UserCardContent user={user} players={players}/>
+            <UserCardActions classes={classes}
                              handleExpandClick={handleExpandClick}
-                             handleUpdateSelection={handleUpdateSelection}
                              expanded={expanded}
             />
             <UserCardDetailView
                 user={user}
-                selection={selection}
+                players={players}
                 expanded={expanded}
-                handleUpdateSelection={handleUpdateSelection}
             />
         </Card>
     )

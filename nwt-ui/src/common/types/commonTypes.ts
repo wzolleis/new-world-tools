@@ -47,26 +47,29 @@ export interface WithKey {
 export interface User extends WithKey {
     name: string,
     password: string,
-    player: Player[]
+    state: string,
 }
 
 export interface World extends WithKey {
     name: string
-    cities: City[]
 }
 
 export interface Player extends WithKey {
     name: string,
-    worlds: World[]
+    world: ObjectKey
+    user: ObjectKey
+    state: string,
 }
 
 export interface City extends WithKey {
     name: CityName
     details: string
-    lager: Lager
+    world: ObjectKey
+    player: ObjectKey
 }
 
-export interface Lager extends WithKey {
+export interface CityStorage extends WithKey {
+    city: ObjectKey
     items: Item[]
 }
 
@@ -80,18 +83,13 @@ export interface Item extends WithKey {
 }
 
 export type Nullable<T> = T | null
+export type Undefined<T> = T | undefined
 
 export interface AppError {
     reason: string
     code: number
 }
 
-export interface AppSelection {
-    user: ObjectKey | undefined,
-    player: ObjectKey | undefined
-}
-
-export interface AppSelectionData {
-    user: User | undefined
-    player: Player | undefined
+export const dataStates = {
+    'active': 'active',
 }

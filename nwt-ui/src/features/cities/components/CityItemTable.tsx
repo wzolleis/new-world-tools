@@ -1,6 +1,8 @@
 import {City, Item} from "common/types/commonTypes";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import {messages} from "common/i18n/messages";
+import {useAppSelector} from "app/state/hooks";
+import {selectStorage} from "features/storage/state/storageSlice";
 
 interface CityItemTableProps {
     city: City
@@ -40,7 +42,9 @@ const mapToTableData = (items: Item[]): CityItemTableRow[] => {
 }
 
 const CityItemTable = ({city}: CityItemTableProps) => {
-    const items = city.lager.items
+    const {storages} = useAppSelector(selectStorage)
+    const storage = storages.find(storage => storage.city === city.key)
+    const items = storage?.items || []
     const rows: CityItemTableRow[] = mapToTableData(items)
 
     return (

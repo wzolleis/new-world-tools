@@ -1,11 +1,12 @@
-import {City, Player} from "common/types/commonTypes";
+import {City, CityStorage, ObjectKey} from "common/types/commonTypes";
 import * as React from "react";
 import {DataGrid, GridCallbackDetails, GridColDef, GridSelectionModel} from "@mui/x-data-grid";
 import {messages} from "common/i18n/messages";
 import {groupBy, sum} from "ramda";
 
 export interface ItemSummaryTableProps {
-    player: Player | undefined
+    storages: CityStorage[]
+    cities: City[]
     onRowSelected: (itemSummary: ItemSummaryTableRow | undefined) => void
 }
 
@@ -14,7 +15,7 @@ export interface ItemSummaryTableRow {
     name: string
     totalQuantity: number
     cityNames: string
-    cities: City[]
+    cities: ObjectKey[]
 }
 
 const columns: GridColDef[] = [
@@ -33,58 +34,57 @@ interface ItemSummaryData {
     id: string
     name: string
     quantity: number
-    city: City
+    cityKey: ObjectKey
 }
 
-const mapToSummaryData = (player: Player): ItemSummaryData[] => {
-    return player.worlds.flatMap(world => world.cities)
-        .flatMap((city: City) => {
-            return {
-                items: city.lager.items,
-                city
-            }
-        })
+const mapToSummaryData = (storages: CityStorage[]): ItemSummaryData[] => {
+    return storages.flatMap(storage => {
+        return {
+            items: storage.items,
+            city: storage.city
+        }
+    })
         .flatMap(v => {
             return v.items.flatMap(item => {
                 return {
                     id: item.key,
                     name: item.name,
                     quantity: item.quantity,
-                    city: v.city
+                    cityKey: v.city
                 }
             })
         })
 }
 
-const mapToTableRows = (player: Player | undefined): ItemSummaryTableRow[] => {
-    if (!player) return []
-
-    const data: ItemSummaryData[] = mapToSummaryData(player)
+const mapToTableRows = (storages: CityStorage[], cities: City[]): ItemSummaryTableRow[] => {
+    const data: ItemSummaryData[] = mapToSummaryData(storages)
     const groupedByItemName: Record<string, ItemSummaryData[]> = groupBy((value) => value.name, data)
-    const cityNameSingle = (item: ItemSummaryData): string => item.city.name
-    const cityNameMulti = (item: ItemSummaryData): string => `${item.city.name}:${item.quantity}`
+    const cityName = (item: ItemSummaryData): string => {
+        return cities.find(city => city.key === item.cityKey)?.name || messages.citiesItemsTable.unknownCity
+    }
+    const cityNameMulti = (item: ItemSummaryData): string => `${cityName(item)}:${item.quantity}`
     return Object.keys(groupedByItemName)
         .map((itemName: string) => {
             const items: ItemSummaryData[] = groupedByItemName[itemName]
             const totalQuantity = sum(items.map(v => v.quantity))
-            const cityNameFn = items.length > 1 ? cityNameMulti : cityNameSingle
+            const cityNameFn = items.length > 1 ? cityNameMulti : cityName
             const cityNames = items.map(cityNameFn).join()
             return {
                 id: itemName,
                 name: itemName,
                 totalQuantity,
                 cityNames,
-                cities: items.map(v => v.city)
+                cities: items.map(v => v.cityKey)
             }
         })
 }
 
-const ItemSummaryTable = ({player, onRowSelected}: ItemSummaryTableProps) => {
-    const rows: ItemSummaryTableRow[] = mapToTableRows(player)
+const ItemSummaryTable = ({storages, cities, onRowSelected}: ItemSummaryTableProps) => {
+    const rows: ItemSummaryTableRow[] = mapToTableRows(storages, cities)
 
     const onSelectionChange = (selectionModel: GridSelectionModel, _: GridCallbackDetails) => {
         const rowId = selectionModel.length > 0 ? selectionModel[0] : null
-        const selectedRow = rows.find(row => row.id == rowId)
+        const selectedRow = rows.find(row => row.id === rowId)
         onRowSelected(selectedRow)
     }
 

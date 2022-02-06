@@ -18,7 +18,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import {ClassNameMap, makeStyles} from "@mui/styles";
 import {messages} from "common/i18n/messages";
-import {City, Player} from "common/types/commonTypes";
+import {City} from "common/types/commonTypes";
 
 const styles = {
     parentFlexSplit: {
@@ -37,7 +37,6 @@ export interface CityCardProps {
 }
 
 interface CityCardHeaderProps extends CityCardProps {
-    player: Player | undefined
     handleMoreActionsClick: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
@@ -69,7 +68,7 @@ const CityCardContent = ({city: {details}}: CityCardProps) => {
     )
 }
 
-const CityCardHeader = ({city, player, handleMoreActionsClick}: CityCardHeaderProps) => {
+const CityCardHeader = ({city, handleMoreActionsClick}: CityCardHeaderProps) => {
     return (
         <CardHeader
             avatar={
@@ -83,7 +82,6 @@ const CityCardHeader = ({city, player, handleMoreActionsClick}: CityCardHeaderPr
                 </IconButton>
             }
             title={city.name}
-            subheader={player?.name || messages.common.noSelection}
         />
     )
 }
@@ -94,7 +92,7 @@ interface CityCardMenuProps extends CityCardProps {
     handleCityMenuClose: () => void
 }
 
-const CityCardMenu = ({city, handleCityMenuClose, anchorEl, open}: CityCardMenuProps) => {
+const CityCardMenu = ({handleCityMenuClose, anchorEl, open}: CityCardMenuProps) => {
     return (
         <Menu
             id="city-menu"
@@ -114,7 +112,7 @@ interface CityCardDetailViewProps extends CityCardProps {
     expanded: boolean
 }
 
-const CityCardDetailView = ({city, expanded}: CityCardDetailViewProps) => {
+const CityCardDetailView = ({expanded}: CityCardDetailViewProps) => {
     return (
         <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent>
@@ -143,15 +141,10 @@ const CityCard = (props: CityCardProps) => {
     };
 
     const {city} = props
-    const player: Player = {
-        name: 'dummy.player',
-        key: '4031e661-91a5-4130-b61e-6c063cfe48ac',
-        worlds: []
-    }
 
     return (
         <Card>
-            <CityCardHeader player={player} city={city} handleMoreActionsClick={handleMoreActionsClick}/>
+            <CityCardHeader city={city} handleMoreActionsClick={handleMoreActionsClick}/>
             <CityCardMenu city={city} open={open} anchorEl={anchorEl} handleCityMenuClose={handleCityMenuClose}/>
             <CityCardContent city={city}/>
             <CityCardActions city={city} classes={classes} handleExpandClick={handleExpandClick} expanded={expanded}/>

@@ -16,12 +16,6 @@ export const menuItems: AppMenuEntry[] = [
         iconType: "User"
     },
     {
-        path:  `/${AppLinks.players}`,
-        title: messages.menu.player,
-        key: 'players',
-        iconType: "Player"
-    },
-    {
         path: `/${AppLinks.cities}`,
         title: messages.menu.cities,
         key: 'cities',

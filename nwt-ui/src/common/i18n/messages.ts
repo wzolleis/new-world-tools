@@ -1,8 +1,8 @@
 export const messages = {
     common: {
-        noSelection: 'Es ist nichts selektiert',
+        noSelection: (startPage: string) => `Es sind keine Daten geladen. Bitte auf ${startPage} klicken`,
         saveButton: 'Speichern',
-        cancelButton: 'Abbruch'
+        cancelButton: 'Abbruch',
     },
     crudActions: {
         edit: 'Ändern..',
@@ -27,7 +27,7 @@ export const messages = {
         city: 'Stadt',
         details: 'Details',
         actions: 'Aktionen',
-        noSelection: 'Es ist keine Stadt in der Tabelle selektiert'
+        noSelection: 'Bitte eine Stadt auswählen'
     },
     cityDetails: {
         title: (name: string) => `Die Eigenschaften von ${name}`,
@@ -35,7 +35,8 @@ export const messages = {
         details: 'City Details'
     },
     citiesItemsTable: {
-        noSelection: 'Es ist kein Gegenstand in der Tabelle selektiert',
+        noSelection: 'Bitte ein Item auswählen',
+        unknownCity: 'Unbekannte Stadt',
         world: 'Welt',
         city: 'Stadt',
         name: 'Name',
@@ -46,7 +47,12 @@ export const messages = {
             delete: 'Löschen'
         }
     },
-    usersView: {
-        noSelection: (startPage: string) => `Es sind keine Daten geladen. Bitte auf ${startPage} klicken`
+    "userDetails": {
+        userActive: 'ist angemeldet',
+        players: 'Spieler',
+        playersCount: 'Anzahl Spieler',
+        userNotActive: 'nicht angemeldet'
     }
 }
+
+export const noDataMessage = messages.common.noSelection(messages.menu.welcome)
