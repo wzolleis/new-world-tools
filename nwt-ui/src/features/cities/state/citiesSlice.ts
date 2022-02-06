@@ -4,6 +4,7 @@ import {City, Undefined} from "common/types/commonTypes";
 import {update} from "utils/arrayUtils";
 import axios from "axios";
 import {RootState} from "app/state/store";
+import remote from "common/api/restApi";
 
 interface CitiesState {
     cities: City[]
@@ -26,15 +27,12 @@ const restApi = axios.create({
 
 
 // First, create the thunk
-export const saveCity = createAsyncThunk(
-    'cities/saveCity',
-    async (city: City, thunkAPI) => {
-        const response = await restApi.post(`/cities/${city.key}`, {
-            city
-        })
-        return {
-            city: response.data
-        }
+// First, create the thunk
+export const listCity = createAsyncThunk(
+    'city/listCity',
+    async () => {
+        const response = await restApi.get<City[]>(remote.path.cities)
+        return response.data
     }
 )
 
@@ -49,8 +47,8 @@ const citySlice = createSlice({
     },
     extraReducers: (builder) => {
         // Add reducers for additional action types here, and handle loading state as needed
-        builder.addCase(saveCity.fulfilled, (state, action) => {
-            state.cities = update(state.cities, action.payload.city)
+        builder.addCase(listCity.fulfilled, (state, action) => {
+            state.cities = action.payload
         })
     },
 })

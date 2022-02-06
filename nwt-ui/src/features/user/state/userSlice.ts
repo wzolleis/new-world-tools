@@ -15,7 +15,7 @@ const initialState: UserState = {
 
 // First, create the thunk
 export const listUser = createAsyncThunk(
-    'listUser',
+    'user/listUser',
     async (_, thunkApi) => {
         const response = await restApi.get<User[]>(remote.path.users)
         return response.data

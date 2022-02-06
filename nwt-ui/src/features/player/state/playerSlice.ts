@@ -16,8 +16,8 @@ const initialState: PlayerState = {
 
 // First, create the thunk
 export const listPlayer = createAsyncThunk(
-    'listPlayer',
-    async (_, thunkApi) => {
+    'player/listPlayer',
+    async () => {
         const response = await restApi.get<Player[]>(remote.path.players)
         return response.data
     }
