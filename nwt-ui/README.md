@@ -1,11 +1,3 @@
-# Beispielprojekt für eine Anwendung mit React, Redux und Material UI.\
-
-Verwendet u.a. react, redux-toolkit (RTK) und die React-Komponenten von mui.com\
-
-# Zweck
-
-Verwaltet Spieler und deren Infos in New World.
-
 # Build-Info
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
