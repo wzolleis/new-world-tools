@@ -4,26 +4,13 @@ import {messages} from "common/i18n/messages";
 import * as React from "react";
 import {useState} from "react";
 import ItemSummaryTable, {ItemSummaryTableRow} from "features/storage/components/ItemSummaryTable";
-import {makeStyles} from "@mui/styles";
-import {AppTheme} from "app/components/App";
-import LayoutConstants from "common/components/layoutConstants";
 import AppBarContainer from "common/components/AppBarContainer";
-import {Toolbar, Typography} from "@mui/material";
+import {Toolbar} from "@mui/material";
 import {selectCity} from "features/cities/state/citiesSlice";
 import {selectStorage} from "features/storage/state/storageSlice";
-
-const useStyles = makeStyles((_: AppTheme) => {
-    const {drawerWidth} = LayoutConstants
-
-    return {
-        itemName: {
-            marginLeft: drawerWidth
-        },
-    }
-})
+import AppBarTitle from "common/components/AppBarTitle";
 
 const StoragesView = () => {
-    const classes = useStyles()
     const {cities} = useAppSelector(selectCity)
     const {storages} = useAppSelector(selectStorage)
     const [selectedRow, setSelectedRow] = useState<ItemSummaryTableRow | undefined>(undefined)
@@ -37,9 +24,7 @@ const StoragesView = () => {
         <>
             <AppBarContainer>
                 <Toolbar>
-                    <div className={classes.itemName}>
-                        <Typography>{itemSummaryText}</Typography>
-                    </div>
+                    <AppBarTitle title={itemSummaryText}/>
                 </Toolbar>
             </AppBarContainer>
 

@@ -1,28 +1,15 @@
 import React from "react";
 
-import {Grid, Toolbar, Typography} from "@mui/material";
+import {Grid, Toolbar} from "@mui/material";
 import {User} from "common/types/commonTypes";
 import {useAppSelector} from "app/state/hooks";
 import UserCard from "features/user/components/UserCard";
-import {makeStyles} from "@mui/styles";
-import {AppTheme} from "app/components/App";
-import LayoutConstants from "common/components/layoutConstants";
 import AppBarContainer from "common/components/AppBarContainer";
 import {noDataMessage} from "common/i18n/messages";
 import {selectUser} from "features/user/state/userSlice";
-
-const useStyles = makeStyles((_: AppTheme) => {
-    const {drawerWidth} = LayoutConstants
-
-    return {
-        userName: {
-            marginLeft: drawerWidth
-        },
-    }
-})
+import AppBarTitle from "common/components/AppBarTitle";
 
 const UsersView = () => {
-    const classes = useStyles()
     const {user, users} = useAppSelector(selectUser)
     // const dispatch = useAppDispatch()
     // const onUpdateSelection = () => {
@@ -36,9 +23,7 @@ const UsersView = () => {
         <>
             <AppBarContainer>
                 <Toolbar>
-                    <div className={classes.userName}>
-                        <Typography>{userName}</Typography>
-                    </div>
+                    <AppBarTitle title={userName}/>
                 </Toolbar>
             </AppBarContainer>
 
