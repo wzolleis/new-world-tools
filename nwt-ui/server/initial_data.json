@@ -1,74 +1,93 @@
 {
-  "data": {
-    "user": [
-      {
-        "key": "9f818bba-3c17-42e2-9aff-168cd2c8f387",
-        "name": "Dschaeck",
-        "password": "geheim",
-        "player": [
-          {
-            "key": "4031e661-91a5-4130-b61e-6c063cfe48ac",
-            "name": "Dschaeck",
-            "worlds": [
-              {
-                "key": "489f0ec3-abc2-4abf-a67a-a9f0042ab09c",
-                "name": "Antilia",
-                "cities": [
-                  {
-                    "key": "ae1b45cc-c380-4729-957d-bf4f7554f8af",
-                    "name": "Everfall",
-                    "details": "Metall, Stein, Leder, Schmelzen, Schmiede Lvl 5",
-                    "lager": {
-                      "items": [
-                        {
-                          "key": "5148d4da-9f00-4b87-8ecd-eae396b26c43",
-                          "name": "Gold",
-                          "category": "smelting",
-                          "quantity": 100
-                        },
-                        {
-                          "key": "65a62fa7-cadc-48b9-9d6b-8c37527783bb",
-                          "name": "Silver",
-                          "category": "smelting",
-                          "quantity": 500
-                        },
-                        {
-                          "key": "99c3b30e-f60d-4cde-9ac9-a05c732f8923",
-                          "name": "Black Spear of Doom",
-                          "category": "weapon",
-                          "quantity": 1,
-                          "attributes": {
-                            "damage": 200
-                          }
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "key": "ea92ca08-fa23-482e-9de5-196d0cb9628b",
-                    "name": "Monarch's Bluff",
-                    "details": "TBD",
-                    "lager": {
-                      "items": [
-                        {
-                          "key": "56afe97a-cde1-4a1c-a966-bb9e54d1ea7f",
-                          "name": "Gold",
-                          "category": "smelting",
-                          "quantity": 500
-                        }
-                      ]
-                    }
-                  }
-                ]
-              }
-            ]
+  "users": [
+    {
+      "key": "9f818bba-3c17-42e2-9aff-168cd2c8f387",
+      "name": "Dschaeck",
+      "password": "geheim",
+      "state": "active"
+    },
+    {
+      "key": "a2be5155-4933-4260-a16a-12e0fcb9c45c",
+      "name": "Dschaeck 2",
+      "password": "geheim"
+    }
+  ],
+  "worlds": [
+    {
+      "key": "489f0ec3-abc2-4abf-a67a-a9f0042ab09c",
+      "name": "Antilia"
+    }
+  ],
+  "players": [
+    {
+      "key": "4031e661-91a5-4130-b61e-6c063cfe48ac",
+      "name": "Dschaeck",
+      "user": "9f818bba-3c17-42e2-9aff-168cd2c8f387",
+      "world": "489f0ec3-abc2-4abf-a67a-a9f0042ab09c",
+      "state": "active"
+    },
+    {
+      "key": "3aac79e8-8602-4bec-9af5-2a3a1e2ee3a5",
+      "name": "Dschaeck 2",
+      "user": "9f818bba-3c17-42e2-9aff-168cd2c8f387",
+      "world": "489f0ec3-abc2-4abf-a67a-a9f0042ab09c"
+    }
+  ],
+  "cities": [
+    {
+      "key": "ae1b45cc-c380-4729-957d-bf4f7554f8af",
+      "name": "Everfall",
+      "details": "Metall, Stein, Leder, Schmelzen, Schmiede Lvl 5",
+      "world": "489f0ec3-abc2-4abf-a67a-a9f0042ab09c",
+      "player": "4031e661-91a5-4130-b61e-6c063cfe48ac"
+    },
+    {
+      "key": "ea92ca08-fa23-482e-9de5-196d0cb9628b",
+      "name": "Monarch's Bluff",
+      "details": "TBD",
+      "world": "489f0ec3-abc2-4abf-a67a-a9f0042ab09c",
+      "player": "4031e661-91a5-4130-b61e-6c063cfe48ac"
+    }
+  ],
+  "storages": [
+    {
+      "key": "8720a226-885e-4e7e-8e6f-e899d11f2ecb",
+      "city": "ae1b45cc-c380-4729-957d-bf4f7554f8af",
+      "items": [
+        {
+          "key": "5148d4da-9f00-4b87-8ecd-eae396b26c43",
+          "name": "Gold",
+          "category": "smelting",
+          "quantity": 100
+        },
+        {
+          "key": "65a62fa7-cadc-48b9-9d6b-8c37527783bb",
+          "name": "Silver",
+          "category": "smelting",
+          "quantity": 500
+        },
+        {
+          "key": "99c3b30e-f60d-4cde-9ac9-a05c732f8923",
+          "name": "Black Spear of Doom",
+          "category": "weapon",
+          "quantity": 1,
+          "attributes": {
+            "damage": 200
           }
-        ]
-      }
-    ]
-  },
-  "selection": {
-    "user": "9f818bba-3c17-42e2-9aff-168cd2c8f387",
-    "player": "4031e661-91a5-4130-b61e-6c063cfe48ac"
-  }
+        }
+      ]
+    },
+    {
+      "key": "ffaab139-b258-455c-b8ba-b59f12f7564c",
+      "city": "ea92ca08-fa23-482e-9de5-196d0cb9628b",
+      "items": [
+        {
+          "key": "56afe97a-cde1-4a1c-a966-bb9e54d1ea7f",
+          "name": "Gold",
+          "category": "smelting",
+          "quantity": 500
+        }
+      ]
+    }
+  ]
 }

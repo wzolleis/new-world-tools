@@ -47,6 +47,12 @@ export const messages = {
             delete: 'Löschen'
         }
     },
+    "userDetails": {
+        userActive: 'ist angemeldet',
+        players: 'Spieler',
+        playersCount: 'Anzahl Spieler',
+        userNotActive: 'nicht angemeldet'
+    }
 }
 
 export const noDataMessage = messages.common.noSelection(messages.menu.welcome)

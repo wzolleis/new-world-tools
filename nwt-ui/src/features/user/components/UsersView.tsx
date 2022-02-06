@@ -8,16 +8,12 @@ import AppBarContainer from "common/components/AppBarContainer";
 import {noDataMessage} from "common/i18n/messages";
 import {selectUser} from "features/user/state/userSlice";
 import AppBarTitle from "common/components/AppBarTitle";
+import {selectPlayer} from "features/player/state/playerSlice";
 
 const UsersView = () => {
     const {user, users} = useAppSelector(selectUser)
-    // const dispatch = useAppDispatch()
-    // const onUpdateSelection = () => {
-    // dispatch(saveSelection(selection))
-    // dispatch(updateSelection(selection))
-    // }
-
     const userName = `${user?.name || noDataMessage}`
+    const {players} = useAppSelector(selectPlayer)
 
     return (
         <>
@@ -29,9 +25,10 @@ const UsersView = () => {
 
             <Grid sx={{flexGrow: 1}} container spacing={{xs: 2, md: 3}} columns={{xs: 1, sm: 1, md: 1}}>
                 {users.map((user: User) => {
+                    const assignedPlayer = players.filter(player => player.user === user.key)
                     return (
                         <Grid item key={user.key}>
-                            <UserCard user={user}/>
+                            <UserCard user={user} players={assignedPlayer}/>
                         </Grid>
                     )
                 })}

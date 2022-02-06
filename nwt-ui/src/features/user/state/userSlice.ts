@@ -1,6 +1,7 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {User} from "common/types/commonTypes";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {dataStates, User} from "common/types/commonTypes";
 import {RootState} from "app/state/store";
+import remote, {restApi} from "common/api/restApi";
 
 interface UserState {
     users: User[]
@@ -12,6 +13,15 @@ const initialState: UserState = {
     user: undefined,
 }
 
+// First, create the thunk
+export const listUser = createAsyncThunk(
+    'listUser',
+    async (_, thunkApi) => {
+        const response = await restApi.get<User[]>(remote.path.users)
+        return response.data
+    }
+)
+
 export const userSlice = createSlice({
         name: 'login',
         initialState,
@@ -20,12 +30,18 @@ export const userSlice = createSlice({
                 state.users = action.payload
             }
         },
+        extraReducers: (builder) => {
+            // Add reducers for additional action types here, and handle loading state as needed
+            builder.addCase(listUser.fulfilled, (state, action) => {
+                // Add user to the state array
+                state.users = action.payload
+                state.user = action.payload.find(user => user.state === dataStates.active)
+            })
+        },
     }
 )
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectUser = (state: RootState) => state.userState
-
-export const {listUser} = userSlice.actions
 
 export default userSlice.reducer

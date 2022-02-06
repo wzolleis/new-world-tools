@@ -1,13 +1,17 @@
 import React from "react";
-import {User} from "common/types/commonTypes";
+import {dataStates, Player, User} from "common/types/commonTypes";
 import {
     Avatar,
     Card,
     CardActions,
     CardContent,
     CardHeader,
+    Checkbox,
     Collapse,
+    FormControlLabel,
     IconButton,
+    List,
+    ListItem,
     Menu,
     MenuItem,
     Typography
@@ -21,7 +25,8 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {messages} from "common/i18n/messages";
 
 export interface UserCardProps {
-    user: User
+    user: User,
+    players: Player[]
 }
 
 const styles = {
@@ -61,43 +66,52 @@ const UserCardActions = ({classes, handleExpandClick, expanded}: UserCardActions
     )
 }
 
-const UserCardContent = ({user}: UserCardProps) => {
-    // const handleChange = (player: Player, event: React.ChangeEvent<HTMLInputElement>) => {
-    //     const selectedPlayer = event.target.checked ? player : undefined
-    //     handleUpdateSelection({
-    //         ...selection,
-    //         player: selectedPlayer?.key
-    //     })
-    // };
-    //
-    // const checked = !!selection.player
+interface PlayerListProps {
+    players: Player[]
+}
+
+const PlayerList = ({players}: PlayerListProps) => {
+    return (
+        <List>
+            {
+                players.map(player => {
+                    const active = player.state === dataStates.active
+                    return (
+                        <ListItem key={player.key}>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={active}
+                                        disabled={true}
+                                    />
+                                }
+                                label={player.name}
+                            />
+                        </ListItem>
+                    )
+                })
+            }
+        </List>
+    )
+}
+
+const UserCardContent = ({user, players}: UserCardProps) => {
+    const detailsTxt = `${messages.userDetails.playersCount}: ${players.length}`
+    const userActive = user.state === dataStates.active ? messages.userDetails.userActive : messages.userDetails.userNotActive
 
     return (
         <CardContent>
-            {/*{*/}
-            {/*    player.map((p => {*/}
-            {/*        return (*/}
-            {/*            <FormControlLabel*/}
-            {/*                key={p.key}*/}
-            {/*                control={*/}
-            {/*                    <Checkbox*/}
-            {/*                        checked={checked}*/}
-            {/*                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleChange(p, event)}*/}
-            {/*                        inputProps={{'aria-label': 'controlled'}}*/}
-            {/*                    />*/}
-            {/*                }*/}
-            {/*                label={p.name}*/}
-            {/*            />*/}
-            {/*        )*/}
-            {/*    }))*/}
-            {/*}*/}
-            <Typography>{user.name}</Typography>
+            <Typography paragraph>
+                {userActive}
+            </Typography>
+            <Typography paragraph>
+                {detailsTxt}
+            </Typography>
         </CardContent>
     )
 }
 
 const UserCardHeader = ({user, handleMoreActionsClick}: UserCardHeaderProps) => {
-
     return (
         <CardHeader
             avatar={
@@ -139,23 +153,24 @@ const UserCardMenu = ({handleUserMenuClose, anchorEl, open}: UserCardMenuProps) 
 }
 
 interface UserCardDetailViewProps {
+    user: User,
+    players: Player[]
     expanded: boolean
 }
 
-const UserCardDetailView = ({expanded}: UserCardDetailViewProps) => {
+const UserCardDetailView = ({user, players, expanded}: UserCardDetailViewProps) => {
     return (
         <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent>
-                <Typography paragraph>
-                    Anzahl Items: {0}
-                </Typography>
+                <Typography variant='h6'>{messages.userDetails.players}</Typography>
+                <PlayerList players={players}/>
             </CardContent>
         </Collapse>
     )
 }
 
 
-const UserCard = ({user}: UserCardProps) => {
+const UserCard = ({user, players}: UserCardProps) => {
     const [expanded, setExpanded] = React.useState(false);
 
     const classes = useStyles()
@@ -179,12 +194,14 @@ const UserCard = ({user}: UserCardProps) => {
                           anchorEl={anchorEl}
                           handleUserMenuClose={handleUserMenuClose}
             />
-            <UserCardContent user={user}/>
+            <UserCardContent user={user} players={players}/>
             <UserCardActions classes={classes}
                              handleExpandClick={handleExpandClick}
                              expanded={expanded}
             />
             <UserCardDetailView
+                user={user}
+                players={players}
                 expanded={expanded}
             />
         </Card>

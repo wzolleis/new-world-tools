@@ -1,5 +1,5 @@
 import {DataGrid, GridCallbackDetails, GridColDef, GridRenderCellParams, GridSelectionModel} from '@mui/x-data-grid';
-import {City, ObjectKey, Player} from "common/types/commonTypes";
+import {City, ObjectKey} from "common/types/commonTypes";
 import {messages} from "common/i18n/messages";
 import * as React from "react";
 import {IconButton, Menu} from "@mui/material";
@@ -38,11 +38,6 @@ const columns = (handleTableActionsClick: (event: React.MouseEvent<HTMLButtonEle
         }
     }
 ]
-
-const mapToCities = (player: Player): City[] => {
-    return player.worlds.flatMap(world => world.cities)
-}
-
 
 const mapToTableRow = (cities: City[]): CityTableRow[] => {
     return cities.map(city => {
