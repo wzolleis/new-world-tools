@@ -1,17 +1,15 @@
 import React from "react";
 
 import {Grid, Toolbar, Typography} from "@mui/material";
-import {AppSelection, User} from "common/types/commonTypes";
-import {useAppDispatch, useAppSelector} from "app/state/hooks";
+import {User} from "common/types/commonTypes";
+import {useAppSelector} from "app/state/hooks";
 import UserCard from "features/user/components/UserCard";
-import {selectData} from "features/data/state/dataSlice";
-import {saveSelection, selectSelection, updateSelection} from "features/data/state/selectionSlice";
 import {makeStyles} from "@mui/styles";
 import {AppTheme} from "app/components/App";
 import LayoutConstants from "common/components/layoutConstants";
 import AppBarContainer from "common/components/AppBarContainer";
-import {messages} from "common/i18n/messages";
-import selectionService from "features/selection/service/selectionService";
+import {noDataMessage} from "common/i18n/messages";
+import {selectUser} from "features/user/state/userSlice";
 
 const useStyles = makeStyles((_: AppTheme) => {
     const {drawerWidth} = LayoutConstants
@@ -25,22 +23,21 @@ const useStyles = makeStyles((_: AppTheme) => {
 
 const UsersView = () => {
     const classes = useStyles()
-    const {user: users} = useAppSelector(selectData)
-    const {selection} = useAppSelector(selectSelection)
-    const {user} = selectionService.selectedData(users, selection)
+    const {user, users} = useAppSelector(selectUser)
+    // const dispatch = useAppDispatch()
+    // const onUpdateSelection = () => {
+    // dispatch(saveSelection(selection))
+    // dispatch(updateSelection(selection))
+    // }
 
-    const dispatch = useAppDispatch()
-    const onUpdateSelection = (selection: AppSelection) => {
-        dispatch(saveSelection(selection))
-        dispatch(updateSelection(selection))
-    }
+    const userName = `${user?.name || noDataMessage}`
 
     return (
         <>
             <AppBarContainer>
                 <Toolbar>
                     <div className={classes.userName}>
-                        <Typography>{user?.name || messages.usersView.noSelection(messages.menu.welcome)}</Typography>
+                        <Typography>{userName}</Typography>
                     </div>
                 </Toolbar>
             </AppBarContainer>
@@ -49,7 +46,7 @@ const UsersView = () => {
                 {users.map((user: User) => {
                     return (
                         <Grid item key={user.key}>
-                            <UserCard user={user} selection={selection} handleUpdateSelection={onUpdateSelection}/>
+                            <UserCard user={user}/>
                         </Grid>
                     )
                 })}

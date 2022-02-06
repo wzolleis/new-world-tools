@@ -1,17 +1,15 @@
 import React, {useState} from "react";
 import {Grid, Toolbar, Typography} from "@mui/material";
-import {useAppSelector} from "app/state/hooks";
-import {selectData} from "features/data/state/dataSlice";
-import selectionService from "features/selection/service/selectionService";
-import {selectSelection} from "features/data/state/selectionSlice";
 import {CitiesTable} from "features/cities/components/CitiesTable";
 import CityDetailsView from "features/cities/components/CityDetailsView";
-import {City} from "common/types/commonTypes";
+import {City, Player, Undefined} from "common/types/commonTypes";
 import AppBarContainer from "common/components/AppBarContainer";
 import {messages} from "common/i18n/messages";
 import {makeStyles} from "@mui/styles";
 import {AppTheme} from "app/components/App";
 import LayoutConstants from "common/components/layoutConstants";
+import {useAppSelector} from "app/state/hooks";
+import {selectCity} from "features/cities/state/citiesSlice";
 
 const useStyles = makeStyles((_: AppTheme) => {
     const {drawerWidth} = LayoutConstants
@@ -25,12 +23,13 @@ const useStyles = makeStyles((_: AppTheme) => {
 
 const CitiesView = () => {
     const classes = useStyles()
-    const {user} = useAppSelector(selectData)
-    const {selection} = useAppSelector(selectSelection)
-    const {player} = selectionService.selectedData(user, selection)
-    const [selectedCity, setSelectedCity] = useState<City | undefined>(undefined)
+    // const {selection} = useAppSelector(selectSelection)
+    // const {players} = useAppSelector(selectPlayers)
+    const [selectedCity, setSelectedCity] = useState<Undefined<City>>(undefined)
+    const player: Undefined<Player> = undefined
+    const {cities} = useAppSelector(selectCity)
 
-    const onUpdateCitySelection = (city: City | undefined) => {
+    const onUpdateCitySelection = (city: Undefined<City>) => {
         setSelectedCity(city)
     }
 
@@ -53,7 +52,7 @@ const CitiesView = () => {
             </AppBarContainer>
             <Grid container direction="column" spacing={2}>
                 <Grid item xs={12} sm={4}>
-                    <CitiesTable player={player} onRowSelected={onUpdateCitySelection}/>
+                    <CitiesTable cities={cities} onRowSelected={onUpdateCitySelection}/>
                 </Grid>
                 <Grid item xs={12} sm={4}>
                     <CityDetailsView city={selectedCity} onModify={onUpdateModifiedCity}/>

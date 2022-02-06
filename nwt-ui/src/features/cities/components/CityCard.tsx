@@ -94,7 +94,7 @@ interface CityCardMenuProps extends CityCardProps {
     handleCityMenuClose: () => void
 }
 
-const CityCardMenu = ({city, handleCityMenuClose, anchorEl, open}: CityCardMenuProps) => {
+const CityCardMenu = ({handleCityMenuClose, anchorEl, open}: CityCardMenuProps) => {
     return (
         <Menu
             id="city-menu"
@@ -114,7 +114,7 @@ interface CityCardDetailViewProps extends CityCardProps {
     expanded: boolean
 }
 
-const CityCardDetailView = ({city, expanded}: CityCardDetailViewProps) => {
+const CityCardDetailView = ({expanded}: CityCardDetailViewProps) => {
     return (
         <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent>

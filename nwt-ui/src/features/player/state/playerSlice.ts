@@ -1,14 +1,16 @@
-import {Player} from "common/types/commonTypes";
+import {Player, Undefined} from "common/types/commonTypes";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {RootState} from "app/state/store";
 import {remove, update} from "utils/arrayUtils";
 
 interface PlayerState {
     players: Player[]
+    player: Undefined<Player>
 }
 
 const initialState: PlayerState = {
-    players: []
+    players: [],
+    player: undefined
 }
 
 export const playerSlice = createSlice({
@@ -33,6 +35,6 @@ export const playerSlice = createSlice({
 export const {createPlayerAction, updatePlayerAction, listPlayerAction, removePlayerAction} = playerSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectPlayerState = (state: RootState) => state.playerState
+export const selectPlayer = (state: RootState) => state.playerState
 
 export default playerSlice.reducer

@@ -1,7 +1,5 @@
 import React, {useEffect} from 'react'
 import {useAppDispatch} from "app/state/hooks";
-import {loadData} from "features/data/state/dataSlice";
-import {loadSelection} from "features/data/state/selectionSlice";
 import {messages} from "common/i18n/messages";
 import {Toolbar, Typography} from "@mui/material";
 import {makeStyles} from "@mui/styles";
@@ -24,8 +22,8 @@ const WelcomeView = () => {
     const classes = useStyles()
     const dispatch = useAppDispatch()
     useEffect(() => {
-        dispatch(loadData())
-        dispatch(loadSelection())
+        // TODO: load user,city,...
+        // dispatch(loadData())
     }, [])
 
     return (

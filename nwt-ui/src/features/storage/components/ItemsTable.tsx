@@ -13,7 +13,6 @@ import {messages} from "common/i18n/messages";
 import {IconButton, Menu} from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import MenuItem from "@mui/material/MenuItem";
-import {groupBy} from 'ramda'
 
 export interface ItemsTableProps {
     player: Player
@@ -29,31 +28,32 @@ interface ItemTableRow {
 }
 
 const mapToTableRows = (player: Player): ItemTableRow[] => {
-    const items = player.worlds.flatMap(world => {
-        return world.cities.flatMap(city => {
-            return {
-                world: world.name,
-                city: city
-            }
-        })
-    })
-        .flatMap(data => {
-            return data.city.lager.items.flatMap(item => {
-                return {
-                    id: item.key,
-                    world: data.world,
-                    city: data.city.name,
-                    item: item.name,
-                    quantity: item.quantity,
-                    category: item.category
-                }
-            })
-        })
+    // const items = player.worlds.flatMap(world => {
+    //     return world.cities.flatMap(city => {
+    //         return {
+    //             world: world.name,
+    //             city: city
+    //         }
+    //     })
+    // })
+    //     .flatMap(data => {
+    //         return data.city.storage.items.flatMap(item => {
+    //             return {
+    //                 id: item.key,
+    //                 world: data.world,
+    //                 city: data.city.name,
+    //                 item: item.name,
+    //                 quantity: item.quantity,
+    //                 category: item.category
+    //             }
+    //         })
+    //     })
 
-    const groupByItemName = groupBy<ItemTableRow>((item) => item.item, items)
-    console.log('groupby', groupByItemName)
-
-    return items
+    // const groupByItemName = groupBy<ItemTableRow>((item) => item.item, items)
+    // console.log('groupby', groupByItemName)
+    //
+    // return items
+    return []
 }
 
 const ItemActions = {

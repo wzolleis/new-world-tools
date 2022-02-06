@@ -1,7 +1,6 @@
 import axios from "axios";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {User} from "common/types/commonTypes";
-import {RootState} from "app/state/store";
 
 const restApi = axios.create({
     baseURL: 'http://localhost:5000/api',
@@ -49,7 +48,7 @@ const dataSlice = createSlice({
 })
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectData = (state: RootState) => state.dataState
+// export const selectData = (state: RootState) => state.dataState
 
 export const {} = dataSlice.actions
 

@@ -63,10 +63,10 @@ export interface Player extends WithKey {
 export interface City extends WithKey {
     name: CityName
     details: string
-    lager: Lager
 }
 
-export interface Lager extends WithKey {
+export interface CityStorage extends WithKey {
+    city: ObjectKey
     items: Item[]
 }
 
@@ -80,18 +80,9 @@ export interface Item extends WithKey {
 }
 
 export type Nullable<T> = T | null
+export type Undefined<T> = T | undefined
 
 export interface AppError {
     reason: string
     code: number
-}
-
-export interface AppSelection {
-    user: ObjectKey | undefined,
-    player: ObjectKey | undefined
-}
-
-export interface AppSelectionData {
-    user: User | undefined
-    player: Player | undefined
 }
