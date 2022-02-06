@@ -84,7 +84,7 @@ const ItemSummaryTable = ({storages, cities, onRowSelected}: ItemSummaryTablePro
 
     const onSelectionChange = (selectionModel: GridSelectionModel, _: GridCallbackDetails) => {
         const rowId = selectionModel.length > 0 ? selectionModel[0] : null
-        const selectedRow = rows.find(row => row.id == rowId)
+        const selectedRow = rows.find(row => row.id === rowId)
         onRowSelected(selectedRow)
     }
 

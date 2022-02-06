@@ -43,7 +43,7 @@ const mapToTableData = (items: Item[]): CityItemTableRow[] => {
 
 const CityItemTable = ({city}: CityItemTableProps) => {
     const {storages} = useAppSelector(selectStorage)
-    const storage = storages.find(storage => storage.city == city.key)
+    const storage = storages.find(storage => storage.city === city.key)
     const items = storage?.items || []
     const rows: CityItemTableRow[] = mapToTableData(items)
 
