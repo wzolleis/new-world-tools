@@ -12,6 +12,7 @@ export default {
         players: `/players`,
         worlds: `/worlds`,
         cities: `/cities`,
+        city: (key: string) => `/cities/${key}`,
         storages: `/storages`,
     }
 }

@@ -1,5 +1,5 @@
 import {Grid, TextField, Typography} from "@mui/material";
-import {City} from "common/types/commonTypes";
+import {City, CityStorage} from "common/types/commonTypes";
 import {useForm} from 'react-hook-form'
 import React, {useEffect} from "react";
 import {messages} from "common/i18n/messages";
@@ -7,6 +7,7 @@ import CityItemTable from "features/cities/components/CityItemTable";
 
 export interface CityDetailsViewProps {
     city: City | undefined
+    storage: CityStorage
     onModify: (city: City) => void
 }
 
@@ -23,13 +24,12 @@ const formValues = (city: City | undefined): CityFormData => {
     return city ? {name: city.name, details: city.details} : emptyFormValues
 }
 
-const CityDetailsView = ({city, onModify}: CityDetailsViewProps) => {
+const CityDetailsView = ({city, storage, onModify}: CityDetailsViewProps) => {
     const defaultValues = formValues(city)
     const {
         register,
         reset,
-        handleSubmit,
-        getValues
+        getValues,
     } = useForm({
         defaultValues
     });
@@ -40,18 +40,18 @@ const CityDetailsView = ({city, onModify}: CityDetailsViewProps) => {
         }
     }, [city])
 
-    if (!city) return null
-
-    // ab hier ist die city nicht mehr undefined
     const onFormChange = () => {
-        const values: CityFormData = getValues()
-        const updatedCity: City = {
-            ...city,
-            details: values.details
+        if (!!city) {
+            const values: CityFormData = getValues()
+            const updatedCity: City = {
+                ...city,
+                details: values.details
+            }
+            onModify(updatedCity)
         }
-        onModify(updatedCity)
     };
 
+    if (!city) return null
     return (
         <div>
             <Typography variant="h6" align="left" margin="dense">
@@ -76,20 +76,9 @@ const CityDetailsView = ({city, onModify}: CityDetailsViewProps) => {
                         fullWidth
                         variant="outlined"
                         {...register('details')}
+                        onBlur={onFormChange}
                     />
                 </Grid>
-                {/*<Grid item xs={6} sm={6}>*/}
-                {/*    <Button onClick={handleSubmit(onSubmit)}*/}
-                {/*            variant="contained">*/}
-                {/*        {messages.common.saveButton}*/}
-                {/*    </Button>*/}
-                {/*    <Button onClick={handleSubmit(onSubmit)}*/}
-                {/*            variant="outlined">*/}
-                {/*        {messages.common.cancelButton}*/}
-                {/*    </Button>*/}
-                {/*</Grid>*/}
-
-
                 <Grid item xs={6} sm={6}>
                     <Typography variant="h6" align="left" margin="dense">
                         {messages.citiesItemsTable.lager}
@@ -97,7 +86,7 @@ const CityDetailsView = ({city, onModify}: CityDetailsViewProps) => {
                 </Grid>
 
                 <Grid item xs={6} sm={6}>
-                    <CityItemTable city={city}/>
+                    <CityItemTable storage={storage} city={city}/>
                 </Grid>
             </Grid>
         </div>
