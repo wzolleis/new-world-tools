@@ -26,8 +26,6 @@ const restApi = axios.create({
 });
 
 
-// First, create the thunk
-// First, create the thunk
 export const listCity = createAsyncThunk(
     'city/listCity',
     async () => {
@@ -36,8 +34,16 @@ export const listCity = createAsyncThunk(
     }
 )
 
+export const updateCity = createAsyncThunk(
+    'city/updateCity',
+    async (city: City) => {
+        const response = await restApi.put<City>(remote.path.city(city.key), city)
+        return response.data
+    }
+)
+
 const citySlice = createSlice({
-    name: 'cities',
+    name: 'city',
     initialState,
     reducers: {
         updateCity: (state: CitiesState, action: PayloadAction<CityActionPayload>) => {

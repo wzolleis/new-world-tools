@@ -44,13 +44,14 @@
   },
   "comments": {
     "faker": "nicht mehr benutzen, Bibliothek ist kaputt",
-    "chance": "Alternative zu faker, aber aktuell nicht notwendig"
+    "chance": "Alternative zu faker, aber aktuell nicht notwendig",
+    "debounce": "lodash.debounce + @types/lodash.debounce"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "server": "json-server --watch --port 5000 --snapshots ./server/database/snapshots ./server/database/data.json --routes ./server/routes.json",
+    "server": "json-server --watch --port 5000 --snapshots ./server/database/snapshots ./server/database/data.json --routes ./server/routes.json --id key",
     "test-coverage": "npm run test -- --coverage",
     "eject": "react-scripts eject"
   },

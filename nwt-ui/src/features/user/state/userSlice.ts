@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {dataStates, User} from "common/types/commonTypes";
 import {RootState} from "app/state/store";
 import remote, {restApi} from "common/api/restApi";
@@ -23,13 +23,9 @@ export const listUser = createAsyncThunk(
 )
 
 export const userSlice = createSlice({
-        name: 'login',
+        name: 'users',
         initialState,
-        reducers: {
-            listUser: (state: UserState, action: PayloadAction<User[]>) => {
-                state.users = action.payload
-            }
-        },
+        reducers: {},
         extraReducers: (builder) => {
             // Add reducers for additional action types here, and handle loading state as needed
             builder.addCase(listUser.fulfilled, (state, action) => {
