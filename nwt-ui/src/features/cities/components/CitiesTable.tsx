@@ -2,6 +2,7 @@ import {DataGrid, GridCallbackDetails, GridColDef, GridRenderCellParams, GridSel
 import {City, ObjectKey} from "common/types/commonTypes";
 import {messages} from "common/i18n/messages";
 import * as React from "react";
+import {useEffect} from "react";
 import {IconButton, Menu} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -76,23 +77,32 @@ const CitiesTableMenu = ({anchorEl, handleMenuClose}: CitiesTableMenuProps) => {
 
 export const CitiesTable = ({cities, onRowSelected}: CitiesTableProps) => {
     // anchor element fuer das Menu der Tabelle, wird beim Klick auf eine Zelle gesetzt
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const rows: CityTableRow[] = mapToTableRow(cities)
 
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const initialSelection = cities.length > 0 ? [cities[0].key] : []
+    const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>(initialSelection);
+    useEffect(() => {
+        if (initialSelection.length > 0) {
+            const selectedCity = cities.find(city => city.key === initialSelection[0])
+            onRowSelected(selectedCity)
+        }
+    }, [])
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
-
-    const rows: CityTableRow[] = mapToTableRow(cities)
     const handleTableActionsClick = (event: React.MouseEvent<HTMLButtonElement>, _: ObjectKey) => {
         // const city = cities.find(city => city.key === cityKey)
         setAnchorEl(event.currentTarget)
     }
 
     const onSelectionChange = (selectionModel: GridSelectionModel, _: GridCallbackDetails) => {
+        setSelectionModel(selectionModel)
         const cityKey = selectionModel.length > 0 ? selectionModel[0] : null
         const city = cities.find(city => city.key === cityKey)
         onRowSelected(city)
     }
+
 
     return (
         <div style={{height: 400, width: '100%'}}>
@@ -106,6 +116,7 @@ export const CitiesTable = ({cities, onRowSelected}: CitiesTableProps) => {
                         showCellRightBorder={true}
                         showColumnRightBorder={true}
                         onSelectionModelChange={onSelectionChange}
+                        selectionModel={selectionModel}
                     />
                 </div>
 
