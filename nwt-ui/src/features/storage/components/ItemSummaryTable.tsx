@@ -1,5 +1,6 @@
 import {City, CityStorage, ObjectKey} from "common/types/commonTypes";
 import * as React from "react";
+import {useEffect} from "react";
 import {DataGrid, GridCallbackDetails, GridColDef, GridSelectionModel} from "@mui/x-data-grid";
 import {messages} from "common/i18n/messages";
 import {groupBy, sum} from "ramda";
@@ -81,8 +82,18 @@ const mapToTableRows = (storages: CityStorage[], cities: City[]): ItemSummaryTab
 
 const ItemSummaryTable = ({storages, cities, onRowSelected}: ItemSummaryTableProps) => {
     const rows: ItemSummaryTableRow[] = mapToTableRows(storages, cities)
+    const initialSelection = rows.length > 0 ? [rows[0].id] : []
+    const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>(initialSelection);
+
+    useEffect(() => {
+        if (initialSelection.length > 0) {
+            const selectedRow = rows.find(row => row.id === initialSelection[0])
+            onRowSelected(selectedRow)
+        }
+    }, [])
 
     const onSelectionChange = (selectionModel: GridSelectionModel, _: GridCallbackDetails) => {
+        setSelectionModel(selectionModel)
         const rowId = selectionModel.length > 0 ? selectionModel[0] : null
         const selectedRow = rows.find(row => row.id === rowId)
         onRowSelected(selectedRow)
@@ -100,6 +111,7 @@ const ItemSummaryTable = ({storages, cities, onRowSelected}: ItemSummaryTablePro
                         showCellRightBorder={true}
                         showColumnRightBorder={true}
                         onSelectionModelChange={onSelectionChange}
+                        selectionModel={selectionModel}
                     />
                 </div>
             </div>
