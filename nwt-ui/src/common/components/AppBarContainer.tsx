@@ -1,22 +1,17 @@
-import {AppBar} from "@mui/material";
+// @ts-ignore
+import {AppBar, IconButton, Menu, Toolbar, Typography} from "@mui/material";
 import React, {FunctionComponent, PropsWithChildren} from "react";
-import {makeStyles} from "@mui/styles";
-import {AppTheme} from "app/components/App";
+import {makeStyles, useTheme} from "@mui/styles";
 import LayoutConstants from "common/components/layoutConstants";
-
+import {AppTheme} from "app/components/appTheme";
 
 const useStyles = makeStyles((theme: AppTheme) => {
     const {drawerWidth} = LayoutConstants
-
+//            backgroundColor: theme.custom.appBar.backgroundColor
     return {
-        appBar: {
+        header: {
             width: `calc(100% - ${drawerWidth}px)`,
-
         },
-        userName: {
-            marginLeft: drawerWidth
-        },
-        toolbar: theme.mixins.toolbar
     }
 })
 
@@ -27,12 +22,12 @@ export type AppBarContainerProps = PropsWithChildren<AppBarProps>
 
 const AppBarContainer: FunctionComponent<AppBarContainerProps> = ({children}: AppBarContainerProps) => {
     const classes = useStyles()
-
+    const theme = useTheme<AppTheme>()
+    // style: {backgroundColor: "theme.custom.appBar.backgroundColor}
     return (
-        <AppBar className={classes.appBar}
+        <AppBar sx={{backgroundColor: theme.custom.appBar.backgroundColor}} className={classes.header}
                 position='fixed'
                 elevation={0}
-                color='primary'
         >
             {children}
         </AppBar>

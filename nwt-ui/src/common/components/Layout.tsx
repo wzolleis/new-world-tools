@@ -2,9 +2,9 @@ import React, {PropsWithChildren} from "react";
 import {Drawer} from "@mui/material";
 import {makeStyles} from '@mui/styles';
 import {Outlet} from "react-router-dom";
-import {AppTheme} from "app/components/App";
 import AppMenu from "common/components/AppMenu";
 import LayoutConstants from "common/components/layoutConstants";
+import {AppTheme} from "app/components/appTheme";
 
 const useStyles = makeStyles((theme: AppTheme) => {
     const {drawerWidth} = LayoutConstants
