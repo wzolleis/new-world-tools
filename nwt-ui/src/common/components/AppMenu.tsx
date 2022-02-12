@@ -1,11 +1,11 @@
 import {List, ListItem, ListItemIcon, ListItemText} from "@mui/material";
 import {menuItems} from "app/menu/data/appMenuEntries";
-import {getIcon} from "common/icons/iconFactory";
 import React from "react";
 import {makeStyles} from "@mui/styles";
-import {AppTheme} from "app/components/App";
 import {useLocation, useNavigate} from "react-router-dom";
 import LayoutConstants from "common/components/layoutConstants";
+import {AppTheme} from "app/components/appTheme";
+import AppIcon from "common/components/AppIcon";
 
 const useStyles = makeStyles((_: AppTheme) => {
     const {drawerWidth} = LayoutConstants
@@ -30,7 +30,7 @@ const AppMenu = () => {
                               selected={active}
                               onClick={() => navigate(item.path)}
                     >
-                        <ListItemIcon>{getIcon(item.iconType)}</ListItemIcon>
+                        <ListItemIcon><AppIcon icon={item.iconType}/></ListItemIcon>
                         <ListItemText primary={item.title}/>
                     </ListItem>
                 )

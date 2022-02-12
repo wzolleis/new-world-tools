@@ -1,8 +1,8 @@
 import {Typography} from "@mui/material";
 import React from "react";
 import {makeStyles} from "@mui/styles";
-import {AppTheme} from "app/components/App";
 import LayoutConstants from "common/components/layoutConstants";
+import {AppTheme} from "app/components/appTheme";
 
 interface AppBarTitleProps {
     title: string

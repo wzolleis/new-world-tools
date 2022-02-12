@@ -1,6 +1,6 @@
 import {Icon} from "@mui/material";
 import {WithKey} from "common/types/commonTypes";
-import {IconType} from "common/icons/iconFactory";
+import {IconType} from "common/types/iconType";
 
 export interface MenuItemType {
     icon: typeof Icon
