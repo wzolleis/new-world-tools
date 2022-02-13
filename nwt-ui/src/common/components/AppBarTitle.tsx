@@ -13,7 +13,8 @@ const useStyles = makeStyles((_: AppTheme) => {
 
     return {
         title: {
-            marginLeft: drawerWidth
+            marginLeft: drawerWidth,
+            flexGrow: 1
         },
     }
 })

@@ -5,33 +5,37 @@ import {AccountBox, DeviceUnknown, Favorite, LocationCity, Menu, Storage, Worksp
 import PersonIcon from "@mui/icons-material/Person";
 import React from "react";
 import {IconType} from "common/types/iconType";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 export interface AppIconProps {
     icon: IconType | undefined
+    color?: string
 }
 
-const AppIcon = ({icon}: AppIconProps) => {
+const AppIcon = ({icon, color}: AppIconProps) => {
     const theme = useTheme<AppTheme>()
-    const color = theme.custom.icons.backgroundColor
+    const iconColor = color || theme.custom.icons.backgroundColor
     switch (icon) {
         case "Game":
-            return <InboxIcon sx={{color}}/>
+            return <InboxIcon sx={{color: iconColor}}/>
         case "Player":
-            return <AccountBox sx={{color}}/>
+            return <AccountBox sx={{color: iconColor}}/>
         case "World":
-            return <Workspaces sx={{color}}/>
+            return <Workspaces sx={{color: iconColor}}/>
         case "City":
-            return <LocationCity sx={{color}}/>
+            return <LocationCity sx={{color: iconColor}}/>
         case "Favorites":
-            return <Favorite sx={{color}}/>
+            return <Favorite sx={{color: iconColor}}/>
         case "User":
-            return <PersonIcon sx={{color}}/>
+            return <PersonIcon sx={{color: iconColor}}/>
         case "Storage":
-            return <Storage sx={{color}}/>
+            return <Storage sx={{color: iconColor}}/>
         case "Menu":
-            return <Menu sx={{color}}/>
+            return <Menu sx={{color: iconColor}}/>
+        case "Add":
+            return <AddCircleIcon sx={{color: iconColor}}/>
         default:
-            return <DeviceUnknown sx={{color}}/>
+            return <DeviceUnknown sx={{color: iconColor}}/>
     }
 }
 

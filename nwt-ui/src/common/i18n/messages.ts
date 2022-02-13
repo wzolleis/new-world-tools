@@ -27,7 +27,8 @@ export const messages = {
         city: 'Stadt',
         details: 'Details',
         actions: 'Aktionen',
-        noSelection: 'Bitte eine Stadt auswählen'
+        noSelection: 'Bitte eine Stadt auswählen',
+        addCity: 'Stadt hinzufügen'
     },
     cityDetails: {
         title: (name: string) => `Die Eigenschaften von ${name}`,
