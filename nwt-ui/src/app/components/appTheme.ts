@@ -6,6 +6,7 @@ export interface AppTheme extends Theme {
     custom: {
         appBar: {
             backgroundColor: string
+            color: string // Farbe der Elemente in der AppBar, passend zu backgroundColor
         }
         icons: {
             backgroundColor: string
@@ -16,7 +17,8 @@ export interface AppTheme extends Theme {
 const cssVariables = {
     custom: {
         appBar: {
-            backgroundColor: blue[900]
+            backgroundColor: blue[900],
+            color: "white"
         },
         icons: {
             backgroundColor: blue[900]

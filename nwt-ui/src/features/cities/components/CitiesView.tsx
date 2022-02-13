@@ -9,6 +9,9 @@ import {useAppDispatch, useAppSelector} from "app/state/hooks";
 import {selectCity, updateCity} from "features/cities/state/citiesSlice";
 import AppBarTitle from "common/components/AppBarTitle";
 import {emptyStorage, selectStorage} from "features/storage/state/storageSlice";
+import {useTheme} from "@mui/styles";
+import {AppTheme} from "app/components/appTheme";
+import AppBarAction from "common/appbar/AppBarAction";
 
 const CitiesView = () => {
     const [selectedCity, setSelectedCity] = useState<Undefined<City>>(undefined)
@@ -16,6 +19,7 @@ const CitiesView = () => {
     const {storages} = useAppSelector(selectStorage)
     const dispatch = useAppDispatch()
     const cityStorage = storages.find(storage => storage.city === selectedCity?.key) || emptyStorage
+    const theme = useTheme<AppTheme>()
 
     const onUpdateCitySelection = (city: Undefined<City>) => {
         setSelectedCity(city)
@@ -30,11 +34,22 @@ const CitiesView = () => {
     //     console.log('save city', city)
     // }
 
+    const onAppBarAction = (action: string) => {
+        console.log('action', action)
+        if (action === 'add_city') onAddCity()
+    }
+
+    const onAddCity = () => {
+        console.log('add city')
+    }
+
     return (
         <>
             <AppBarContainer>
                 <Toolbar>
                     <AppBarTitle title={selectedCity?.name || messages.citiesTable.noSelection}/>
+                    <AppBarAction action={'add_city'} label={messages.citiesTable.addCity} icon={"Add"}
+                                  callback={onAppBarAction}/>
                 </Toolbar>
             </AppBarContainer>
             <Grid container direction="column" spacing={2}>
