@@ -45,6 +45,7 @@ export const messages = {
         quantity: 'Anzahl',
         lager: 'Lager',
         actions: {
+            add: 'Item hinzufügen',
             delete: 'Löschen'
         }
     },

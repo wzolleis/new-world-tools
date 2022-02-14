@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Grid, Toolbar} from "@mui/material";
+import {AppBar, Grid, Toolbar} from "@mui/material";
 import {CitiesTable} from "features/cities/components/CitiesTable";
 import CityDetailsView from "features/cities/components/CityDetailsView";
 import {City, Undefined} from "common/types/commonTypes";
@@ -12,6 +12,7 @@ import {emptyStorage, selectStorage} from "features/storage/state/storageSlice";
 import {useTheme} from "@mui/styles";
 import {AppTheme} from "app/components/appTheme";
 import AppBarAction from "common/appbar/AppBarAction";
+import Box from "@mui/material/Box";
 
 const CitiesView = () => {
     const [selectedCity, setSelectedCity] = useState<Undefined<City>>(undefined)
@@ -48,8 +49,6 @@ const CitiesView = () => {
             <AppBarContainer>
                 <Toolbar>
                     <AppBarTitle title={selectedCity?.name || messages.citiesTable.noSelection}/>
-                    <AppBarAction action={'add_city'} label={messages.citiesTable.addCity} icon={"Add"}
-                                  callback={onAppBarAction}/>
                 </Toolbar>
             </AppBarContainer>
             <Grid container direction="column" spacing={2}>
@@ -60,6 +59,19 @@ const CitiesView = () => {
                     <CityDetailsView storage={cityStorage} city={selectedCity} onModify={onUpdateModifiedCity}/>
                 </Grid>
             </Grid>
+
+            <AppBar position="fixed"
+                    sx={{top: 'auto', bottom: 0, backgroundColor: theme.custom.appBar.backgroundColor}}>
+
+                <Toolbar>
+                    <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', flexGrow: 1}}>
+                        <AppBarAction action={'add_city'} label={messages.citiesTable.addCity} icon={"City"}
+                                      callback={onAppBarAction}/>
+                        <AppBarAction action={'add_item'} label={messages.citiesItemsTable.actions.add} icon={"Storage"}
+                                      callback={onAppBarAction}/>
+                    </Box>
+                </Toolbar>
+            </AppBar>
         </>
     )
 }
