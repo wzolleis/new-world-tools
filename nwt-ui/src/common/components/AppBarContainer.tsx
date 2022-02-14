@@ -23,7 +23,6 @@ export type AppBarContainerProps = PropsWithChildren<AppBarProps>
 const AppBarContainer: FunctionComponent<AppBarContainerProps> = ({children}: AppBarContainerProps) => {
     const classes = useStyles()
     const theme = useTheme<AppTheme>()
-    // style: {backgroundColor: "theme.custom.appBar.backgroundColor}
     return (
         <AppBar sx={{backgroundColor: theme.custom.appBar.backgroundColor}} className={classes.header}
                 position='fixed'

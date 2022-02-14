@@ -20,7 +20,7 @@ const AppBarAction = ({action, label, icon, callback}: AppBarActionProps) => {
         <Button
             variant="outlined"
             startIcon={<AppIcon icon={icon} color={theme.custom.appBar.color}/>}
-            sx={{color: theme.custom.appBar.color}}
+            sx={{color: theme.custom.appBar.color, marginRight: 2}}
             onClick={() => callback(action)}
         >
             {label}
