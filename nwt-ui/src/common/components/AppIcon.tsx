@@ -1,5 +1,3 @@
-import {useTheme} from "@mui/styles";
-import {AppTheme} from "app/components/appTheme";
 import InboxIcon from "@mui/icons-material/Inbox";
 import {AccountBox, DeviceUnknown, Favorite, LocationCity, Menu, Storage, Workspaces} from "@mui/icons-material";
 import PersonIcon from "@mui/icons-material/Person";
@@ -8,34 +6,33 @@ import {IconType} from "common/types/iconType";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 export interface AppIconProps {
-    icon: IconType | undefined
-    color?: string
+    icon: IconType
+
+    [key: string]: unknown
 }
 
-const AppIcon = ({icon, color}: AppIconProps) => {
-    const theme = useTheme<AppTheme>()
-    const iconColor = color || theme.custom.icons.backgroundColor
+const AppIcon = ({icon, ...rest}: AppIconProps) => {
     switch (icon) {
         case "Game":
-            return <InboxIcon sx={{color: iconColor}}/>
+            return <InboxIcon {...rest}/>
         case "Player":
-            return <AccountBox sx={{color: iconColor}}/>
+            return <AccountBox  {...rest}/>
         case "World":
-            return <Workspaces sx={{color: iconColor}}/>
+            return <Workspaces  {...rest}/>
         case "City":
-            return <LocationCity sx={{color: iconColor}}/>
+            return <LocationCity {...rest}/>
         case "Favorites":
-            return <Favorite sx={{color: iconColor}}/>
+            return <Favorite  {...rest}/>
         case "User":
-            return <PersonIcon sx={{color: iconColor}}/>
+            return <PersonIcon  {...rest}/>
         case "Storage":
-            return <Storage sx={{color: iconColor}}/>
+            return <Storage  {...rest}/>
         case "Menu":
-            return <Menu sx={{color: iconColor}}/>
+            return <Menu  {...rest}/>
         case "Add":
-            return <AddCircleIcon sx={{color: iconColor}}/>
+            return <AddCircleIcon  {...rest}/>
         default:
-            return <DeviceUnknown sx={{color: iconColor}}/>
+            return <DeviceUnknown  {...rest}/>
     }
 }
 

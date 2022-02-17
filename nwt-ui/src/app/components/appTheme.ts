@@ -1,31 +1,57 @@
-import {Theme} from "@mui/material";
-import {createTheme} from "@mui/material/styles";
+import {createTheme, Theme} from "@mui/material/styles";
 import {blue} from "@mui/material/colors";
+import {ThemeOptions} from "@mui/material/styles/createTheme";
 
-export interface AppTheme extends Theme {
+interface CustomCssOptions {
     custom: {
-        appBar: {
-            backgroundColor: string
-            color: string // Farbe der Elemente in der AppBar, passend zu backgroundColor
-        }
-        icons: {
-            backgroundColor: string
+        menuIcons: {
+            color: string
+        },
+        appBarIcons: {
+            color: string
+        },
+        appBarButtons: {
+            color: string
         }
     }
 }
 
-const cssVariables = {
+
+export type AppTheme = Theme & CustomCssOptions
+const cssVariables: CustomCssOptions = {
     custom: {
-        appBar: {
-            backgroundColor: blue[900],
+        menuIcons: {
+            color: blue[900]
+        },
+        appBarIcons: {
             color: "white"
         },
-        icons: {
-            backgroundColor: blue[900]
+        appBarButtons: {
+            color: "white"
         }
     }
 };
 
-const theme: AppTheme = createTheme({}, cssVariables) as AppTheme;
+const themeOptions: ThemeOptions = {
+    components: {
+        MuiAppBar: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: blue[900],
+                },
+            },
+        },
+        MuiSvgIcon: {
+            styleOverrides: {
+                root: {
+                    color: blue[900]
+                }
+            }
+        },
+    }
+}
+
+
+const theme: AppTheme = createTheme(themeOptions, cssVariables) as AppTheme;
 
 export default theme

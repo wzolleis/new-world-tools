@@ -3,13 +3,13 @@ import {AppBar, Grid, Toolbar} from "@mui/material";
 import {CitiesTable} from "features/cities/components/CitiesTable";
 import CityDetailsView from "features/cities/components/CityDetailsView";
 import {City, Undefined} from "common/types/commonTypes";
-import AppBarContainer from "common/components/AppBarContainer";
+import TopAppBar from "common/components/TopAppBar";
 import {messages} from "common/i18n/messages";
 import {useAppDispatch, useAppSelector} from "app/state/hooks";
 import {selectCity, updateCity} from "features/cities/state/citiesSlice";
 import AppBarTitle from "common/components/AppBarTitle";
 import {emptyStorage, selectStorage} from "features/storage/state/storageSlice";
-import {useTheme} from "@mui/styles";
+import {useTheme} from "@mui/material/styles";
 import {AppTheme} from "app/components/appTheme";
 import AppBarAction from "common/appbar/AppBarAction";
 import Box from "@mui/material/Box";
@@ -46,11 +46,11 @@ const CitiesView = () => {
 
     return (
         <>
-            <AppBarContainer>
+            <TopAppBar>
                 <Toolbar>
                     <AppBarTitle title={selectedCity?.name || messages.citiesTable.noSelection}/>
                 </Toolbar>
-            </AppBarContainer>
+            </TopAppBar>
             <Grid container direction="column" spacing={2}>
                 <Grid item xs={12} sm={4}>
                     <CitiesTable cities={cities} onRowSelected={onUpdateCitySelection}/>
@@ -60,9 +60,7 @@ const CitiesView = () => {
                 </Grid>
             </Grid>
 
-            <AppBar position="fixed"
-                    sx={{top: 'auto', bottom: 0, backgroundColor: theme.custom.appBar.backgroundColor}}>
-
+            <AppBar position="fixed" sx={{top: 'auto', bottom: 0}} color='primary'>
                 <Toolbar>
                     <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', flexGrow: 1}}>
                         <AppBarAction action={'add_city'} label={messages.citiesTable.addCity} icon={"City"}
