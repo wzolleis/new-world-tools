@@ -4,7 +4,7 @@ import {messages} from "common/i18n/messages";
 import * as React from "react";
 import {useState} from "react";
 import ItemSummaryTable, {ItemSummaryTableRow} from "features/storage/components/ItemSummaryTable";
-import AppBarContainer from "common/components/AppBarContainer";
+import TopAppBar from "common/components/TopAppBar";
 import {Toolbar} from "@mui/material";
 import {selectCity} from "features/cities/state/citiesSlice";
 import {selectStorage} from "features/storage/state/storageSlice";
@@ -22,11 +22,11 @@ const StoragesView = () => {
 
     return (
         <>
-            <AppBarContainer>
+            <TopAppBar>
                 <Toolbar>
                     <AppBarTitle title={itemSummaryText}/>
                 </Toolbar>
-            </AppBarContainer>
+            </TopAppBar>
 
             <Grid container direction="column" spacing={2}>
                 <Grid item xs={12} sm={4}>

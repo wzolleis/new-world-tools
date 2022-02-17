@@ -4,7 +4,7 @@ import {Grid, Toolbar} from "@mui/material";
 import {User} from "common/types/commonTypes";
 import {useAppSelector} from "app/state/hooks";
 import UserCard from "features/user/components/UserCard";
-import AppBarContainer from "common/components/AppBarContainer";
+import TopAppBar from "common/components/TopAppBar";
 import {noDataMessage} from "common/i18n/messages";
 import {selectUser} from "features/user/state/userSlice";
 import AppBarTitle from "common/components/AppBarTitle";
@@ -17,11 +17,11 @@ const UsersView = () => {
 
     return (
         <>
-            <AppBarContainer>
+            <TopAppBar>
                 <Toolbar>
                     <AppBarTitle title={userName}/>
                 </Toolbar>
-            </AppBarContainer>
+            </TopAppBar>
 
             <Grid sx={{flexGrow: 1}} container spacing={{xs: 2, md: 3}} columns={{xs: 1, sm: 1, md: 1}}>
                 {users.map((user: User) => {

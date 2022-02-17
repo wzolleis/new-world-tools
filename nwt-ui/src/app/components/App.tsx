@@ -1,7 +1,7 @@
 import React from "react";
 import {ConfirmProvider} from "material-ui-confirm";
 import {AppRoutes} from "app/components/AppRoutes";
-import {ThemeProvider} from "@mui/styles";
+import {ThemeProvider} from "@mui/material/styles";
 import store from 'app/state/store'
 import {Provider} from 'react-redux'
 import theme from "app/components/appTheme";
@@ -23,4 +23,5 @@ export const App = () => {
             </Provider>
         </ThemeProvider>
     )
+
 }

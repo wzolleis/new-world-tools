@@ -6,6 +6,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import LayoutConstants from "common/components/layoutConstants";
 import {AppTheme} from "app/components/appTheme";
 import AppIcon from "common/components/AppIcon";
+import {useTheme} from "@mui/material/styles";
 
 const useStyles = makeStyles((_: AppTheme) => {
     const {drawerWidth} = LayoutConstants
@@ -19,6 +20,8 @@ const AppMenu = () => {
     const classes = useStyles()
     const navigate = useNavigate()
     const location = useLocation()
+    const theme = useTheme<AppTheme>()
+    const iconColor = theme.custom.menuIcons.color
 
     return (
         <List className={classes.drawer}>
@@ -30,7 +33,7 @@ const AppMenu = () => {
                               selected={active}
                               onClick={() => navigate(item.path)}
                     >
-                        <ListItemIcon><AppIcon icon={item.iconType}/></ListItemIcon>
+                        <ListItemIcon><AppIcon icon={item.iconType} sx={{color: iconColor}}/></ListItemIcon>
                         <ListItemText primary={item.title}/>
                     </ListItem>
                 )
