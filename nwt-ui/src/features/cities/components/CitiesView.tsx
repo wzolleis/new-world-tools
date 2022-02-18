@@ -13,6 +13,7 @@ import {useTheme} from "@mui/material/styles";
 import {AppTheme} from "app/components/appTheme";
 import AppBarAction from "common/appbar/AppBarAction";
 import Box from "@mui/material/Box";
+import CityEditor, {CityFormData} from "features/cities/components/CityEditor";
 
 const CitiesView = () => {
     const [selectedCity, setSelectedCity] = useState<Undefined<City>>(undefined)
@@ -21,6 +22,7 @@ const CitiesView = () => {
     const dispatch = useAppDispatch()
     const cityStorage = storages.find(storage => storage.city === selectedCity?.key) || emptyStorage
     const theme = useTheme<AppTheme>()
+    const [cityEditorVisible, setCityEditorVisible] = React.useState(false);
 
     const onUpdateCitySelection = (city: Undefined<City>) => {
         setSelectedCity(city)
@@ -42,6 +44,15 @@ const CitiesView = () => {
 
     const onAddCity = () => {
         console.log('add city')
+        setCityEditorVisible(true)
+    }
+
+    const handleCityEditorClose = () => {
+        setCityEditorVisible(false)
+    }
+
+    const onSaveCity = (values: CityFormData) => {
+        console.log('save city', values)
     }
 
     return (
@@ -59,14 +70,18 @@ const CitiesView = () => {
                     <CityDetailsView storage={cityStorage} city={selectedCity} onModify={onUpdateModifiedCity}/>
                 </Grid>
             </Grid>
+            <CityEditor city={selectedCity} onSave={onSaveCity} handleClose={handleCityEditorClose}
+                        editorOpen={cityEditorVisible}/>
 
             <AppBar position="fixed" sx={{top: 'auto', bottom: 0}} color='primary'>
                 <Toolbar>
                     <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', flexGrow: 1}}>
                         <AppBarAction action={'add_city'} label={messages.citiesTable.addCity} icon={"City"}
-                                      callback={onAppBarAction}/>
+                                      callback={onAppBarAction}
+                        />
                         <AppBarAction action={'add_item'} label={messages.citiesItemsTable.actions.add} icon={"Storage"}
-                                      callback={onAppBarAction}/>
+                                      callback={onAppBarAction}
+                        />
                     </Box>
                 </Toolbar>
             </AppBar>

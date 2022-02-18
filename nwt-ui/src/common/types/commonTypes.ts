@@ -1,6 +1,7 @@
 export const CityNames = {
     "windward": "windward",
-    "everfall": "everfall"
+    "everfall": "everfall",
+
 }
 
 export const ItemTypes = {
@@ -62,7 +63,7 @@ export interface Player extends WithKey {
 }
 
 export interface City extends WithKey {
-    name: CityName
+    name: string
     details: string
     world: ObjectKey
     player: ObjectKey
