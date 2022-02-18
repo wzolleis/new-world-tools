@@ -35,6 +35,16 @@ export const messages = {
         name: 'Name',
         details: 'City Details'
     },
+    cityEditor: {
+        create: {
+            title: 'Neue Stadt anlegen',
+            description: 'Geben Sie die Eigenschaften der Stadt ein'
+        },
+        fields: {
+            name: 'Name',
+            details: 'Details'
+        }
+    },
     citiesItemsTable: {
         noSelection: 'Bitte ein Item auswählen',
         unknownCity: 'Unbekannte Stadt',
