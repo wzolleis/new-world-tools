@@ -1,7 +1,7 @@
 // Then, handle actions in your reducers:
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {City, Undefined} from "common/types/commonTypes";
-import {update} from "utils/arrayUtils";
+import {insert, update} from "utils/arrayUtils";
 import axios from "axios";
 import {RootState} from "app/state/store";
 import remote from "common/api/restApi";
@@ -42,12 +42,23 @@ export const updateCity = createAsyncThunk(
     }
 )
 
+export const insertCity = createAsyncThunk(
+    'city/insertCity',
+    async (city: City) => {
+        const response = await restApi.post<City>(remote.path.cities, city)
+        return response.data
+    }
+)
+
 const citySlice = createSlice({
     name: 'city',
     initialState,
     reducers: {
         updateCity: (state: CitiesState, action: PayloadAction<CityActionPayload>) => {
             state.cities = update(state.cities, action.payload.city)
+        },
+        insertCity: (state: CitiesState, action: PayloadAction<CityActionPayload>) => {
+            state.cities = insert(state.cities, action.payload.city)
         }
         // standard reducer logic, with auto-generated action types per reducer
     },

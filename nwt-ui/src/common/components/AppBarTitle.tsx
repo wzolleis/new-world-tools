@@ -1,7 +1,7 @@
 import {Typography} from "@mui/material";
 import React from "react";
 import {makeStyles} from "@mui/styles";
-import LayoutConstants from "common/components/layoutConstants";
+import LayoutConstants from "common/constants/layoutConstants";
 import {AppTheme} from "app/components/appTheme";
 
 interface AppBarTitleProps {

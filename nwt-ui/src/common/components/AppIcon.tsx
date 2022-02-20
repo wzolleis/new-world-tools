@@ -4,6 +4,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import React from "react";
 import {IconType} from "common/types/iconType";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export interface AppIconProps {
     icon: IconType
@@ -31,6 +33,10 @@ const AppIcon = ({icon, ...rest}: AppIconProps) => {
             return <Menu  {...rest}/>
         case "Add":
             return <AddCircleIcon  {...rest}/>
+        case "Edit":
+            return <EditIcon  {...rest}/>
+        case "Delete":
+            return <DeleteIcon  {...rest}/>
         default:
             return <DeviceUnknown  {...rest}/>
     }
