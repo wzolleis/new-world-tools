@@ -28,7 +28,9 @@ export const messages = {
         details: 'Details',
         actions: 'Aktionen',
         noSelection: 'Bitte eine Stadt auswählen',
-        addCity: 'Stadt hinzufügen'
+        addCity: 'Stadt hinzufügen',
+        editCity: 'Stadt ändern',
+        deleteCity: 'Stadt löschen'
     },
     cityDetails: {
         title: (name: string) => `Die Eigenschaften von ${name}`,
@@ -39,6 +41,9 @@ export const messages = {
         create: {
             title: 'Neue Stadt anlegen',
             description: 'Geben Sie die Eigenschaften der Stadt ein'
+        },
+        edit: {
+            title: 'Stadt ändern'
         },
         fields: {
             name: 'Name',

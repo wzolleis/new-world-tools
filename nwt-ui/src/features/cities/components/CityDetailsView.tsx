@@ -8,7 +8,6 @@ import CityItemTable from "features/cities/components/CityItemTable";
 export interface CityDetailsViewProps {
     city: City | undefined
     storage: CityStorage
-    onModify: (city: City) => void
 }
 
 interface CityFormData {
@@ -24,12 +23,11 @@ const formValues = (city: City | undefined): CityFormData => {
     return city ? {name: city.name, details: city.details} : emptyFormValues
 }
 
-const CityDetailsView = ({city, storage, onModify}: CityDetailsViewProps) => {
+const CityDetailsView = ({city, storage}: CityDetailsViewProps) => {
     const defaultValues = formValues(city)
     const {
         register,
         reset,
-        getValues,
     } = useForm({
         defaultValues
     });
@@ -40,16 +38,16 @@ const CityDetailsView = ({city, storage, onModify}: CityDetailsViewProps) => {
         }
     }, [city])
 
-    const onFormChange = () => {
-        if (!!city) {
-            const values: CityFormData = getValues()
-            const updatedCity: City = {
-                ...city,
-                details: values.details
-            }
-            onModify(updatedCity)
-        }
-    };
+    // const onFormChange = () => {
+    //     if (!!city) {
+    //         const values: CityFormData = getValues()
+    //         const updatedCity: City = {
+    //             ...city,
+    //             details: values.details
+    //         }
+    //         onModify(updatedCity)
+    //     }
+    // };
 
     if (!city) return null
     return (
@@ -76,7 +74,6 @@ const CityDetailsView = ({city, storage, onModify}: CityDetailsViewProps) => {
                         fullWidth
                         variant="outlined"
                         {...register('details')}
-                        onBlur={onFormChange}
                     />
                 </Grid>
                 <Grid item xs={6} sm={6}>

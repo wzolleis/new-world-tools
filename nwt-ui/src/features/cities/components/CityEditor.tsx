@@ -10,8 +10,9 @@ import {City} from "common/types/commonTypes";
 import {Controller, useForm} from "react-hook-form";
 import {messages} from "common/i18n/messages";
 
-interface CityEditorProps {
-    city: City | undefined
+export interface CityEditorProps {
+    city: City
+    title: string
     onSave: (city: CityFormData) => void
     handleClose: () => void
     editorOpen: boolean
@@ -22,10 +23,10 @@ export interface CityFormData {
     details: string
 }
 
-const CityEditor = ({city, onSave, handleClose, editorOpen}: CityEditorProps) => {
+const CityEditor = ({city, title, onSave, handleClose, editorOpen}: CityEditorProps) => {
     const emptyFormValues: CityFormData = {name: '', details: ''}
     const initialValues: CityFormData = city ? {name: city.name, details: city.details} : emptyFormValues
-    const {handleSubmit, control, getValues, reset} = useForm<CityFormData>({
+    const {handleSubmit, control, reset} = useForm<CityFormData>({
         defaultValues: initialValues
     })
 
@@ -51,7 +52,7 @@ const CityEditor = ({city, onSave, handleClose, editorOpen}: CityEditorProps) =>
 
     return (
         <Dialog open={editorOpen} onClose={handleClose}>
-            <DialogTitle>{messages.cityEditor.create.title}</DialogTitle>
+            <DialogTitle>{title}</DialogTitle>
             <form>
                 <DialogContent>
                     <DialogContentText>

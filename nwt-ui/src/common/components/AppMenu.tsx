@@ -3,7 +3,7 @@ import {menuItems} from "app/menu/data/appMenuEntries";
 import React from "react";
 import {makeStyles} from "@mui/styles";
 import {useLocation, useNavigate} from "react-router-dom";
-import LayoutConstants from "common/components/layoutConstants";
+import LayoutConstants from "common/constants/layoutConstants";
 import {AppTheme} from "app/components/appTheme";
 import AppIcon from "common/components/AppIcon";
 import {useTheme} from "@mui/material/styles";

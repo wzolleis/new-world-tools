@@ -1,7 +1,7 @@
 import {AppBar} from "@mui/material";
 import React, {FunctionComponent, PropsWithChildren} from "react";
 import {makeStyles, useTheme} from "@mui/styles";
-import LayoutConstants from "common/components/layoutConstants";
+import LayoutConstants from "common/constants/layoutConstants";
 import {AppTheme} from "app/components/appTheme";
 
 const useStyles = makeStyles((theme: AppTheme) => {

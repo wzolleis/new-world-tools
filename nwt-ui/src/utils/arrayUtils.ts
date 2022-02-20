@@ -9,6 +9,13 @@ export const update = <T extends WithKey>(values: T[], replaceWith: T): T[] => {
         ...remove(values, replaceWith.key),
         replaceWith
     ]
+
+}
+export const insert = <T extends WithKey>(values: T[], toInsert: T): T[] => {
+    return [
+        ...values,
+        toInsert
+    ]
 }
 
 export const findByKey = <T extends WithKey>(values: T[], key: ObjectKey): (T | undefined) => {

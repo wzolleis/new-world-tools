@@ -3,7 +3,7 @@ import {useAppDispatch} from "app/state/hooks";
 import {messages} from "common/i18n/messages";
 import {Toolbar, Typography} from "@mui/material";
 import {makeStyles} from "@mui/styles";
-import LayoutConstants from "common/components/layoutConstants";
+import LayoutConstants from "common/constants/layoutConstants";
 import TopAppBar from "common/components/TopAppBar";
 import {loadData} from "features/data/state/dataSlice";
 import {AppTheme} from "app/components/appTheme";
