@@ -1,7 +1,6 @@
-import {Grid, TextField, Typography} from "@mui/material";
+import {Grid, Typography} from "@mui/material";
 import {City, CityStorage} from "common/types/commonTypes";
-import {useForm} from 'react-hook-form'
-import React, {useEffect} from "react";
+import React from "react";
 import {messages} from "common/i18n/messages";
 import CityItemTable from "features/cities/components/CityItemTable";
 
@@ -24,58 +23,10 @@ const formValues = (city: City | undefined): CityFormData => {
 }
 
 const CityDetailsView = ({city, storage}: CityDetailsViewProps) => {
-    const defaultValues = formValues(city)
-    const {
-        register,
-        reset,
-    } = useForm({
-        defaultValues
-    });
-
-    useEffect(() => {
-        if (!!city) {
-            reset(defaultValues)
-        }
-    }, [city])
-
-    // const onFormChange = () => {
-    //     if (!!city) {
-    //         const values: CityFormData = getValues()
-    //         const updatedCity: City = {
-    //             ...city,
-    //             details: values.details
-    //         }
-    //         onModify(updatedCity)
-    //     }
-    // };
-
     if (!city) return null
     return (
         <div>
-            <Typography variant="h6" align="left" margin="dense">
-                {messages.cityDetails.title(city.name)}
-            </Typography>
-
             <Grid container direction="column" spacing={2}>
-                <Grid item xs={6} sm={6}>
-                    <TextField
-                        id="name"
-                        label={messages.cityDetails.name}
-                        fullWidth
-                        margin="dense"
-                        disabled={true}
-                        {...register('name')}
-                    />
-                </Grid>
-                <Grid item xs={6} sm={6}>
-                    <TextField
-                        id="details"
-                        label={messages.cityDetails.details}
-                        fullWidth
-                        variant="outlined"
-                        {...register('details')}
-                    />
-                </Grid>
                 <Grid item xs={6} sm={6}>
                     <Typography variant="h6" align="left" margin="dense">
                         {messages.citiesItemsTable.lager}

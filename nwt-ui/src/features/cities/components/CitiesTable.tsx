@@ -7,11 +7,12 @@ import {IconButton, ListItemIcon, ListItemText, Menu} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import AppIcon from "common/components/AppIcon";
+import {CityActionHandler} from "features/cities/components/CitiesView";
 
 interface CitiesTableProps {
     cities: City[]
     onRowSelected: (city: City | undefined) => void
-    onTableAction: (action: string) => void
+    actionHandler: CityActionHandler
 }
 
 interface CityTableRow {
@@ -53,14 +54,24 @@ const mapToTableRow = (cities: City[]): CityTableRow[] => {
 
 interface CitiesTableMenuProps {
     anchorEl: HTMLElement | null
-    handleAction: (action: string) => void
+    actionHandler: CityActionHandler
     handleMenuClose: () => void
 }
 
-const CitiesTableMenu = ({anchorEl, handleMenuClose, handleAction}: CitiesTableMenuProps) => {
+const CitiesTableMenu = ({
+                             anchorEl,
+                             handleMenuClose,
+                             actionHandler: {onEditCity, onDeleteCity}
+                         }: CitiesTableMenuProps) => {
+    // Wrapper um neben dem
+    const handleMenuClick = (callback: () => void) => () => {
+        handleMenuClose()
+        callback()
+    }
+
     return (
         <Menu
-            id="basic-menu"
+            id="city-table-menu"
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
             onClose={handleMenuClose}
@@ -68,25 +79,23 @@ const CitiesTableMenu = ({anchorEl, handleMenuClose, handleAction}: CitiesTableM
                 'aria-labelledby': 'basic-button',
             }}
         >
-            <MenuItem onClick={() => handleAction("edit_city")}>
+            <MenuItem onClick={handleMenuClick(onEditCity)}>
                 <ListItemIcon>
                     <AppIcon icon={"Edit"}/>
                 </ListItemIcon>
                 <ListItemText>{messages.crudActions.edit}</ListItemText>
             </MenuItem>
-            <MenuItem onClick={() => handleAction("delete_city")}>
+            <MenuItem onClick={handleMenuClick(onDeleteCity)}>
                 <ListItemIcon>
                     <AppIcon icon={"Delete"}/>
                 </ListItemIcon>
                 <ListItemText>{messages.crudActions.delete}</ListItemText>
             </MenuItem>
-
         </Menu>
-
     )
 }
 
-export const CitiesTable = ({cities, onRowSelected, onTableAction}: CitiesTableProps) => {
+export const CitiesTable = ({cities, onRowSelected, actionHandler}: CitiesTableProps) => {
     // anchor element fuer das Menu der Tabelle, wird beim Klick auf eine Zelle gesetzt
     const rows: CityTableRow[] = mapToTableRow(cities)
 
@@ -113,11 +122,6 @@ export const CitiesTable = ({cities, onRowSelected, onTableAction}: CitiesTableP
         onRowSelected(city)
     }
 
-    const onTableMenuAction = (action: string) => {
-        handleMenuClose()
-        onTableAction(action)
-    }
-
     return (
         <div style={{height: 400, width: '100%'}}>
             <div style={{display: 'flex', height: '100%'}}>
@@ -134,7 +138,8 @@ export const CitiesTable = ({cities, onRowSelected, onTableAction}: CitiesTableP
                     />
                 </div>
 
-                <CitiesTableMenu handleMenuClose={handleMenuClose} handleAction={onTableMenuAction}
+                <CitiesTableMenu handleMenuClose={handleMenuClose}
+                                 actionHandler={actionHandler}
                                  anchorEl={anchorEl}/>
             </div>
         </div>

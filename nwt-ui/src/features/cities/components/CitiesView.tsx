@@ -27,6 +27,18 @@ const cityEditorParamNew: CityEditorParam = {
     city: newCity, title: messages.cityEditor.create.title
 }
 
+export interface CityActionHandler {
+    onAddCity: () => void
+    onEditCity: () => void
+    onSaveCity: (values: CityFormData) => void
+    onCancel: () => void
+    onDeleteCity: () => void
+}
+
+export interface ItemActionHandler {
+    onAddItem: () => void
+}
+
 const CitiesView = () => {
     const [selectedCity, setSelectedCity] = useState<Undefined<City>>(undefined)
     const {cities} = useAppSelector(selectCity)
@@ -44,48 +56,52 @@ const CitiesView = () => {
         })
     }
 
-    // const onUpdateModifiedCity = (toUpdate: City) => {
-
-    // }
-
-    const onCityAction = (action: string) => {
-        console.log('action', action)
-        if (action === 'add_city') onAddCity()
-        if (action === 'edit_city') onEditCity()
+    const cityActionCallbacks: CityActionHandler = {
+        onAddCity: () => {
+            setCityEditorParam({
+                ...cityEditorParam,
+                city: newCity,
+                title: messages.cityEditor.create.title
+            })
+            setCityEditorVisible(true)
+        },
+        onEditCity: () => {
+            setCityEditorParam({
+                ...cityEditorParam,
+                city: selectedCity || newCity,
+                title: messages.cityEditor.edit.title
+            })
+            setCityEditorVisible(true)
+        },
+        onSaveCity: (values: CityFormData) => {
+            handleCityEditorClose()
+            const toUpdate = {
+                ...cityEditorParam.city,
+                ...values
+            }
+            const cityExists = cities.findIndex(city => city.key === toUpdate.key) >= 0
+            if (cityExists)
+                dispatch(updateCity(toUpdate))
+            else
+                dispatch(insertCity(toUpdate))
+        },
+        onCancel: () => {
+            setCityEditorVisible(false)
+        },
+        onDeleteCity: () => {
+            // TODO
+            console.log('TODO: delete city:', selectedCity)
+        }
     }
 
-    const onAddCity = () => {
-        setCityEditorParam({
-            ...cityEditorParam,
-            city: newCity,
-            title: messages.cityEditor.create.title
-        })
-        setCityEditorVisible(true)
-    }
-
-    const onEditCity = () => {
-        setCityEditorParam({
-            ...cityEditorParam,
-            city: selectedCity || newCity,
-            title: messages.cityEditor.edit.title
-        })
-        setCityEditorVisible(true)
+    const itemActionCallbacks: ItemActionHandler = {
+        onAddItem: () => {
+            console.log('TODO: add item')
+        }
     }
 
     const handleCityEditorClose = () => {
         setCityEditorVisible(false)
-    }
-
-    const onSaveCity = (values: CityFormData) => {
-        const toUpdate = {
-            ...cityEditorParam.city,
-            ...values
-        }
-        const cityExists = cities.findIndex(city => city.key === toUpdate.key) >= 0
-        if (cityExists)
-            dispatch(updateCity(toUpdate))
-        else
-            dispatch(insertCity(toUpdate))
     }
 
     return (
@@ -97,7 +113,8 @@ const CitiesView = () => {
             </TopAppBar>
             <Grid container direction="column" spacing={2}>
                 <Grid item xs={12} sm={4}>
-                    <CitiesTable cities={cities} onRowSelected={onUpdateCitySelection} onTableAction={onCityAction}/>
+                    <CitiesTable cities={cities} onRowSelected={onUpdateCitySelection}
+                                 actionHandler={cityActionCallbacks}/>
                 </Grid>
                 <Grid item xs={12} sm={4}>
                     <CityDetailsView storage={cityStorage} city={selectedCity}/>
@@ -105,18 +122,17 @@ const CitiesView = () => {
             </Grid>
             <CityEditor city={cityEditorParam.city}
                         title={cityEditorParam.title}
-                        onSave={onSaveCity}
-                        handleClose={handleCityEditorClose}
+                        actionHandler={cityActionCallbacks}
                         editorOpen={cityEditorVisible}/>
 
             <AppBar position="fixed" sx={{top: 'auto', bottom: 0}} color='primary'>
                 <Toolbar>
                     <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', flexGrow: 1}}>
-                        <AppBarAction action={'add_city'} label={messages.citiesTable.addCity} icon={"City"}
-                                      callback={onCityAction}
+                        <AppBarAction label={messages.citiesTable.addCity} icon={"City"}
+                                      callback={cityActionCallbacks.onAddCity}
                         />
-                        <AppBarAction action={'add_item'} label={messages.citiesItemsTable.actions.add} icon={"Storage"}
-                                      callback={onCityAction}
+                        <AppBarAction label={messages.citiesItemsTable.actions.add} icon={"Storage"}
+                                      callback={itemActionCallbacks.onAddItem}
                         />
                     </Box>
                 </Toolbar>

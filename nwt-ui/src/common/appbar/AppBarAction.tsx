@@ -4,18 +4,17 @@ import AppBarIcon from "common/appbar/AppBarIcon";
 import AppBarButton from "common/appbar/AppBarButton";
 
 interface AppBarActionProps {
-    action: string
     label: string
     icon: IconType
-    callback: (action: string) => void
+    callback: () => void
 }
 
-const AppBarAction = ({action, label, icon, callback}: AppBarActionProps) => {
+const AppBarAction = ({label, icon, callback}: AppBarActionProps) => {
     return (
         <AppBarButton
             variant="outlined"
             startIcon={<AppBarIcon icon={icon}/>}
-            onClick={() => callback(action)}
+            onClick={callback}
         >
             {label}
         </AppBarButton>
