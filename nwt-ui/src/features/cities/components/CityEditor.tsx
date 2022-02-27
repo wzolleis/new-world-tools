@@ -23,7 +23,7 @@ export interface CityFormData {
     details: string
 }
 
-const CityEditor = ({city, title, actionHandler: {onSaveCity, onCancel}, editorOpen}: CityEditorProps) => {
+const CityEditor = ({city, title, actionHandler: {onSubmit, onCancel}, editorOpen}: CityEditorProps) => {
     const emptyFormValues: CityFormData = {name: '', details: ''}
     const initialValues: CityFormData = city ? {name: city.name, details: city.details} : emptyFormValues
     const {handleSubmit, control, reset} = useForm<CityFormData>({
@@ -40,9 +40,9 @@ const CityEditor = ({city, title, actionHandler: {onSaveCity, onCancel}, editorO
     //     formState,
     // }
 
-    const onSubmit = (values: CityFormData) => {
+    const onFormSubmit = (values: CityFormData) => {
         reset(emptyFormValues)
-        onSaveCity(values)
+        onSubmit(values)
     }
 
     return (
@@ -89,7 +89,7 @@ const CityEditor = ({city, title, actionHandler: {onSaveCity, onCancel}, editorO
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={onCancel}>{messages.common.cancelButton}</Button>
-                    <Button onClick={handleSubmit(onSubmit)}>{messages.common.saveButton}</Button>
+                    <Button onClick={handleSubmit(onFormSubmit)}>{messages.common.saveButton}</Button>
                 </DialogActions>
             </form>
         </Dialog>

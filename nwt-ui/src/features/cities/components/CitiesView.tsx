@@ -30,9 +30,10 @@ const cityEditorParamNew: CityEditorParam = {
 export interface CityActionHandler {
     onAddCity: () => void
     onEditCity: () => void
-    onSaveCity: (values: CityFormData) => void
+    onSubmit: (values: CityFormData) => void
     onCancel: () => void
     onDeleteCity: () => void
+    onSelect: (city: Undefined<City>) => void
 }
 
 export interface ItemActionHandler {
@@ -47,14 +48,6 @@ const CitiesView = () => {
     const cityStorage = storages.find(storage => storage.city === selectedCity?.key) || emptyStorage
     const [cityEditorVisible, setCityEditorVisible] = React.useState(false);
     const [cityEditorParam, setCityEditorParam] = React.useState<CityEditorParam>(cityEditorParamNew)
-
-    const onUpdateCitySelection = (city: Undefined<City>) => {
-        setSelectedCity(city)
-        setCityEditorParam({
-            ...cityEditorParam,
-            city: city || newCity
-        })
-    }
 
     const cityActionCallbacks: CityActionHandler = {
         onAddCity: () => {
@@ -73,7 +66,7 @@ const CitiesView = () => {
             })
             setCityEditorVisible(true)
         },
-        onSaveCity: (values: CityFormData) => {
+        onSubmit: (values: CityFormData) => {
             handleCityEditorClose()
             const toUpdate = {
                 ...cityEditorParam.city,
@@ -91,6 +84,13 @@ const CitiesView = () => {
         onDeleteCity: () => {
             // TODO
             console.log('TODO: delete city:', selectedCity)
+        },
+        onSelect: (city: Undefined<City>) => {
+            setSelectedCity(city)
+            setCityEditorParam({
+                ...cityEditorParam,
+                city: city || newCity
+            })
         }
     }
 
@@ -113,8 +113,7 @@ const CitiesView = () => {
             </TopAppBar>
             <Grid container direction="column" spacing={2}>
                 <Grid item xs={12} sm={4}>
-                    <CitiesTable cities={cities} onRowSelected={onUpdateCitySelection}
-                                 actionHandler={cityActionCallbacks}/>
+                    <CitiesTable cities={cities} actionHandler={cityActionCallbacks}/>
                 </Grid>
                 <Grid item xs={12} sm={4}>
                     <CityDetailsView storage={cityStorage} city={selectedCity}/>
