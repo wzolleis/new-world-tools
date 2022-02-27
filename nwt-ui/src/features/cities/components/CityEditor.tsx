@@ -9,13 +9,13 @@ import DialogTitle from '@mui/material/DialogTitle';
 import {City} from "common/types/commonTypes";
 import {Controller, useForm} from "react-hook-form";
 import {messages} from "common/i18n/messages";
+import {CityActionHandler} from "features/cities/components/CitiesView";
 
 export interface CityEditorProps {
     city: City
     title: string
-    onSave: (city: CityFormData) => void
-    handleClose: () => void
     editorOpen: boolean
+    actionHandler: CityActionHandler
 }
 
 export interface CityFormData {
@@ -23,7 +23,7 @@ export interface CityFormData {
     details: string
 }
 
-const CityEditor = ({city, title, onSave, handleClose, editorOpen}: CityEditorProps) => {
+const CityEditor = ({city, title, actionHandler: {onSaveCity, onCancel}, editorOpen}: CityEditorProps) => {
     const emptyFormValues: CityFormData = {name: '', details: ''}
     const initialValues: CityFormData = city ? {name: city.name, details: city.details} : emptyFormValues
     const {handleSubmit, control, reset} = useForm<CityFormData>({
@@ -40,18 +40,13 @@ const CityEditor = ({city, title, onSave, handleClose, editorOpen}: CityEditorPr
     //     formState,
     // }
 
-    const onFormSave = (values: CityFormData) => {
+    const onSubmit = (values: CityFormData) => {
         reset(emptyFormValues)
-        onSave(values)
-        handleClose()
-    }
-
-    const onFormCancel = () => {
-        handleClose()
+        onSaveCity(values)
     }
 
     return (
-        <Dialog open={editorOpen} onClose={handleClose}>
+        <Dialog open={editorOpen} onClose={onCancel}>
             <DialogTitle>{title}</DialogTitle>
             <form>
                 <DialogContent>
@@ -93,8 +88,8 @@ const CityEditor = ({city, title, onSave, handleClose, editorOpen}: CityEditorPr
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={onFormCancel}>{messages.common.cancelButton}</Button>
-                    <Button onClick={handleSubmit(onFormSave)}>{messages.common.saveButton}</Button>
+                    <Button onClick={onCancel}>{messages.common.cancelButton}</Button>
+                    <Button onClick={handleSubmit(onSubmit)}>{messages.common.saveButton}</Button>
                 </DialogActions>
             </form>
         </Dialog>
