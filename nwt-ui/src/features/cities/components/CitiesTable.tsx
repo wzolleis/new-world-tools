@@ -11,7 +11,6 @@ import {CityActionHandler} from "features/cities/components/CitiesView";
 
 interface CitiesTableProps {
     cities: City[]
-    onRowSelected: (city: City | undefined) => void
     actionHandler: CityActionHandler
 }
 
@@ -34,7 +33,8 @@ const columns = (handleTableActionsClick: (event: React.MouseEvent<HTMLButtonEle
         filterable: false,
         renderCell: (params: GridRenderCellParams) => {
             return (
-                <IconButton onClick={(event: React.MouseEvent<HTMLButtonElement>) => handleTableActionsClick(event, params.id as string)}>
+                <IconButton
+                    onClick={(event: React.MouseEvent<HTMLButtonElement>) => handleTableActionsClick(event, params.id as string)}>
                     <MoreHorizIcon/>
                 </IconButton>
             )
@@ -95,17 +95,19 @@ const CitiesTableMenu = ({
     )
 }
 
-export const CitiesTable = ({cities, onRowSelected, actionHandler}: CitiesTableProps) => {
+export const CitiesTable = ({cities, actionHandler}: CitiesTableProps) => {
     // anchor element fuer das Menu der Tabelle, wird beim Klick auf eine Zelle gesetzt
     const rows: CityTableRow[] = mapToTableRow(cities)
-
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const initialSelection = cities.length > 0 ? [cities[0].key] : []
     const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>(initialSelection);
+
+    const {onSelect} = actionHandler
+
     useEffect(() => {
         if (initialSelection.length > 0) {
             const selectedCity = cities.find(city => city.key === initialSelection[0])
-            onRowSelected(selectedCity)
+            onSelect(selectedCity)
         }
     }, [])
     const handleMenuClose = () => {
@@ -119,7 +121,7 @@ export const CitiesTable = ({cities, onRowSelected, actionHandler}: CitiesTableP
         setSelectionModel(selectionModel)
         const cityKey = selectionModel.length > 0 ? selectionModel[0] : null
         const city = cities.find(city => city.key === cityKey)
-        onRowSelected(city)
+        onSelect(city)
     }
 
     return (
