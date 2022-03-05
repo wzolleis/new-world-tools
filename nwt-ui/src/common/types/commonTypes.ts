@@ -1,3 +1,5 @@
+import * as React from "react";
+
 export const CityNames = {
     "windward": "windward",
     "everfall": "everfall",
@@ -94,3 +96,5 @@ export interface AppError {
 export const dataStates = {
     'active': 'active',
 }
+
+export type TableActionClickHandler = (event: React.MouseEvent<HTMLButtonElement>, rowId: ObjectKey) => void
