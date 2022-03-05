@@ -50,6 +50,19 @@ export const messages = {
             details: 'Details'
         }
     },
+    itemEditor: {
+        create: {
+            title: 'Neues Item anlegen',
+            description: 'Geben Sie die Eigenschaften ein'
+        },
+        edit: {
+            title: 'Iten ändern'
+        },
+        fields: {
+            name: 'Name',
+            details: 'Details'
+        },
+    },
     citiesItemsTable: {
         noSelection: 'Bitte ein Item auswählen',
         unknownCity: 'Unbekannte Stadt',

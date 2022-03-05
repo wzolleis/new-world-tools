@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {AppBar, Grid, Toolbar} from "@mui/material";
 import {CitiesTable} from "features/cities/components/CitiesTable";
 import CityDetailsView from "features/cities/components/CityDetailsView";
-import {City, Undefined} from "common/types/commonTypes";
+import {City, Item, Undefined} from "common/types/commonTypes";
 import TopAppBar from "common/components/TopAppBar";
 import {messages} from "common/i18n/messages";
 import {useAppDispatch, useAppSelector} from "app/state/hooks";
@@ -13,9 +13,15 @@ import AppBarAction from "common/appbar/AppBarAction";
 import Box from "@mui/material/Box";
 import CityEditor, {CityFormData} from "features/cities/components/CityEditor";
 import {v4 as uuidv4} from 'uuid';
+import ItemEditor, {ItemFormData} from "features/storage/components/ItemEditor";
 
 interface CityEditorParam {
     city: City
+    title: string
+}
+
+interface ItemEditorParam {
+    item: Item
     title: string
 }
 
@@ -23,8 +29,20 @@ const newCity: City = {
     name: '', details: '', key: uuidv4(), player: '', world: ''
 }
 
+const newItem: Item = {
+    category: 'resource',
+    attributes: {},
+    quantity: 0,
+    name: '',
+    key: uuidv4()
+}
+
 const cityEditorParamNew: CityEditorParam = {
     city: newCity, title: messages.cityEditor.create.title
+}
+
+const itemEditorParamNew: ItemEditorParam = {
+    item: newItem, title: messages.itemEditor.create.title
 }
 
 export interface CityActionHandler {
@@ -38,6 +56,8 @@ export interface CityActionHandler {
 
 export interface ItemActionHandler {
     onAddItem: () => void
+    onCancel: () => void
+    onSubmit: (values: ItemFormData) => void
 }
 
 const CitiesView = () => {
@@ -47,7 +67,9 @@ const CitiesView = () => {
     const dispatch = useAppDispatch()
     const cityStorage = storages.find(storage => storage.city === selectedCity?.key) || emptyStorage
     const [cityEditorVisible, setCityEditorVisible] = React.useState(false);
+    const [itemEditorVisible, setItemEditorVisible] = React.useState(false);
     const [cityEditorParam, setCityEditorParam] = React.useState<CityEditorParam>(cityEditorParamNew)
+    const [itemEditorParam, setItemEditorParam] = React.useState<ItemEditorParam>(itemEditorParamNew)
 
     const cityActionCallbacks: CityActionHandler = {
         onAddCity: () => {
@@ -67,7 +89,7 @@ const CitiesView = () => {
             setCityEditorVisible(true)
         },
         onSubmit: (values: CityFormData) => {
-            handleCityEditorClose()
+            setCityEditorVisible(false)
             const toUpdate = {
                 ...cityEditorParam.city,
                 ...values
@@ -97,11 +119,14 @@ const CitiesView = () => {
     const itemActionCallbacks: ItemActionHandler = {
         onAddItem: () => {
             console.log('TODO: add item')
+            setItemEditorVisible(true)
+        },
+        onCancel: () => {
+            setItemEditorVisible(false)
+        },
+        onSubmit: (values: ItemFormData) => {
+            setItemEditorVisible(false)
         }
-    }
-
-    const handleCityEditorClose = () => {
-        setCityEditorVisible(false)
     }
 
     return (
@@ -123,6 +148,9 @@ const CitiesView = () => {
                         title={cityEditorParam.title}
                         actionHandler={cityActionCallbacks}
                         editorOpen={cityEditorVisible}/>
+
+            <ItemEditor item={itemEditorParam.item} title={itemEditorParam.title} editorOpen={itemEditorVisible}
+                        actionHandler={itemActionCallbacks}/>
 
             <AppBar position="fixed" sx={{top: 'auto', bottom: 0}} color='primary'>
                 <Toolbar>
