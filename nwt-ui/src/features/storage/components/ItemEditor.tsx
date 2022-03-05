@@ -43,7 +43,7 @@ const ItemEditor = ({item, title, actionHandler: {onCancel, onSubmit}, editorOpe
             <form>
                 <DialogContent>
                     <DialogContentText>
-                        {messages.cityEditor.create.description}
+                        {messages.itemEditor.create.description}
                     </DialogContentText>
                     <Controller
                         control={control}
@@ -55,7 +55,7 @@ const ItemEditor = ({item, title, actionHandler: {onCancel, onSubmit}, editorOpe
                                 autoFocus
                                 margin="dense"
                                 id="name"
-                                label={messages.cityEditor.fields.name}
+                                label={messages.itemEditor.fields.name}
                                 type="text"
                                 fullWidth
                                 variant="standard"
@@ -73,7 +73,7 @@ const ItemEditor = ({item, title, actionHandler: {onCancel, onSubmit}, editorOpe
                                 autoFocus
                                 margin="dense"
                                 id="quantity"
-                                label={messages.cityEditor.fields.name}
+                                label={messages.itemEditor.fields.quantity}
                                 type="number"
                                 fullWidth
                                 variant="standard"

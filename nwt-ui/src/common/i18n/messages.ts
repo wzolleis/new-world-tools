@@ -18,6 +18,9 @@ export const messages = {
         storages: 'Lager',
         favorites: 'Lesezeichen'
     },
+    table: {
+        actions: 'Aktionen'
+    },
     welcomePage: {
         appBarTitle: 'Willkommen zu den New World Tools',
         description: 'Hier werden alle Daten der New World Inhalte angezeigt, z.B. Spieler, Welten, Städte, Lager,...'
@@ -26,7 +29,6 @@ export const messages = {
         world: 'Welt',
         city: 'Stadt',
         details: 'Details',
-        actions: 'Aktionen',
         noSelection: 'Bitte eine Stadt auswählen',
         addCity: 'Stadt hinzufügen',
         editCity: 'Stadt ändern',
@@ -60,6 +62,7 @@ export const messages = {
         },
         fields: {
             name: 'Name',
+            quantity: 'Anzahl',
             details: 'Details'
         },
     },

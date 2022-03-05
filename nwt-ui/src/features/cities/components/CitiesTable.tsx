@@ -1,5 +1,5 @@
 import {DataGrid, GridCallbackDetails, GridColDef, GridRenderCellParams, GridSelectionModel} from '@mui/x-data-grid';
-import {City, ObjectKey} from "common/types/commonTypes";
+import {City, ObjectKey, TableActionClickHandler} from "common/types/commonTypes";
 import {messages} from "common/i18n/messages";
 import * as React from "react";
 import {useEffect} from "react";
@@ -20,7 +20,7 @@ interface CityTableRow {
     details: string
 }
 
-const columns = (handleTableActionsClick: (event: React.MouseEvent<HTMLButtonElement>, rowId: ObjectKey) => void): GridColDef[] => [
+const columns = (handleTableActionsClick: TableActionClickHandler): GridColDef[] => [
     {
         field: 'city', headerName: messages.citiesTable.city, filterable: true, flex: 1
     },
@@ -29,7 +29,7 @@ const columns = (handleTableActionsClick: (event: React.MouseEvent<HTMLButtonEle
     },
     {
         field: 'actions',
-        headerName: messages.citiesTable.actions,
+        headerName: messages.table.actions,
         filterable: false,
         renderCell: (params: GridRenderCellParams) => {
             return (
@@ -63,7 +63,6 @@ const CitiesTableMenu = ({
                              handleMenuClose,
                              actionHandler: {onEditCity, onDeleteCity}
                          }: CitiesTableMenuProps) => {
-    // Wrapper um neben dem
     const handleMenuClick = (callback: () => void) => () => {
         handleMenuClose()
         callback()
