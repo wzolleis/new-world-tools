@@ -1,17 +1,18 @@
 import {City, CityStorage, Item, ObjectKey, TableActionClickHandler} from "common/types/commonTypes";
 import {DataGrid, GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
 import {messages} from "common/i18n/messages";
-import {ItemActionHandler} from "features/cities/components/CitiesView";
 import {IconButton, ListItemIcon, ListItemText, Menu} from "@mui/material";
 import * as React from "react";
+import {useContext} from "react";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import MenuItem from "@mui/material/MenuItem";
 import AppIcon from "common/components/AppIcon";
+import {ItemActionHandler} from "features/storage/actions/ItemActionHandler";
+import {ItemActionContext} from "features/cities/components/CitiesView";
 
 interface CityItemTableProps {
     city: City,
     storage: CityStorage
-    actionHandler: ItemActionHandler
 }
 
 interface CityItemTableRow {
@@ -70,7 +71,7 @@ interface ItemTableMenuProps {
 const ItemTableMenu = ({
                            anchorEl,
                            handleMenuClose,
-                           actionHandler: {onEditItem, onDeleteItem}
+                           actionHandler: {onUpdate, onDelete}
                        }: ItemTableMenuProps) => {
 
     const handleMenuClick = (callback: () => void) => () => {
@@ -88,13 +89,13 @@ const ItemTableMenu = ({
                 'aria-labelledby': 'basic-button',
             }}
         >
-            <MenuItem onClick={handleMenuClick(onEditItem)}>
+            <MenuItem onClick={handleMenuClick(onUpdate)}>
                 <ListItemIcon>
                     <AppIcon icon={"Edit"}/>
                 </ListItemIcon>
                 <ListItemText>{messages.crudActions.edit}</ListItemText>
             </MenuItem>
-            <MenuItem onClick={handleMenuClick(onDeleteItem)}>
+            <MenuItem onClick={handleMenuClick(onDelete)}>
                 <ListItemIcon>
                     <AppIcon icon={"Delete"}/>
                 </ListItemIcon>
@@ -104,8 +105,10 @@ const ItemTableMenu = ({
     )
 }
 
-const ItemTable = ({storage, actionHandler}: CityItemTableProps) => {
+const ItemTable = ({storage}: CityItemTableProps) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const actionHandler = useContext(ItemActionContext)
+
     const items = storage?.items || []
     const rows: CityItemTableRow[] = mapToTableData(items)
 

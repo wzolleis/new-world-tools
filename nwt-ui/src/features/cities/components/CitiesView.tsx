@@ -2,7 +2,7 @@ import React, {createContext, useState} from "react";
 import {AppBar, Grid, Toolbar} from "@mui/material";
 import {CitiesTable} from "features/cities/components/CitiesTable";
 import CityDetailsView from "features/cities/components/CityDetailsView";
-import {City, Item, Undefined} from "common/types/commonTypes";
+import {City, Undefined} from "common/types/commonTypes";
 import TopAppBar from "common/components/TopAppBar";
 import {messages} from "common/i18n/messages";
 import {useAppDispatch, useAppSelector} from "app/state/hooks";
@@ -13,7 +13,8 @@ import AppBarAction from "common/appbar/AppBarAction";
 import Box from "@mui/material/Box";
 import CityEditor, {CityFormData} from "features/cities/components/CityEditor";
 import {v4 as uuidv4} from 'uuid';
-import {ItemFormData} from "features/storage/components/ItemEditor";
+import {ItemActionHandler} from "features/storage/actions/ItemActionHandler";
+import ItemEditor from "features/storage/components/ItemEditor";
 
 interface CityEditorParam {
     city: City
@@ -37,29 +38,7 @@ export interface CityActionHandler {
     onSelect: (city: Undefined<City>) => void
 }
 
-export interface ItemActionHandler {
-    onAddItem: () => void
-    onEditItem: () => void
-    onDeleteItem: () => void
-    onCancel: () => void
-    onSubmit: (values: ItemFormData) => void
-    onSelect: (item: Undefined<Item>) => void
-}
-
-export const ItemActionContext = createContext<ItemActionHandler>({
-    onSubmit: () => {
-    },
-    onCancel: () => {
-    },
-    onAddItem: () => {
-    },
-    onEditItem: () => {
-    },
-    onDeleteItem: () => {
-    },
-    onSelect: () => {
-    }
-})
+export const ItemActionContext = createContext<ItemActionHandler>(ItemActionHandler.createInstance())
 
 const CitiesView = () => {
     const [selectedCity, setSelectedCity] = useState<Undefined<City>>(undefined)
@@ -69,6 +48,8 @@ const CitiesView = () => {
     const cityStorage = storages.find(storage => storage.city === selectedCity?.key) || emptyStorage
     const [cityEditorVisible, setCityEditorVisible] = useState(false);
     const [cityEditorParam, setCityEditorParam] = useState<CityEditorParam>(cityEditorParamNew)
+    const [itemEditorVisible, setItemEditorVisible] = useState(false);
+
 
     const cityActionCallbacks: CityActionHandler = {
         onAddCity: () => {
@@ -115,6 +96,10 @@ const CitiesView = () => {
         }
     }
 
+    const itemActionCallbacks = new ItemActionHandler({
+        storages, item: ItemActionHandler.createNewItem(), setEditorVisible: setItemEditorVisible, city: selectedCity
+    })
+
     return (
         <>
             <TopAppBar>
@@ -127,7 +112,9 @@ const CitiesView = () => {
                     <CitiesTable cities={cities} actionHandler={cityActionCallbacks}/>
                 </Grid>
                 <Grid item xs={12} sm={4}>
+                    <ItemActionContext.Provider value={itemActionCallbacks}>
                         <CityDetailsView storage={cityStorage} city={selectedCity}/>
+                    </ItemActionContext.Provider>
                 </Grid>
             </Grid>
             <CityEditor city={cityEditorParam.city}
@@ -135,11 +122,16 @@ const CitiesView = () => {
                         actionHandler={cityActionCallbacks}
                         editorOpen={cityEditorVisible}/>
 
+            <ItemEditor title={"blabla"} editorOpen={itemEditorVisible} actionHandler={itemActionCallbacks}/>
+
             <AppBar position="fixed" sx={{top: 'auto', bottom: 0}} color='primary'>
                 <Toolbar>
                     <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', flexGrow: 1}}>
                         <AppBarAction label={messages.citiesTable.addCity} icon={"City"}
                                       callback={cityActionCallbacks.onAddCity}
+                        />
+                        <AppBarAction label={messages.citiesItemsTable.actions.add} icon={"Storage"}
+                                      callback={itemActionCallbacks.onInsert}
                         />
                     </Box>
                 </Toolbar>

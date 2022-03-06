@@ -1,5 +1,3 @@
-import {ItemActionHandler} from "features/cities/components/CitiesView";
-import {Item} from "common/types/commonTypes";
 import {Controller, useForm} from "react-hook-form";
 import React, {useEffect} from "react";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -9,9 +7,9 @@ import {Dialog, DialogContent} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import DialogActions from "@mui/material/DialogActions";
+import {ItemActionHandler} from "features/storage/actions/ItemActionHandler";
 
 interface CityItemEditorProps {
-    item: Item
     title: string
     editorOpen: boolean
     actionHandler: ItemActionHandler
@@ -22,7 +20,7 @@ export interface ItemFormData {
     quantity: number
 }
 
-const ItemEditor = ({item, title, actionHandler: {onCancel, onSubmit}, editorOpen}: CityItemEditorProps) => {
+const ItemEditor = ({title, actionHandler: {item, onCancel, onSubmit}, editorOpen}: CityItemEditorProps) => {
     const emptyFormValues: ItemFormData = {name: '', quantity: 0}
     const initialValues: ItemFormData = item ? {name: item.name, quantity: item.quantity} : emptyFormValues
     const {handleSubmit, control, reset} = useForm<ItemFormData>({
