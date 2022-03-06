@@ -104,7 +104,7 @@ const ItemTableMenu = ({
     )
 }
 
-const CityItemTable = ({storage, actionHandler}: CityItemTableProps) => {
+const ItemTable = ({storage, actionHandler}: CityItemTableProps) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const items = storage?.items || []
     const rows: CityItemTableRow[] = mapToTableData(items)
@@ -137,4 +137,4 @@ const CityItemTable = ({storage, actionHandler}: CityItemTableProps) => {
     )
 }
 
-export default CityItemTable
+export default ItemTable

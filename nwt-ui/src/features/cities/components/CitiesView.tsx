@@ -13,15 +13,10 @@ import AppBarAction from "common/appbar/AppBarAction";
 import Box from "@mui/material/Box";
 import CityEditor, {CityFormData} from "features/cities/components/CityEditor";
 import {v4 as uuidv4} from 'uuid';
-import ItemEditor, {ItemFormData} from "features/storage/components/ItemEditor";
+import {ItemFormData} from "features/storage/components/ItemEditor";
 
 interface CityEditorParam {
     city: City
-    title: string
-}
-
-interface ItemEditorParam {
-    item: Item
     title: string
 }
 
@@ -29,20 +24,8 @@ const newCity: City = {
     name: '', details: '', key: uuidv4(), player: '', world: ''
 }
 
-const newItem: Item = {
-    category: 'resource',
-    attributes: {},
-    quantity: 0,
-    name: '',
-    key: uuidv4()
-}
-
 const cityEditorParamNew: CityEditorParam = {
     city: newCity, title: messages.cityEditor.create.title
-}
-
-const itemEditorParamNew: ItemEditorParam = {
-    item: newItem, title: messages.itemEditor.create.title
 }
 
 export interface CityActionHandler {
@@ -85,9 +68,7 @@ const CitiesView = () => {
     const dispatch = useAppDispatch()
     const cityStorage = storages.find(storage => storage.city === selectedCity?.key) || emptyStorage
     const [cityEditorVisible, setCityEditorVisible] = useState(false);
-    const [itemEditorVisible, setItemEditorVisible] = useState(false);
     const [cityEditorParam, setCityEditorParam] = useState<CityEditorParam>(cityEditorParamNew)
-    const [itemEditorParam, setItemEditorParam] = useState<ItemEditorParam>(itemEditorParamNew)
 
     const cityActionCallbacks: CityActionHandler = {
         onAddCity: () => {
@@ -133,28 +114,6 @@ const CitiesView = () => {
             })
         }
     }
-    const itemActionCallbacks: ItemActionHandler = {
-        onAddItem: () => {
-            console.log('TODO: add item')
-            setItemEditorVisible(true)
-        },
-        onEditItem: () => {
-            console.log('edit item')
-        },
-        onDeleteItem: () => {
-            console.log('delete item')
-        },
-        onCancel: () => {
-            setItemEditorVisible(false)
-        },
-        onSubmit: (values: ItemFormData) => {
-            setItemEditorVisible(false)
-        },
-        onSelect: (item: Undefined<Item>) => {
-            console.log('item selected', item)
-        }
-    }
-
 
     return (
         <>
@@ -168,9 +127,7 @@ const CitiesView = () => {
                     <CitiesTable cities={cities} actionHandler={cityActionCallbacks}/>
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                    <ItemActionContext.Provider value={itemActionCallbacks}>
                         <CityDetailsView storage={cityStorage} city={selectedCity}/>
-                    </ItemActionContext.Provider>
                 </Grid>
             </Grid>
             <CityEditor city={cityEditorParam.city}
@@ -178,17 +135,11 @@ const CitiesView = () => {
                         actionHandler={cityActionCallbacks}
                         editorOpen={cityEditorVisible}/>
 
-            <ItemEditor item={itemEditorParam.item} title={itemEditorParam.title} editorOpen={itemEditorVisible}
-                        actionHandler={itemActionCallbacks}/>
-
             <AppBar position="fixed" sx={{top: 'auto', bottom: 0}} color='primary'>
                 <Toolbar>
                     <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', flexGrow: 1}}>
                         <AppBarAction label={messages.citiesTable.addCity} icon={"City"}
                                       callback={cityActionCallbacks.onAddCity}
-                        />
-                        <AppBarAction label={messages.citiesItemsTable.actions.add} icon={"Storage"}
-                                      callback={itemActionCallbacks.onAddItem}
                         />
                     </Box>
                 </Toolbar>
