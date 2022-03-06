@@ -37,14 +37,28 @@
     {
       "key": "ae1b45cc-c380-4729-957d-bf4f7554f8af",
       "name": "Everfall",
-      "details": "Metall, Stein, Leder, Schmelzen, Schmiede Lvl 5",
+      "details": "Metall, Stein, Leder, Schmelzen, Schmiede Lvl 4",
       "world": "489f0ec3-abc2-4abf-a67a-a9f0042ab09c",
       "player": "4031e661-91a5-4130-b61e-6c063cfe48ac"
     },
     {
       "key": "ea92ca08-fa23-482e-9de5-196d0cb9628b",
       "name": "Monarch's Bluff",
-      "details": "TBD",
+      "details": "alles super",
+      "world": "489f0ec3-abc2-4abf-a67a-a9f0042ab09c",
+      "player": "4031e661-91a5-4130-b61e-6c063cfe48ac"
+    },
+    {
+      "name": "Windsward",
+      "details": "nichts ausgebaut",
+      "key": "a28312e9-1064-4c35-a8de-14a8defb0ae7",
+      "world": "489f0ec3-abc2-4abf-a67a-a9f0042ab09c",
+      "player": "4031e661-91a5-4130-b61e-6c063cfe48ac"
+    },
+    {
+      "name": "First Light",
+      "details": "Anfänger",
+      "key": "efb2808d-a5c0-4aa4-b98c-0e93786004ac",
       "world": "489f0ec3-abc2-4abf-a67a-a9f0042ab09c",
       "player": "4031e661-91a5-4130-b61e-6c063cfe48ac"
     }
