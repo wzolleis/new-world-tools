@@ -1,0 +1,1 @@
+export type EditorType = 'insert' | 'edit' | 'delete'

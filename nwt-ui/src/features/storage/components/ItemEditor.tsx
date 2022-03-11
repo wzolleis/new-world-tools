@@ -7,12 +7,16 @@ import {Dialog, DialogContent} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import DialogActions from "@mui/material/DialogActions";
+import {Item} from "common/types/commonTypes";
+import {EditorType} from "common/types/editorType";
 import {ItemActionHandler} from "features/storage/actions/ItemActionHandler";
 
 interface CityItemEditorProps {
     title: string
     editorOpen: boolean
-    actionHandler: ItemActionHandler
+    item: Item
+    editorType: EditorType
+    itemActionHandler: ItemActionHandler
 }
 
 export interface ItemFormData {
@@ -20,9 +24,15 @@ export interface ItemFormData {
     quantity: number
 }
 
-const ItemEditor = ({title, actionHandler: {item, onCancel, onSubmit}, editorOpen}: CityItemEditorProps) => {
+const ItemEditor = ({
+                        title,
+                        item,
+                        editorOpen,
+                        editorType,
+                        itemActionHandler: {onClose, onInsert, onUpdate, onCancel}
+                    }: CityItemEditorProps) => {
     const emptyFormValues: ItemFormData = {name: '', quantity: 0}
-    const initialValues: ItemFormData = item ? {name: item.name, quantity: item.quantity} : emptyFormValues
+    const initialValues: ItemFormData = {name: item.name, quantity: item.quantity}
     const {handleSubmit, control, reset} = useForm<ItemFormData>({
         defaultValues: initialValues
     })
@@ -32,11 +42,24 @@ const ItemEditor = ({title, actionHandler: {item, onCancel, onSubmit}, editorOpe
 
     const onFormSubmit = (values: ItemFormData) => {
         reset(emptyFormValues)
-        onSubmit(values)
+        const toSubmit = {
+            ...item,
+            ...values
+        }
+        if (editorType === 'insert') {
+            onInsert(toSubmit)
+        } else if (editorType === 'edit') {
+            onUpdate(toSubmit)
+        }
+        onClose()
+    }
+
+    const onFormCancel = () => {
+        onCancel()
     }
 
     return (
-        <Dialog open={editorOpen} onClose={onCancel}>
+        <Dialog open={editorOpen} onClose={onFormCancel}>
             <DialogTitle>{title}</DialogTitle>
             <form>
                 <DialogContent>
@@ -81,7 +104,7 @@ const ItemEditor = ({title, actionHandler: {item, onCancel, onSubmit}, editorOpe
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={onCancel}>{messages.common.cancelButton}</Button>
+                    <Button onClick={onFormCancel}>{messages.common.cancelButton}</Button>
                     <Button onClick={handleSubmit(onFormSubmit)}>{messages.common.saveButton}</Button>
                 </DialogActions>
             </form>

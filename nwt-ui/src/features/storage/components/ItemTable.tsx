@@ -9,6 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AppIcon from "common/components/AppIcon";
 import {ItemActionHandler} from "features/storage/actions/ItemActionHandler";
 import {ItemActionContext} from "features/cities/components/CitiesView";
+import {EditorType} from "common/types/editorType";
 
 interface CityItemTableProps {
     city: City,
@@ -65,18 +66,19 @@ interface ItemTableMenuProps {
     anchorEl: HTMLElement | null
     actionHandler: ItemActionHandler
     handleMenuClose: () => void
-
+    item: Item
 }
 
 const ItemTableMenu = ({
                            anchorEl,
                            handleMenuClose,
-                           actionHandler: {onUpdate, onDelete}
+                           item,
+                           actionHandler: {onOpen},
                        }: ItemTableMenuProps) => {
 
-    const handleMenuClick = (callback: () => void) => () => {
+    const handleMenuClick = (editorType: EditorType) => {
         handleMenuClose()
-        callback()
+        onOpen(editorType, item)
     }
 
     return (
@@ -89,17 +91,11 @@ const ItemTableMenu = ({
                 'aria-labelledby': 'basic-button',
             }}
         >
-            <MenuItem onClick={handleMenuClick(onUpdate)}>
+            <MenuItem onClick={() => handleMenuClick('edit')}>
                 <ListItemIcon>
                     <AppIcon icon={"Edit"}/>
                 </ListItemIcon>
                 <ListItemText>{messages.crudActions.edit}</ListItemText>
-            </MenuItem>
-            <MenuItem onClick={handleMenuClick(onDelete)}>
-                <ListItemIcon>
-                    <AppIcon icon={"Delete"}/>
-                </ListItemIcon>
-                <ListItemText>{messages.crudActions.delete}</ListItemText>
             </MenuItem>
         </Menu>
     )
@@ -107,16 +103,21 @@ const ItemTableMenu = ({
 
 const ItemTable = ({storage}: CityItemTableProps) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [selectedItem, setSelectedItem] = React.useState<undefined | Item>(undefined);
     const actionHandler = useContext(ItemActionContext)
 
     const items = storage?.items || []
     const rows: CityItemTableRow[] = mapToTableData(items)
 
-    const handleTableActionsClick = (event: React.MouseEvent<HTMLButtonElement>, _: ObjectKey) => {
+    const handleTableActionsClick = (event: React.MouseEvent<HTMLButtonElement>, selected: ObjectKey) => {
         setAnchorEl(event.currentTarget)
+        const mySelectedItem = items.find((item) => item.key === selected)
+        setSelectedItem(mySelectedItem)
+        console.log('handleTableActionClick', mySelectedItem)
     }
     const handleMenuClose = () => {
         setAnchorEl(null);
+        setSelectedItem(undefined)
     };
 
     return (
@@ -133,7 +134,11 @@ const ItemTable = ({storage}: CityItemTableProps) => {
                             showColumnRightBorder={true}
                         />
                     </div>
-                    <ItemTableMenu anchorEl={anchorEl} actionHandler={actionHandler} handleMenuClose={handleMenuClose}/>
+                    <ItemTableMenu anchorEl={anchorEl}
+                                   actionHandler={actionHandler}
+                                   handleMenuClose={handleMenuClose}
+                                   item={selectedItem || ItemActionHandler.createNewItem()}
+                    />
                 </div>
             </div>
         </>

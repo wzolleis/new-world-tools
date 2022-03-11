@@ -2,7 +2,7 @@ import React, {createContext, useState} from "react";
 import {AppBar, Grid, Toolbar} from "@mui/material";
 import {CitiesTable} from "features/cities/components/CitiesTable";
 import CityDetailsView from "features/cities/components/CityDetailsView";
-import {City, Undefined} from "common/types/commonTypes";
+import {City, Item, Undefined} from "common/types/commonTypes";
 import TopAppBar from "common/components/TopAppBar";
 import {messages} from "common/i18n/messages";
 import {useAppDispatch, useAppSelector} from "app/state/hooks";
@@ -15,6 +15,8 @@ import CityEditor, {CityFormData} from "features/cities/components/CityEditor";
 import {v4 as uuidv4} from 'uuid';
 import {ItemActionHandler} from "features/storage/actions/ItemActionHandler";
 import ItemEditor from "features/storage/components/ItemEditor";
+import {EditorType} from "common/types/editorType";
+import ItemAppBarAction from "features/storage/actions/ItemAppBarAction";
 
 interface CityEditorParam {
     city: City
@@ -30,12 +32,17 @@ const cityEditorParamNew: CityEditorParam = {
 }
 
 export interface CityActionHandler {
-    onAddCity: () => void
+    onInsert: () => void
     onEditCity: () => void
     onSubmit: (values: CityFormData) => void
     onCancel: () => void
     onDeleteCity: () => void
     onSelect: (city: Undefined<City>) => void
+}
+
+interface ItemEditorParam {
+    item: Item
+    editorType: EditorType
 }
 
 export const ItemActionContext = createContext<ItemActionHandler>(ItemActionHandler.createInstance())
@@ -49,10 +56,12 @@ const CitiesView = () => {
     const [cityEditorVisible, setCityEditorVisible] = useState(false);
     const [cityEditorParam, setCityEditorParam] = useState<CityEditorParam>(cityEditorParamNew)
     const [itemEditorVisible, setItemEditorVisible] = useState(false);
-
-
+    const [itemEditorParam, setItemEditorParam] = useState<ItemEditorParam>({
+        item: ItemActionHandler.createNewItem(),
+        editorType: 'edit'
+    })
     const cityActionCallbacks: CityActionHandler = {
-        onAddCity: () => {
+        onInsert: () => {
             setCityEditorParam({
                 ...cityEditorParam,
                 city: newCity,
@@ -96,8 +105,30 @@ const CitiesView = () => {
         }
     }
 
-    const itemActionCallbacks = new ItemActionHandler({
-        storages, item: ItemActionHandler.createNewItem(), setEditorVisible: setItemEditorVisible, city: selectedCity
+    const onOpenItemEditor = (editorType: EditorType, item: Item) => {
+        setItemEditorParam({
+                item,
+                editorType
+            }
+        )
+        setItemEditorVisible(true)
+    }
+
+    const itemActionHandler = new ItemActionHandler({
+        onClose: () => setItemEditorVisible(false),
+        onUpdate: (item: Item) => {
+            console.log('update item', item)
+        },
+        onInsert: (item: Item) => {
+            console.log('insert item', item)
+        },
+        onCancel: () => {
+            setItemEditorVisible(false)
+        },
+        onDelete: (item: Item) => {
+            console.log('delete item', item)
+        },
+        onOpen: onOpenItemEditor
     })
 
     return (
@@ -112,7 +143,7 @@ const CitiesView = () => {
                     <CitiesTable cities={cities} actionHandler={cityActionCallbacks}/>
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                    <ItemActionContext.Provider value={itemActionCallbacks}>
+                    <ItemActionContext.Provider value={itemActionHandler}>
                         <CityDetailsView storage={cityStorage} city={selectedCity}/>
                     </ItemActionContext.Provider>
                 </Grid>
@@ -122,16 +153,25 @@ const CitiesView = () => {
                         actionHandler={cityActionCallbacks}
                         editorOpen={cityEditorVisible}/>
 
-            <ItemEditor title={"blabla"} editorOpen={itemEditorVisible} actionHandler={itemActionCallbacks}/>
+            <ItemEditor title={"blabla"}
+                        editorOpen={itemEditorVisible}
+                        item={itemEditorParam.item}
+                        editorType={itemEditorParam.editorType}
+                        itemActionHandler={itemActionHandler}
+            />
 
             <AppBar position="fixed" sx={{top: 'auto', bottom: 0}} color='primary'>
                 <Toolbar>
                     <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', flexGrow: 1}}>
                         <AppBarAction label={messages.citiesTable.addCity} icon={"City"}
-                                      callback={cityActionCallbacks.onAddCity}
+                                      callback={cityActionCallbacks.onInsert}
                         />
-                        <AppBarAction label={messages.citiesItemsTable.actions.add} icon={"Storage"}
-                                      callback={itemActionCallbacks.onInsert}
+                        <ItemAppBarAction
+                            label={messages.citiesItemsTable.actions.add}
+                            icon={"Storage"}
+                            onOpenEditor={onOpenItemEditor}
+                            editorType={'insert'}
+                            item={ItemActionHandler.createNewItem()}
                         />
                     </Box>
                 </Toolbar>
