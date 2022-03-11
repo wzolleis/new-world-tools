@@ -1,11 +1,5 @@
 import * as React from "react";
 
-export const CityNames = {
-    "windward": "windward",
-    "everfall": "everfall",
-
-}
-
 export const ItemTypes = {
     resource: ''
 }
@@ -32,7 +26,6 @@ export const ItemCategories = {
 }
 
 export type ItemType = keyof typeof ItemTypes
-export type CityName = keyof typeof CityNames // e.g. "windward | "everfall"
 export type ItemCategory = keyof typeof ItemCategories
 
 export type ObjectKey = string
@@ -51,10 +44,6 @@ export interface User extends WithKey {
     name: string,
     password: string,
     state: string,
-}
-
-export interface World extends WithKey {
-    name: string
 }
 
 export interface Player extends WithKey {

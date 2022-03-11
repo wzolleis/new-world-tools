@@ -1,51 +1,36 @@
-import {City, CityStorage, Item, Undefined} from "common/types/commonTypes";
+import {Item} from "common/types/commonTypes";
 import {v4 as uuidv4} from 'uuid';
-import {ItemFormData} from "features/storage/components/ItemEditor";
+import {EditorType} from "common/types/editorType";
 
 export interface ItemActionParameter {
-    storages: CityStorage[]
-    city: Undefined<City>,
-    item: Item
-    setEditorVisible: (visible: boolean) => void
+    onClose: () => void
+    onInsert: (item: Item) => void
+    onUpdate: (item: Item) => void
+    onDelete: (item: Item) => void
+    onCancel: () => void
+    onOpen: (editorType: EditorType, item: Item) => void
+}
+
+const NOP = () => {
+}
+const NOP_ITEM = (_: Item) => {
 }
 
 export class ItemActionHandler {
-    storages: CityStorage[]
-    item: Item
-    setEditorVisible: (visible: boolean) => void
-    city: Undefined<City>
+    onClose: () => void
+    onInsert: (item: Item) => void
+    onUpdate: (item: Item) => void
+    onDelete: (item: Item) => void
+    onCancel: () => void
+    onOpen: (editorType: EditorType, item: Item) => void
 
-    constructor({storages, city, item, setEditorVisible}: ItemActionParameter) {
-        this.storages = storages
-        this.item = item
-        this.city = city
-        this.setEditorVisible = setEditorVisible
-    }
-
-    onInsert = () => {
-        console.log(">>> insert item: ")
-        console.log(">>>>>> item: ", this.item)
-        console.log(">>>>>> city: ", this.city)
-        this.setEditorVisible(true)
-    }
-
-    onUpdate = () => {
-        console.log("update item: ", this.item)
-    }
-
-    onDelete = () => {
-        console.log("delete item: ", this.item)
-        this.setEditorVisible(true)
-    }
-
-    onCancel = () => {
-        console.log("cancel: ", this.item)
-        this.setEditorVisible(false)
-    }
-
-    onSubmit = (formValues: ItemFormData) => {
-        console.log("submit: ", this.item)
-        this.setEditorVisible(false)
+    constructor({onClose, onInsert, onUpdate, onDelete, onCancel, onOpen}: ItemActionParameter) {
+        this.onClose = onClose
+        this.onUpdate = onUpdate
+        this.onInsert = onInsert
+        this.onDelete = onDelete
+        this.onCancel = onCancel
+        this.onOpen = onOpen
     }
 
     static createNewItem(): Item {
@@ -58,13 +43,16 @@ export class ItemActionHandler {
         }
     }
 
+
     static createInstance(): ItemActionHandler {
         return new ItemActionHandler({
-            storages: [],
-            item: ItemActionHandler.createNewItem(),
-            setEditorVisible: () => {
-            },
-            city: undefined
+            onCancel: NOP,
+            onDelete: NOP_ITEM,
+            onUpdate: NOP_ITEM,
+            onInsert: NOP_ITEM,
+            onClose: NOP,
+            onOpen: (_: EditorType, __: Item) => {
+            }
         })
     }
 }
