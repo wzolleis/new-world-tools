@@ -14,5 +14,6 @@ export default {
         cities: `/cities`,
         city: (key: string) => `/cities/${key}`,
         storages: `/storages`,
+        storage: (key: string) => `/storages/${key}`,
     }
 }

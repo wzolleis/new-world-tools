@@ -2,9 +2,8 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {City, Undefined} from "common/types/commonTypes";
 import {insert, update} from "utils/arrayUtils";
-import axios from "axios";
 import {RootState} from "app/state/store";
-import remote from "common/api/restApi";
+import remote, {restApi} from "common/api/restApi";
 
 interface CitiesState {
     cities: City[]
@@ -19,12 +18,6 @@ const initialState: CitiesState = {
 interface CityActionPayload {
     city: City
 }
-
-const restApi = axios.create({
-    baseURL: 'http://localhost:5000/api',
-    timeout: 1000
-});
-
 
 export const listCity = createAsyncThunk(
     'city/listCity',
