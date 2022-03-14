@@ -22,6 +22,7 @@ export const listUser = createAsyncThunk(
     }
 )
 
+
 export const userSlice = createSlice({
         name: 'users',
         initialState,

@@ -2,13 +2,13 @@ import React, {createContext, useState} from "react";
 import {AppBar, Grid, Toolbar} from "@mui/material";
 import {CitiesTable} from "features/cities/components/CitiesTable";
 import CityDetailsView from "features/cities/components/CityDetailsView";
-import {City, Item, Undefined} from "common/types/commonTypes";
+import {City, CityStorage, Item, Undefined} from "common/types/commonTypes";
 import TopAppBar from "common/components/TopAppBar";
 import {messages} from "common/i18n/messages";
 import {useAppDispatch, useAppSelector} from "app/state/hooks";
 import {insertCity, selectCity, updateCity} from "features/cities/state/citiesSlice";
 import AppBarTitle from "common/components/AppBarTitle";
-import {emptyStorage, selectStorage} from "features/storage/state/storageSlice";
+import {emptyStorage, selectStorage, updateStorage} from "features/storage/state/storageSlice";
 import AppBarAction from "common/appbar/AppBarAction";
 import Box from "@mui/material/Box";
 import CityEditor, {CityFormData} from "features/cities/components/CityEditor";
@@ -17,6 +17,7 @@ import {ItemActionHandler} from "features/storage/actions/ItemActionHandler";
 import ItemEditor from "features/storage/components/ItemEditor";
 import {EditorType} from "common/types/editorType";
 import ItemAppBarAction from "features/storage/actions/ItemAppBarAction";
+import {insert, update} from "utils/arrayUtils";
 
 interface CityEditorParam {
     city: City
@@ -52,7 +53,7 @@ const CitiesView = () => {
     const {cities} = useAppSelector(selectCity)
     const {storages} = useAppSelector(selectStorage)
     const dispatch = useAppDispatch()
-    const cityStorage = storages.find(storage => storage.city === selectedCity?.key) || emptyStorage
+    const cityStorage: CityStorage = storages.find(storage => storage.city === selectedCity?.key) || emptyStorage
     const [cityEditorVisible, setCityEditorVisible] = useState(false);
     const [cityEditorParam, setCityEditorParam] = useState<CityEditorParam>(cityEditorParamNew)
     const [itemEditorVisible, setItemEditorVisible] = useState(false);
@@ -117,9 +118,21 @@ const CitiesView = () => {
     const itemActionHandler = new ItemActionHandler({
         onClose: () => setItemEditorVisible(false),
         onUpdate: (item: Item) => {
+            const toUpdate: CityStorage = {
+                ...cityStorage,
+                items: update(cityStorage.items, item)
+            }
+
+            dispatch(updateStorage(toUpdate))
             console.log('update item', item)
         },
         onInsert: (item: Item) => {
+            const toUpdate: CityStorage = {
+                ...cityStorage,
+                items: insert(cityStorage.items, item)
+            }
+
+            dispatch(updateStorage(toUpdate))
             console.log('insert item', item)
         },
         onCancel: () => {

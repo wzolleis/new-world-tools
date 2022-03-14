@@ -1,10 +1,15 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {CityStorage} from "common/types/commonTypes";
 import {RootState} from "app/state/store";
 import remote, {restApi} from "common/api/restApi";
+import {update} from "utils/arrayUtils";
 
 interface StorageState {
     storages: CityStorage[]
+}
+
+interface StorageActionPayload {
+    storage: CityStorage
 }
 
 const initialState: StorageState = {
@@ -26,10 +31,22 @@ export const listStorage = createAsyncThunk(
     }
 )
 
+export const updateStorage = createAsyncThunk(
+    'storage/updateStorage',
+    async (storage: CityStorage) => {
+        const response = await restApi.put<CityStorage>(remote.path.storage(storage.key), storage)
+        return response.data
+    }
+)
+
 export const storageSlice = createSlice({
         name: 'storage',
         initialState,
-        reducers: {},
+        reducers: {
+            updateStorage: (state: StorageState, action: PayloadAction<StorageActionPayload>) => {
+                state.storages = update(state.storages, action.payload.storage)
+            },
+        },
         extraReducers: (builder) => {
             // Add reducers for additional action types here, and handle loading state as needed
             builder.addCase(listStorage.fulfilled, (state, action) => {
