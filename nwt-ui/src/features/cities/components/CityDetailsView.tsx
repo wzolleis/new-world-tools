@@ -11,7 +11,6 @@ export interface CityDetailsViewProps {
 
 const CityDetailsView = ({city, storage}: CityDetailsViewProps) => {
     if (!city) return null
-
     return (
         <div>
             <Grid container direction="column" spacing={2}>
