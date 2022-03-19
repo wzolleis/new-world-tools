@@ -9,13 +9,15 @@ import DialogTitle from '@mui/material/DialogTitle';
 import {City} from "common/types/commonTypes";
 import {Controller, useForm} from "react-hook-form";
 import {messages} from "common/i18n/messages";
-import {CityActionHandler} from "features/cities/components/CitiesView";
+import {CityActionHandler} from "features/cities/actions/CityActionHandler";
+import {EditorType} from "common/types/editorType";
 
 export interface CityEditorProps {
     city: City
     title: string
     editorOpen: boolean
     actionHandler: CityActionHandler
+    editorType: EditorType
 }
 
 export interface CityFormData {
@@ -23,9 +25,15 @@ export interface CityFormData {
     details: string
 }
 
-const CityEditor = ({city, title, actionHandler: {onSubmit, onCancel}, editorOpen}: CityEditorProps) => {
+const CityEditor = ({
+                        editorType,
+                        city,
+                        title,
+                        editorOpen,
+                        actionHandler: {onClose, onCancel, onInsert, onUpdate}
+                    }: CityEditorProps) => {
     const emptyFormValues: CityFormData = {name: '', details: ''}
-    const initialValues: CityFormData = city ? {name: city.name, details: city.details} : emptyFormValues
+    const initialValues: CityFormData = {name: city.name, details: city.details}
     const {handleSubmit, control, reset} = useForm<CityFormData>({
         defaultValues: initialValues
     })
@@ -34,15 +42,18 @@ const CityEditor = ({city, title, actionHandler: {onSubmit, onCancel}, editorOpe
         reset(initialValues)
     }, [city])
 
-    // ({
-    //     field: {onChange, onBlur, value, name, ref},
-    //     fieldState: {invalid, isTouched, isDirty, error},
-    //     formState,
-    // }
-
     const onFormSubmit = (values: CityFormData) => {
         reset(emptyFormValues)
-        onSubmit(values)
+        const toSubmit = {
+            ...city,
+            ...values
+        }
+        if (editorType === 'insert') {
+            onInsert(toSubmit)
+        } else if (editorType === 'edit') {
+            onUpdate(toSubmit)
+        }
+        onClose()
     }
 
     return (

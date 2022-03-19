@@ -8,7 +8,7 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import MenuItem from "@mui/material/MenuItem";
 import AppIcon from "common/components/AppIcon";
 import {ItemActionHandler} from "features/storage/actions/ItemActionHandler";
-import {ItemActionContext} from "features/cities/components/CitiesView";
+import {ActionHandlerContext} from "features/cities/components/CitiesView";
 import {EditorType} from "common/types/editorType";
 
 interface CityItemTableProps {
@@ -104,7 +104,7 @@ const ItemTableMenu = ({
 const ItemTable = ({storage}: CityItemTableProps) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [selectedItem, setSelectedItem] = React.useState<undefined | Item>(undefined);
-    const actionHandler = useContext(ItemActionContext)
+    const {itemActionHandler} = useContext(ActionHandlerContext)
 
     const items = storage?.items || []
     const rows: CityItemTableRow[] = mapToTableData(items)
@@ -135,7 +135,7 @@ const ItemTable = ({storage}: CityItemTableProps) => {
                         />
                     </div>
                     <ItemTableMenu anchorEl={anchorEl}
-                                   actionHandler={actionHandler}
+                                   actionHandler={itemActionHandler}
                                    handleMenuClose={handleMenuClose}
                                    item={selectedItem || ItemActionHandler.createNewItem()}
                     />
