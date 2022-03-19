@@ -9,19 +9,22 @@ import {useAppDispatch, useAppSelector} from "app/state/hooks";
 import {insertCity, selectCity, updateCity} from "features/cities/state/citiesSlice";
 import AppBarTitle from "common/components/AppBarTitle";
 import {emptyStorage, selectStorage, updateStorage} from "features/storage/state/storageSlice";
-import AppBarAction from "common/appbar/AppBarAction";
 import Box from "@mui/material/Box";
-import CityEditor, {CityFormData} from "features/cities/components/CityEditor";
+import CityEditor from "features/cities/components/CityEditor";
 import {v4 as uuidv4} from 'uuid';
 import {ItemActionHandler} from "features/storage/actions/ItemActionHandler";
 import ItemEditor from "features/storage/components/ItemEditor";
 import {EditorType} from "common/types/editorType";
 import ItemAppBarAction from "features/storage/actions/ItemAppBarAction";
 import {insert, update} from "utils/arrayUtils";
+import {CityActionHandler} from "features/cities/actions/CityActionHandler";
+import CityAppBarAction from "features/cities/actions/CityAppBarAction";
+import {ActionHandler} from "common/actions/ActionHandler";
 
 interface CityEditorParam {
     city: City
     title: string
+    editorType: EditorType
 }
 
 const newCity: City = {
@@ -29,16 +32,9 @@ const newCity: City = {
 }
 
 const cityEditorParamNew: CityEditorParam = {
-    city: newCity, title: messages.cityEditor.create.title
-}
-
-export interface CityActionHandler {
-    onInsert: () => void
-    onEditCity: () => void
-    onSubmit: (values: CityFormData) => void
-    onCancel: () => void
-    onDeleteCity: () => void
-    onSelect: (city: Undefined<City>) => void
+    city: newCity,
+    title: messages.cityEditor.create.title,
+    editorType: 'insert'
 }
 
 interface ItemEditorParam {
@@ -46,14 +42,16 @@ interface ItemEditorParam {
     editorType: EditorType
 }
 
-export const ItemActionContext = createContext<ItemActionHandler>(ItemActionHandler.createInstance())
+export const ActionHandlerContext = createContext<ActionHandler>(new ActionHandler({
+    itemActionHandler: ItemActionHandler.createInstance(),
+    cityActionHandler: CityActionHandler.createInstance()
+}))
 
 const CitiesView = () => {
     const [selectedCity, setSelectedCity] = useState<Undefined<City>>(undefined)
     const {cities} = useAppSelector(selectCity)
     const {storages} = useAppSelector(selectStorage)
     const dispatch = useAppDispatch()
-    const cityStorage: CityStorage = storages.find(storage => storage.city === selectedCity?.key) || emptyStorage
     const [cityEditorVisible, setCityEditorVisible] = useState(false);
     const [cityEditorParam, setCityEditorParam] = useState<CityEditorParam>(cityEditorParamNew)
     const [itemEditorVisible, setItemEditorVisible] = useState(false);
@@ -61,50 +59,42 @@ const CitiesView = () => {
         item: ItemActionHandler.createNewItem(),
         editorType: 'edit'
     })
-    const cityActionCallbacks: CityActionHandler = {
-        onInsert: () => {
+    const cityStorage: CityStorage = storages.find(storage => storage.city === selectedCity?.key) || emptyStorage
+    const onOpenCityEditor = (editorType: EditorType, city: City) => {
+        setCityEditorParam({
+            ...cityEditorParam,
+            city,
+            editorType
+        })
+        setCityEditorVisible(true)
+    }
+
+    const cityActionHandler: CityActionHandler = new CityActionHandler({
+        onInsert: (city: City) => {
             setCityEditorParam({
                 ...cityEditorParam,
-                city: newCity,
+                city: city,
                 title: messages.cityEditor.create.title
             })
-            setCityEditorVisible(true)
+            dispatch(insertCity(city))
         },
-        onEditCity: () => {
-            setCityEditorParam({
-                ...cityEditorParam,
-                city: selectedCity || newCity,
-                title: messages.cityEditor.edit.title
-            })
-            setCityEditorVisible(true)
+        onUpdate: (city: City) => {
+            dispatch(updateCity(city))
         },
-        onSubmit: (values: CityFormData) => {
-            setCityEditorVisible(false)
-            const toUpdate = {
-                ...cityEditorParam.city,
-                ...values
-            }
-            const cityExists = cities.findIndex(city => city.key === toUpdate.key) >= 0
-            if (cityExists)
-                dispatch(updateCity(toUpdate))
-            else
-                dispatch(insertCity(toUpdate))
+        onOpen: onOpenCityEditor,
+        onDelete: (city: City) => {
+            console.log('TODO: delete city:', city)
         },
         onCancel: () => {
             setCityEditorVisible(false)
         },
-        onDeleteCity: () => {
-            // TODO
-            console.log('TODO: delete city:', selectedCity)
+        onClose: () => {
+            setCityEditorVisible(false)
         },
-        onSelect: (city: Undefined<City>) => {
+        onSelect: (city) => {
             setSelectedCity(city)
-            setCityEditorParam({
-                ...cityEditorParam,
-                city: city || newCity
-            })
         }
-    }
+    })
 
     const onOpenItemEditor = (editorType: EditorType, item: Item) => {
         setItemEditorParam({
@@ -124,7 +114,6 @@ const CitiesView = () => {
             }
 
             dispatch(updateStorage(toUpdate))
-            console.log('update item', item)
         },
         onInsert: (item: Item) => {
             const toUpdate: CityStorage = {
@@ -144,6 +133,8 @@ const CitiesView = () => {
         onOpen: onOpenItemEditor
     })
 
+    const actionHandler = new ActionHandler({itemActionHandler, cityActionHandler})
+
     return (
         <>
             <TopAppBar>
@@ -152,19 +143,21 @@ const CitiesView = () => {
                 </Toolbar>
             </TopAppBar>
             <Grid container direction="column" spacing={2}>
-                <Grid item xs={12} sm={4}>
-                    <CitiesTable cities={cities} actionHandler={cityActionCallbacks}/>
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                    <ItemActionContext.Provider value={itemActionHandler}>
+                <ActionHandlerContext.Provider value={actionHandler}>
+                    <Grid item xs={12} sm={4}>
+                        <CitiesTable cities={cities}/>
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
                         <CityDetailsView storage={cityStorage} city={selectedCity}/>
-                    </ItemActionContext.Provider>
-                </Grid>
+                    </Grid>
+                </ActionHandlerContext.Provider>
             </Grid>
             <CityEditor city={cityEditorParam.city}
                         title={cityEditorParam.title}
-                        actionHandler={cityActionCallbacks}
-                        editorOpen={cityEditorVisible}/>
+                        actionHandler={cityActionHandler}
+                        editorOpen={cityEditorVisible}
+                        editorType={cityEditorParam.editorType}
+            />
 
             <ItemEditor title={"blabla"}
                         editorOpen={itemEditorVisible}
@@ -176,8 +169,12 @@ const CitiesView = () => {
             <AppBar position="fixed" sx={{top: 'auto', bottom: 0}} color='primary'>
                 <Toolbar>
                     <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', flexGrow: 1}}>
-                        <AppBarAction label={messages.citiesTable.addCity} icon={"City"}
-                                      callback={cityActionCallbacks.onInsert}
+                        <CityAppBarAction
+                            label={messages.citiesTable.addCity}
+                            icon={"City"}
+                            onOpenEditor={onOpenCityEditor}
+                            editorType={'insert'}
+                            city={CityActionHandler.createNewCity()}
                         />
                         <ItemAppBarAction
                             label={messages.citiesItemsTable.actions.add}

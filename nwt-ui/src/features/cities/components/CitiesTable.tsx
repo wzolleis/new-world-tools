@@ -1,17 +1,18 @@
 import {DataGrid, GridCallbackDetails, GridColDef, GridRenderCellParams, GridSelectionModel} from '@mui/x-data-grid';
-import {City, ObjectKey, TableActionClickHandler} from "common/types/commonTypes";
+import {City, ObjectKey, TableActionClickHandler, Undefined} from "common/types/commonTypes";
 import {messages} from "common/i18n/messages";
 import * as React from "react";
-import {useEffect} from "react";
+import {useContext, useEffect} from "react";
 import {IconButton, ListItemIcon, ListItemText, Menu} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import AppIcon from "common/components/AppIcon";
-import {CityActionHandler} from "features/cities/components/CitiesView";
+import {CityActionHandler} from "features/cities/actions/CityActionHandler";
+import {ActionHandlerContext} from "features/cities/components/CitiesView";
+import {EditorType} from "common/types/editorType";
 
 interface CitiesTableProps {
     cities: City[]
-    actionHandler: CityActionHandler
 }
 
 interface CityTableRow {
@@ -55,17 +56,21 @@ const mapToTableRow = (cities: City[]): CityTableRow[] => {
 interface CitiesTableMenuProps {
     anchorEl: HTMLElement | null
     actionHandler: CityActionHandler
+    city: Undefined<City>
     handleMenuClose: () => void
 }
 
 const CitiesTableMenu = ({
                              anchorEl,
                              handleMenuClose,
-                             actionHandler: {onEditCity, onDeleteCity}
+                             city,
+                             actionHandler: {onOpen}
                          }: CitiesTableMenuProps) => {
-    const handleMenuClick = (callback: () => void) => () => {
-        handleMenuClose()
-        callback()
+    const handleMenuClick = (editorType: EditorType) => {
+        if (!!city) {
+            handleMenuClose()
+            onOpen(editorType, city)
+        }
     }
 
     return (
@@ -78,13 +83,13 @@ const CitiesTableMenu = ({
                 'aria-labelledby': 'basic-button',
             }}
         >
-            <MenuItem onClick={handleMenuClick(onEditCity)}>
+            <MenuItem onClick={() => handleMenuClick('edit')}>
                 <ListItemIcon>
                     <AppIcon icon={"Edit"}/>
                 </ListItemIcon>
                 <ListItemText>{messages.crudActions.edit}</ListItemText>
             </MenuItem>
-            <MenuItem onClick={handleMenuClick(onDeleteCity)}>
+            <MenuItem onClick={() => handleMenuClick('delete')}>
                 <ListItemIcon>
                     <AppIcon icon={"Delete"}/>
                 </ListItemIcon>
@@ -94,19 +99,20 @@ const CitiesTableMenu = ({
     )
 }
 
-export const CitiesTable = ({cities, actionHandler}: CitiesTableProps) => {
+export const CitiesTable = ({cities}: CitiesTableProps) => {
     // anchor element fuer das Menu der Tabelle, wird beim Klick auf eine Zelle gesetzt
     const rows: CityTableRow[] = mapToTableRow(cities)
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const {cityActionHandler} = useContext(ActionHandlerContext);
     const initialSelection = cities.length > 0 ? [cities[0].key] : []
     const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>(initialSelection);
 
-    const {onSelect} = actionHandler
+    // const {onSelect} = actionHandler
 
     useEffect(() => {
         if (initialSelection.length > 0) {
             const selectedCity = cities.find(city => city.key === initialSelection[0])
-            onSelect(selectedCity)
+            cityActionHandler.onSelect(selectedCity)
         }
     }, [])
     const handleMenuClose = () => {
@@ -116,11 +122,16 @@ export const CitiesTable = ({cities, actionHandler}: CitiesTableProps) => {
         setAnchorEl(event.currentTarget)
     }
 
+    const selectedCity = (): Undefined<City> => {
+        const cityKey = selectionModel.length > 0 ? selectionModel[0] : null
+        return cities.find(city => city.key === cityKey)
+    }
+
     const onSelectionChange = (selectionModel: GridSelectionModel, _: GridCallbackDetails) => {
         setSelectionModel(selectionModel)
         const cityKey = selectionModel.length > 0 ? selectionModel[0] : null
         const city = cities.find(city => city.key === cityKey)
-        onSelect(city)
+        cityActionHandler.onSelect(city)
     }
 
     return (
@@ -140,8 +151,10 @@ export const CitiesTable = ({cities, actionHandler}: CitiesTableProps) => {
                 </div>
 
                 <CitiesTableMenu handleMenuClose={handleMenuClose}
-                                 actionHandler={actionHandler}
-                                 anchorEl={anchorEl}/>
+                                 actionHandler={cityActionHandler}
+                                 anchorEl={anchorEl}
+                                 city={selectedCity()}
+                />
             </div>
         </div>
     )
