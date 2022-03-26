@@ -1,7 +1,7 @@
 import {City, CityStorage, Item, ObjectKey, TableActionClickHandler} from "common/types/commonTypes";
 import {DataGrid, GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
 import {messages} from "common/i18n/messages";
-import {IconButton, ListItemIcon, ListItemText, Menu} from "@mui/material";
+import {Alert, AlertProps, IconButton, ListItemIcon, ListItemText, Menu, Snackbar} from "@mui/material";
 import * as React from "react";
 import {useContext} from "react";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
@@ -28,10 +28,11 @@ const columns = (handleTableActionsClick: TableActionClickHandler): GridColDef[]
         field: 'name',
         headerName: messages.citiesItemsTable.name,
         filterable: false,
+        editable: true,
         flex: 1,
     },
     {
-        field: 'quantity', headerName: messages.citiesItemsTable.quantity, filterable: false, flex: 1
+        field: 'quantity', headerName: messages.citiesItemsTable.quantity, filterable: false, flex: 1, editable: true
     },
     {
         field: 'category', headerName: messages.citiesItemsTable.category, filterable: false, flex: 1
@@ -51,15 +52,13 @@ const columns = (handleTableActionsClick: TableActionClickHandler): GridColDef[]
     }
 ]
 
-const mapToTableData = (items: Item[]): CityItemTableRow[] => {
-    return items.map((item: Item) => {
-        return {
-            id: item.key,
-            name: item.name,
-            category: item.category,
-            quantity: item.quantity
-        }
-    })
+const mapOneItemToTableData = (item: Item): CityItemTableRow => {
+    return {
+        id: item.key,
+        name: item.name,
+        category: item.category,
+        quantity: item.quantity
+    }
 }
 
 interface ItemTableMenuProps {
@@ -105,20 +104,39 @@ const ItemTable = ({storage}: CityItemTableProps) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [selectedItem, setSelectedItem] = React.useState<undefined | Item>(undefined);
     const {itemActionHandler} = useContext(ActionHandlerContext)
+    const [snackbar, setSnackbar] = React.useState<Pick<AlertProps, 'children' | 'severity'> | null>(null);
+    const handleCloseSnackbar = () => setSnackbar(null);
 
     const items = storage?.items || []
-    const rows: CityItemTableRow[] = mapToTableData(items)
+    const rows: CityItemTableRow[] = items.map(mapOneItemToTableData)
 
     const handleTableActionsClick = (event: React.MouseEvent<HTMLButtonElement>, selected: ObjectKey) => {
         setAnchorEl(event.currentTarget)
         const mySelectedItem = items.find((item) => item.key === selected)
         setSelectedItem(mySelectedItem)
-        console.log('handleTableActionClick', mySelectedItem)
     }
     const handleMenuClose = () => {
         setAnchorEl(null);
         setSelectedItem(undefined)
     };
+
+    const handleUpdateRow = React.useCallback((values: Partial<CityItemTableRow>) => {
+        console.log('values: ', values)
+        const item: Item | undefined = items.find(item => item.key === values.id)
+        if (!!item) {
+            const toUpdate: Item = {
+                ...item,
+                quantity: values.quantity || item.quantity,
+                name: values.name || item.name,
+            }
+            itemActionHandler.onUpdate(toUpdate)
+            setSnackbar({children: messages.success.updated(toUpdate.name), severity: 'success'});
+            return Promise.resolve(mapOneItemToTableData(toUpdate))
+        } else {
+            setSnackbar({children: 'Error while saving Item', severity: 'error'});
+            return Promise.reject(messages.errors.itemNotFound(values.id))
+        }
+    }, [items, itemActionHandler])
 
     return (
         <>
@@ -126,12 +144,14 @@ const ItemTable = ({storage}: CityItemTableProps) => {
                 <div style={{display: 'flex', height: '100%'}}>
                     <div style={{flexGrow: 1}}>
                         <DataGrid
+                            experimentalFeatures={{newEditingApi: true}}
                             rows={rows}
                             columns={columns(handleTableActionsClick)}
                             pageSize={20}
                             rowsPerPageOptions={[20]}
                             showCellRightBorder={true}
                             showColumnRightBorder={true}
+                            processRowUpdate={handleUpdateRow}
                         />
                     </div>
                     <ItemTableMenu anchorEl={anchorEl}
@@ -140,6 +160,16 @@ const ItemTable = ({storage}: CityItemTableProps) => {
                                    item={selectedItem || ItemActionHandler.createNewItem()}
                     />
                 </div>
+                {!!snackbar && (
+                    <Snackbar
+                        open
+                        anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                        onClose={handleCloseSnackbar}
+                        autoHideDuration={6000}
+                    >
+                        <Alert {...snackbar} onClose={handleCloseSnackbar}/>
+                    </Snackbar>
+                )}
             </div>
         </>
     )
