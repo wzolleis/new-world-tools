@@ -1,3 +1,5 @@
+import {ObjectKey} from "common/types/commonTypes";
+
 export const messages = {
     common: {
         noSelection: (startPage: string) => `Es sind keine Daten geladen. Bitte auf ${startPage} klicken`,
@@ -17,6 +19,12 @@ export const messages = {
         cities: 'Städte',
         storages: 'Lager',
         favorites: 'Lesezeichen'
+    },
+    success: {
+        updated: (name: string) => `${name} erfolgreich gespeichert`
+    },
+    errors: {
+        itemNotFound: (id: ObjectKey | undefined) => `Item ${id} nicht gefunden`
     },
     table: {
         actions: 'Aktionen'
@@ -78,7 +86,7 @@ export const messages = {
         actions: {
             add: 'Item hinzufügen',
             delete: 'Löschen'
-        }
+        },
     },
     "userDetails": {
         userActive: 'ist angemeldet',
