@@ -121,7 +121,6 @@ const ItemTable = ({storage}: CityItemTableProps) => {
     };
 
     const handleUpdateRow = React.useCallback((values: Partial<CityItemTableRow>) => {
-        console.log('values: ', values)
         const item: Item | undefined = items.find(item => item.key === values.id)
         if (!!item) {
             const toUpdate: Item = {
