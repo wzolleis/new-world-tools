@@ -8,7 +8,7 @@ import {messages} from "common/i18n/messages";
 import {useAppDispatch, useAppSelector} from "app/state/hooks";
 import {insertCity, selectCity, updateCity} from "features/cities/state/citiesSlice";
 import AppBarTitle from "common/components/AppBarTitle";
-import {emptyStorage, selectStorage, updateStorage} from "features/storage/state/storageSlice";
+import {emptyStorage, insertStorage, selectStorage, updateStorage} from "features/storage/state/storageSlice";
 import Box from "@mui/material/Box";
 import CityEditor from "features/cities/components/CityEditor";
 import {v4 as uuidv4} from 'uuid';
@@ -76,7 +76,13 @@ const CitiesView = () => {
                 city: city,
                 title: messages.cityEditor.create.title
             })
+            const storage: CityStorage = {
+                key: uuidv4(),
+                city: city.key,
+                items: []
+            }
             dispatch(insertCity(city))
+            dispatch(insertStorage(storage))
         },
         onUpdate: (city: City) => {
             dispatch(updateCity(city))
