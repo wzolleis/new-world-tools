@@ -46,8 +46,8 @@ export const insertCity = createAsyncThunk(
 export const deleteCity = createAsyncThunk(
     'city/deleteCity',
     async (city: City) => {
-        const response = await restApi.delete<City>(remote.path.city(city.key))
-        return response.data
+        await restApi.delete<City>(remote.path.city(city.key))
+        return city
     }
 )
 
@@ -63,6 +63,7 @@ const citySlice = createSlice({
             state.cities = action.payload
         })
         builder.addCase(deleteCity.fulfilled, (state, action) => {
+            console.log('remove city from state', action.payload)
             state.cities = remove(state.cities, action.payload.key)
         })
         builder.addCase(updateCity.fulfilled, (state, action) => {
