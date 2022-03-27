@@ -6,9 +6,15 @@ import {City, CityStorage, Item, Undefined} from "common/types/commonTypes";
 import TopAppBar from "common/components/TopAppBar";
 import {messages} from "common/i18n/messages";
 import {useAppDispatch, useAppSelector} from "app/state/hooks";
-import {insertCity, selectCity, updateCity} from "features/cities/state/citiesSlice";
+import {deleteCity, insertCity, selectCity, updateCity} from "features/cities/state/citiesSlice";
 import AppBarTitle from "common/components/AppBarTitle";
-import {emptyStorage, insertStorage, selectStorage, updateStorage} from "features/storage/state/storageSlice";
+import {
+    deleteStorage,
+    emptyStorage,
+    insertStorage,
+    selectStorage,
+    updateStorage
+} from "features/storage/state/storageSlice";
 import Box from "@mui/material/Box";
 import CityEditor from "features/cities/components/CityEditor";
 import {v4 as uuidv4} from 'uuid';
@@ -16,10 +22,12 @@ import {ItemActionHandler} from "features/storage/actions/ItemActionHandler";
 import ItemEditor from "features/storage/components/ItemEditor";
 import {EditorType} from "common/types/editorType";
 import ItemAppBarAction from "features/storage/actions/ItemAppBarAction";
-import {insert, update} from "utils/arrayUtils";
+import {insert, remove, update} from "utils/arrayUtils";
 import {CityActionHandler} from "features/cities/actions/CityActionHandler";
 import CityAppBarAction from "features/cities/actions/CityAppBarAction";
 import {ActionHandler} from "common/actions/ActionHandler";
+import {editorTitle} from "utils/editorUtils";
+import {selectPlayer} from "features/player/state/playerSlice";
 
 interface CityEditorParam {
     city: City
@@ -33,13 +41,14 @@ const newCity: City = {
 
 const cityEditorParamNew: CityEditorParam = {
     city: newCity,
-    title: messages.cityEditor.create.title,
+    title: editorTitle('insert', 'cityEditor'),
     editorType: 'insert'
 }
 
 interface ItemEditorParam {
     item: Item
     editorType: EditorType
+    title: string
 }
 
 export const ActionHandlerContext = createContext<ActionHandler>(new ActionHandler({
@@ -50,6 +59,7 @@ export const ActionHandlerContext = createContext<ActionHandler>(new ActionHandl
 const CitiesView = () => {
     const [selectedCity, setSelectedCity] = useState<Undefined<City>>(undefined)
     const {cities} = useAppSelector(selectCity)
+    const {player} = useAppSelector(selectPlayer)
     const {storages} = useAppSelector(selectStorage)
     const dispatch = useAppDispatch()
     const [cityEditorVisible, setCityEditorVisible] = useState(false);
@@ -57,31 +67,37 @@ const CitiesView = () => {
     const [itemEditorVisible, setItemEditorVisible] = useState(false);
     const [itemEditorParam, setItemEditorParam] = useState<ItemEditorParam>({
         item: ItemActionHandler.createNewItem(),
-        editorType: 'edit'
+        editorType: 'insert',
+        title: editorTitle('insert', "itemEditor")
     })
     const cityStorage: CityStorage = storages.find(storage => storage.city === selectedCity?.key) || emptyStorage
     const onOpenCityEditor = (editorType: EditorType, city: City) => {
         setCityEditorParam({
             ...cityEditorParam,
             city,
-            editorType
+            editorType,
+            title: editorTitle(editorType, 'cityEditor')
         })
         setCityEditorVisible(true)
     }
 
     const cityActionHandler: CityActionHandler = new CityActionHandler({
         onInsert: (city: City) => {
+            const toInsert: City = {
+                ...city,
+                player: player?.key || ''
+            }
+
             setCityEditorParam({
                 ...cityEditorParam,
-                city: city,
-                title: messages.cityEditor.create.title
+                city: toInsert
             })
             const storage: CityStorage = {
                 ...emptyStorage,
                 key: uuidv4(),
                 city: city.key,
             }
-            dispatch(insertCity(city))
+            dispatch(insertCity(toInsert))
             dispatch(insertStorage(storage))
         },
         onUpdate: (city: City) => {
@@ -89,7 +105,11 @@ const CitiesView = () => {
         },
         onOpen: onOpenCityEditor,
         onDelete: (city: City) => {
-            console.log('TODO: delete city:', city)
+            dispatch(deleteCity(city))
+            const storage = storages.find(storage => storage.city === city.key)
+            if (!!storage) {
+                dispatch(deleteStorage(storage))
+            }
         },
         onCancel: () => {
             setCityEditorVisible(false)
@@ -105,7 +125,8 @@ const CitiesView = () => {
     const onOpenItemEditor = (editorType: EditorType, item: Item) => {
         setItemEditorParam({
                 item,
-                editorType
+                editorType,
+                title: editorTitle(editorType, "itemEditor")
             }
         )
         setItemEditorVisible(true)
@@ -126,14 +147,17 @@ const CitiesView = () => {
                 ...cityStorage,
                 items: insert(cityStorage.items, item)
             }
-
             dispatch(updateStorage(toUpdate))
         },
         onCancel: () => {
             setItemEditorVisible(false)
         },
         onDelete: (item: Item) => {
-            console.log('delete item', item)
+            const toUpdate: CityStorage = {
+                ...cityStorage,
+                items: remove(cityStorage.items, item.key)
+            }
+            dispatch(updateStorage(toUpdate))
         },
         onOpen: onOpenItemEditor
     })
@@ -164,7 +188,7 @@ const CitiesView = () => {
                         editorType={cityEditorParam.editorType}
             />
 
-            <ItemEditor title={"blabla"}
+            <ItemEditor title={itemEditorParam.title}
                         editorOpen={itemEditorVisible}
                         item={itemEditorParam.item}
                         editorType={itemEditorParam.editorType}

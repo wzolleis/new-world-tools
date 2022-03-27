@@ -62,7 +62,7 @@ const CityEditor = ({
             <form>
                 <DialogContent>
                     <DialogContentText>
-                        {messages.cityEditor.create.description}
+                        {messages.cityEditor.insert.description}
                     </DialogContentText>
                     <Controller
                         control={control}

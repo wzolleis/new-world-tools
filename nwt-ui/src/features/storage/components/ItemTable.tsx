@@ -137,16 +137,6 @@ const ItemTable = ({storage}: CityItemTableProps) => {
             onOk: () => onDelete(item),
             onCancel
         })
-        // confirm({
-        //     description: messages.confirmations.ts.delete(item.name),
-        //     title: messages.confirmations.ts.areYouSure
-        // })
-        //     .then(() => {
-        //         onDelete(item)
-        //     })
-        //     .catch(() => {
-        //         onCancel()
-        //     });
     }
 
     const handleUpdateRow = React.useCallback((values: Partial<CityItemTableRow>) => {

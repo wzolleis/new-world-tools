@@ -52,12 +52,15 @@ export const messages = {
         details: 'City Details'
     },
     cityEditor: {
-        create: {
+        insert: {
             title: 'Neue Stadt anlegen',
             description: 'Geben Sie die Eigenschaften der Stadt ein'
         },
         edit: {
             title: 'Stadt ändern'
+        },
+        delete: {
+            title: 'Stadt löschen'
         },
         fields: {
             name: 'Name',
@@ -65,12 +68,15 @@ export const messages = {
         }
     },
     itemEditor: {
-        create: {
+        insert: {
             title: 'Neues Item anlegen',
             description: 'Geben Sie die Eigenschaften ein'
         },
         edit: {
             title: 'Iten ändern'
+        },
+        delete: {
+            title: 'Iten löschen'
         },
         fields: {
             name: 'Name',

@@ -1,7 +1,7 @@
 // Then, handle actions in your reducers:
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {City, Undefined} from "common/types/commonTypes";
-import {insert, update} from "utils/arrayUtils";
+import {insert, remove, update} from "utils/arrayUtils";
 import {RootState} from "app/state/store";
 import remote, {restApi} from "common/api/restApi";
 
@@ -43,22 +43,33 @@ export const insertCity = createAsyncThunk(
     }
 )
 
+export const deleteCity = createAsyncThunk(
+    'city/deleteCity',
+    async (city: City) => {
+        const response = await restApi.delete<City>(remote.path.city(city.key))
+        return response.data
+    }
+)
+
 const citySlice = createSlice({
     name: 'city',
     initialState,
     reducers: {
-        updateCity: (state: CitiesState, action: PayloadAction<CityActionPayload>) => {
-            state.cities = update(state.cities, action.payload.city)
-        },
-        insertCity: (state: CitiesState, action: PayloadAction<CityActionPayload>) => {
-            state.cities = insert(state.cities, action.payload.city)
-        }
         // standard reducer logic, with auto-generated action types per reducer
     },
     extraReducers: (builder) => {
         // Add reducers for additional action types here, and handle loading state as needed
         builder.addCase(listCity.fulfilled, (state, action) => {
             state.cities = action.payload
+        })
+        builder.addCase(deleteCity.fulfilled, (state, action) => {
+            state.cities = remove(state.cities, action.payload.key)
+        })
+        builder.addCase(updateCity.fulfilled, (state, action) => {
+            state.cities = update(state.cities, action.payload)
+        })
+        builder.addCase(insertCity.fulfilled, (state, action) => {
+            state.cities = insert(state.cities, action.payload)
         })
     },
 })

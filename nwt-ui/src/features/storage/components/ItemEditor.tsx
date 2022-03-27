@@ -64,7 +64,7 @@ const ItemEditor = ({
             <form>
                 <DialogContent>
                     <DialogContentText>
-                        {messages.itemEditor.create.description}
+                        {messages.itemEditor.insert.description}
                     </DialogContentText>
                     <Controller
                         control={control}
@@ -91,7 +91,6 @@ const ItemEditor = ({
                             <TextField
                                 onChange={onChange}
                                 value={value}
-                                autoFocus
                                 margin="dense"
                                 id="quantity"
                                 label={messages.itemEditor.fields.quantity}
