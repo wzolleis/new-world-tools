@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {CityStorage} from "common/types/commonTypes";
 import {RootState} from "app/state/store";
 import remote, {restApi} from "common/api/restApi";
@@ -51,19 +51,25 @@ export const storageSlice = createSlice({
     name: 'storage',
     initialState,
     reducers: {
-        updateStorage: (state: StorageState, action: PayloadAction<StorageActionPayload>) => {
-            state.storages = update(state.storages, action.payload.storage)
-        },
-        insertStorage: (state: StorageState, action: PayloadAction<StorageActionPayload>) => {
-            state.storages = insert(state.storages, action.payload.storage)
-        }
+        // updateStorage: (state: StorageState, action: PayloadAction<StorageActionPayload>) => {
+        //     state.storages = update(state.storages, action.payload.storage)
+        // },
+        //     insertStorage: (state: StorageState, action: PayloadAction<StorageActionPayload>) => {
+        //         state.storages = insert(state.storages, action.payload.storage)
+        //     }
     },
-        extraReducers: (builder) => {
-            // Add reducers for additional action types here, and handle loading state as needed
-            builder.addCase(listStorage.fulfilled, (state, action) => {
-                state.storages = action.payload
-            })
-        }
+    extraReducers: (builder) => {
+        // Add reducers for additional action types here, and handle loading state as needed
+        builder.addCase(listStorage.fulfilled, (state, action) => {
+            state.storages = action.payload
+        })
+        builder.addCase(insertStorage.fulfilled, (state, action) => {
+            state.storages = insert(state.storages, action.payload)
+        })
+        builder.addCase(updateStorage.fulfilled, (state, action) => {
+            state.storages = update(state.storages, action.payload)
+        })
+    }
     }
 )
 

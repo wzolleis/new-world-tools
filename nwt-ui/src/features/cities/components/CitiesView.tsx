@@ -77,9 +77,9 @@ const CitiesView = () => {
                 title: messages.cityEditor.create.title
             })
             const storage: CityStorage = {
+                ...emptyStorage,
                 key: uuidv4(),
                 city: city.key,
-                items: []
             }
             dispatch(insertCity(city))
             dispatch(insertStorage(storage))
@@ -128,7 +128,6 @@ const CitiesView = () => {
             }
 
             dispatch(updateStorage(toUpdate))
-            console.log('insert item', item)
         },
         onCancel: () => {
             setItemEditorVisible(false)

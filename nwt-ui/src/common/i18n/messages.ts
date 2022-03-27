@@ -26,6 +26,10 @@ export const messages = {
     errors: {
         itemNotFound: (id: ObjectKey | undefined) => `Item ${id} nicht gefunden`
     },
+    confirmations: {
+        areYouSure: 'Sind Sie sicher?',
+        delete: (name: string) => `"${name}" endgültig auslöschen - das hat Konsequenzen und kann nicht mehr ungeschehen gemacht werden...`
+    },
     table: {
         actions: 'Aktionen'
     },
