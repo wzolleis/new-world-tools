@@ -112,6 +112,7 @@ const ItemSummaryTable = ({storages, cities, onRowSelected}: ItemSummaryTablePro
                         showColumnRightBorder={true}
                         onSelectionModelChange={onSelectionChange}
                         selectionModel={selectionModel}
+                        autoHeight={true}
                     />
                 </div>
             </div>

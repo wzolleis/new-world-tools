@@ -10,6 +10,8 @@ import AppIcon from "common/components/AppIcon";
 import {ItemActionHandler} from "features/storage/actions/ItemActionHandler";
 import {ActionHandlerContext} from "features/cities/components/CitiesView";
 import {EditorType} from "common/types/editorType";
+import {useConfirm} from "material-ui-confirm";
+import confirmDelete from "utils/confirmations";
 
 interface CityItemTableProps {
     city: City,
@@ -65,19 +67,25 @@ interface ItemTableMenuProps {
     anchorEl: HTMLElement | null
     actionHandler: ItemActionHandler
     handleMenuClose: () => void
+    handleItemDelete: (item: Item) => void
     item: Item
 }
 
 const ItemTableMenu = ({
                            anchorEl,
                            handleMenuClose,
+                           handleItemDelete,
                            item,
                            actionHandler: {onOpen},
                        }: ItemTableMenuProps) => {
 
     const handleMenuClick = (editorType: EditorType) => {
         handleMenuClose()
-        onOpen(editorType, item)
+        if (editorType === 'delete') {
+            handleItemDelete(item)
+        } else if (editorType === 'edit' || editorType === 'insert') {
+            onOpen(editorType, item)
+        }
     }
 
     return (
@@ -90,11 +98,11 @@ const ItemTableMenu = ({
                 'aria-labelledby': 'basic-button',
             }}
         >
-            <MenuItem onClick={() => handleMenuClick('edit')}>
+            <MenuItem onClick={() => handleMenuClick('delete')}>
                 <ListItemIcon>
-                    <AppIcon icon={"Edit"}/>
+                    <AppIcon icon={"Delete"}/>
                 </ListItemIcon>
-                <ListItemText>{messages.crudActions.edit}</ListItemText>
+                <ListItemText>{messages.crudActions.delete}</ListItemText>
             </MenuItem>
         </Menu>
     )
@@ -105,10 +113,12 @@ const ItemTable = ({storage}: CityItemTableProps) => {
     const [selectedItem, setSelectedItem] = React.useState<undefined | Item>(undefined);
     const {itemActionHandler} = useContext(ActionHandlerContext)
     const [snackbar, setSnackbar] = React.useState<Pick<AlertProps, 'children' | 'severity'> | null>(null);
+    const confirm = useConfirm();
     const handleCloseSnackbar = () => setSnackbar(null);
 
     const items = storage?.items || []
     const rows: CityItemTableRow[] = items.map(mapOneItemToTableData)
+    const {onDelete, onCancel} = itemActionHandler;
 
     const handleTableActionsClick = (event: React.MouseEvent<HTMLButtonElement>, selected: ObjectKey) => {
         setAnchorEl(event.currentTarget)
@@ -119,6 +129,15 @@ const ItemTable = ({storage}: CityItemTableProps) => {
         setAnchorEl(null);
         setSelectedItem(undefined)
     };
+
+    const handleItemDelete = (item: Item) => {
+        confirmDelete({
+            confirm,
+            name: item.name,
+            onOk: () => onDelete(item),
+            onCancel
+        })
+    }
 
     const handleUpdateRow = React.useCallback((values: Partial<CityItemTableRow>) => {
         const item: Item | undefined = items.find(item => item.key === values.id)
@@ -156,6 +175,7 @@ const ItemTable = ({storage}: CityItemTableProps) => {
                     <ItemTableMenu anchorEl={anchorEl}
                                    actionHandler={itemActionHandler}
                                    handleMenuClose={handleMenuClose}
+                                   handleItemDelete={handleItemDelete}
                                    item={selectedItem || ItemActionHandler.createNewItem()}
                     />
                 </div>

@@ -10,6 +10,8 @@ import AppIcon from "common/components/AppIcon";
 import {CityActionHandler} from "features/cities/actions/CityActionHandler";
 import {ActionHandlerContext} from "features/cities/components/CitiesView";
 import {EditorType} from "common/types/editorType";
+import confirmDelete from "utils/confirmations";
+import {useConfirm} from "material-ui-confirm";
 
 interface CitiesTableProps {
     cities: City[]
@@ -58,18 +60,25 @@ interface CitiesTableMenuProps {
     actionHandler: CityActionHandler
     city: Undefined<City>
     handleMenuClose: () => void
+    handleCityDelete: (city: City) => void
 }
 
 const CitiesTableMenu = ({
                              anchorEl,
                              handleMenuClose,
+                             handleCityDelete,
                              city,
                              actionHandler: {onOpen}
                          }: CitiesTableMenuProps) => {
     const handleMenuClick = (editorType: EditorType) => {
         if (!!city) {
+            if (editorType === 'delete') {
+                console.log('delete city', city)
+                handleCityDelete(city)
+            } else if (editorType === 'edit' || editorType === 'insert') {
+                onOpen(editorType, city)
+            }
             handleMenuClose()
-            onOpen(editorType, city)
         }
     }
 
@@ -100,12 +109,15 @@ const CitiesTableMenu = ({
 }
 
 export const CitiesTable = ({cities}: CitiesTableProps) => {
+    const confirm = useConfirm()
     // anchor element fuer das Menu der Tabelle, wird beim Klick auf eine Zelle gesetzt
     const rows: CityTableRow[] = mapToTableRow(cities)
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const {cityActionHandler} = useContext(ActionHandlerContext);
     const initialSelection = cities.length > 0 ? [cities[0].key] : []
     const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>(initialSelection);
+
+    const {onDelete, onCancel} = cityActionHandler
 
     // const {onSelect} = actionHandler
 
@@ -118,6 +130,14 @@ export const CitiesTable = ({cities}: CitiesTableProps) => {
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
+    const handleCityDelete = (city: City) => {
+        confirmDelete({
+            confirm,
+            name: city.name,
+            onOk: () => onDelete(city),
+            onCancel
+        })
+    }
     const handleTableActionsClick = (event: React.MouseEvent<HTMLButtonElement>, _: ObjectKey) => {
         setAnchorEl(event.currentTarget)
     }
@@ -151,6 +171,7 @@ export const CitiesTable = ({cities}: CitiesTableProps) => {
                 </div>
 
                 <CitiesTableMenu handleMenuClose={handleMenuClose}
+                                 handleCityDelete={handleCityDelete}
                                  actionHandler={cityActionHandler}
                                  anchorEl={anchorEl}
                                  city={selectedCity()}
