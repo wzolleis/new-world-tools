@@ -9,6 +9,7 @@ import {PlayersView} from "features/player/components/PlayersView";
 import {AppLinks} from "app/menu/data/appLinks";
 import Layout from "common/components/Layout";
 import StoragesView from "features/storage/components/StoragesView";
+import CityDetailsView from "features/cities/components/CityDetailsView";
 
 const nestedPaths: RouteObject[] = [
     {
@@ -25,8 +26,15 @@ const nestedPaths: RouteObject[] = [
             },
             {
                 path: AppLinks.cities,
-                element: <CitiesView/>
-            }, {
+                element: <CitiesView/>,
+                children: [
+                    {
+                        path: ':key',
+                        element: CityDetailsView
+                    },
+                ]
+            },
+            {
 
                 path: AppLinks.storages,
                 element: <StoragesView/>

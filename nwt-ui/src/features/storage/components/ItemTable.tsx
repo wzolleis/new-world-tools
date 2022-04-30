@@ -3,12 +3,11 @@ import {DataGrid, GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
 import {messages} from "common/i18n/messages";
 import {Alert, AlertProps, IconButton, ListItemIcon, ListItemText, Menu, Snackbar} from "@mui/material";
 import * as React from "react";
-import {useContext} from "react";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import MenuItem from "@mui/material/MenuItem";
 import AppIcon from "common/components/AppIcon";
 import {ItemActionHandler} from "features/storage/actions/ItemActionHandler";
-import {ActionHandlerContext} from "features/cities/components/CitiesView";
+// import {ActionHandlerContext} from "features/cities/components/CitiesView";
 import {EditorType} from "common/types/editorType";
 import {useConfirm} from "material-ui-confirm";
 import confirmDelete from "utils/confirmations";
@@ -111,14 +110,14 @@ const ItemTableMenu = ({
 const ItemTable = ({storage}: CityItemTableProps) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [selectedItem, setSelectedItem] = React.useState<undefined | Item>(undefined);
-    const {itemActionHandler} = useContext(ActionHandlerContext)
+    // const {itemActionHandler} = useContext(ActionHandlerContext)
     const [snackbar, setSnackbar] = React.useState<Pick<AlertProps, 'children' | 'severity'> | null>(null);
     const confirm = useConfirm();
     const handleCloseSnackbar = () => setSnackbar(null);
 
     const items = storage?.items || []
     const rows: CityItemTableRow[] = items.map(mapOneItemToTableData)
-    const {onDelete, onCancel} = itemActionHandler;
+    // const {onDelete, onCancel} = itemActionHandler;
 
     const handleTableActionsClick = (event: React.MouseEvent<HTMLButtonElement>, selected: ObjectKey) => {
         setAnchorEl(event.currentTarget)
@@ -134,8 +133,10 @@ const ItemTable = ({storage}: CityItemTableProps) => {
         confirmDelete({
             confirm,
             name: item.name,
-            onOk: () => onDelete(item),
-            onCancel
+            onOk: () => {
+            },
+            onCancel: () => {
+            }
         })
     }
 
@@ -147,14 +148,14 @@ const ItemTable = ({storage}: CityItemTableProps) => {
                 quantity: values.quantity || item.quantity,
                 name: values.name || item.name,
             }
-            itemActionHandler.onUpdate(toUpdate)
+            // itemActionHandler.onUpdate(toUpdate)
             setSnackbar({children: messages.success.updated(toUpdate.name), severity: 'success'});
             return Promise.resolve(mapOneItemToTableData(toUpdate))
         } else {
             setSnackbar({children: 'Error while saving Item', severity: 'error'});
             return Promise.reject(messages.errors.itemNotFound(values.id))
         }
-    }, [items, itemActionHandler])
+    }, [items])
 
     return (
         <>
@@ -172,12 +173,14 @@ const ItemTable = ({storage}: CityItemTableProps) => {
                             processRowUpdate={handleUpdateRow}
                         />
                     </div>
+                    {/*
                     <ItemTableMenu anchorEl={anchorEl}
                                    actionHandler={itemActionHandler}
                                    handleMenuClose={handleMenuClose}
                                    handleItemDelete={handleItemDelete}
                                    item={selectedItem || ItemActionHandler.createNewItem()}
                     />
+*/}
                 </div>
                 {!!snackbar && (
                     <Snackbar

@@ -1,16 +1,16 @@
 import {Grid, Typography} from "@mui/material";
-import {City, CityStorage} from "common/types/commonTypes";
 import React from "react";
 import {messages} from "common/i18n/messages";
-import ItemTable from "features/storage/components/ItemTable";
+import {useAppSelector} from "app/state/hooks";
+import {selectCity} from "features/cities/state/citiesSlice";
+import {useParams} from "react-router-dom";
 
-export interface CityDetailsViewProps {
-    city: City | undefined
-    storage: CityStorage,
-}
-
-const CityDetailsView = ({city, storage}: CityDetailsViewProps) => {
+const CityDetailsView = () => {
+    const {cities} = useAppSelector(selectCity)
+    const params = useParams();
+    const city = cities.find(city => city.key === params.key)
     if (!city) return null
+
     return (
         <div>
             <Grid container direction="column" spacing={2}>
@@ -20,9 +20,11 @@ const CityDetailsView = ({city, storage}: CityDetailsViewProps) => {
                     </Typography>
                 </Grid>
 
+                {/*
                 <Grid item xs={6} sm={6}>
                     <ItemTable storage={storage} city={city}/>
                 </Grid>
+*/}
             </Grid>
         </div>
     )
