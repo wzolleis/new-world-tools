@@ -30,7 +30,7 @@ const nestedPaths: RouteObject[] = [
                 children: [
                     {
                         path: ':key',
-                        element: CityDetailsView
+                        element: <CityDetailsView/>
                     },
                 ]
             },
