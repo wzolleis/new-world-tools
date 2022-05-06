@@ -1,11 +1,11 @@
 import {Typography} from "@mui/material";
-import React from "react";
+import React, {PropsWithChildren} from "react";
 import {makeStyles} from "@mui/styles";
 import LayoutConstants from "common/constants/layoutConstants";
 import {AppTheme} from "app/components/appTheme";
 
 interface AppBarTitleProps {
-    title: string
+    title?: string
 }
 
 const useStyles = makeStyles((_: AppTheme) => {
@@ -19,12 +19,13 @@ const useStyles = makeStyles((_: AppTheme) => {
     }
 })
 
-const AppBarTitle = ({title}: AppBarTitleProps) => {
+const AppBarTitle: React.FC<PropsWithChildren<AppBarTitleProps>> = ({title, children}) => {
     const classes = useStyles()
 
     return (
         <div className={classes.title}>
-            <Typography>{title}</Typography>
+            {children}
+            {!!title && <Typography>{title}</Typography>}
         </div>
     )
 }

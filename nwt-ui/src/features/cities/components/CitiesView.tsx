@@ -11,7 +11,7 @@ import React, {useEffect} from "react";
 import {City} from "common/types/commonTypes";
 import {useAppDispatch, useAppSelector} from "app/state/hooks";
 import {listCity, selectCity} from "features/cities/state/citiesSlice";
-import {Link as RouterLink, Outlet} from "react-router-dom";
+import {Link as RouterLink} from "react-router-dom";
 import {AppLinksCreator} from "app/menu/data/appLinks";
 import AppBarTitle from "common/components/AppBarTitle";
 import TopAppBar from "common/components/TopAppBar";
@@ -78,9 +78,6 @@ const CitiesView = () => {
 
                         }
                     </Grid>
-                </Grid>
-                <Grid item>
-                    <Outlet/>
                 </Grid>
             </Grid>
         </>
