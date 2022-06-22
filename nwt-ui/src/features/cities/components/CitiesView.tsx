@@ -7,14 +7,14 @@ import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import {messages} from "common/i18n/messages";
-import React, {useEffect} from "react";
+import React from "react";
 import {City} from "common/types/commonTypes";
-import {useAppDispatch, useAppSelector} from "app/state/hooks";
-import {listCity, selectCity} from "features/cities/state/citiesSlice";
 import {Link as RouterLink} from "react-router-dom";
 import {AppLinksCreator} from "app/menu/data/appLinks";
 import AppBarTitle from "common/components/AppBarTitle";
 import TopAppBar from "common/components/TopAppBar";
+import {useInsertCityMutation, useListCitiesQuery} from 'common/api/queryApi'
+import {CityActionHandler} from "features/cities/actions/CityActionHandler";
 
 interface CityItemProps {
     city: City
@@ -50,17 +50,23 @@ const CityItem = ({city}: CityItemProps) => {
 }
 
 const CitiesView = () => {
-    const dispatch = useAppDispatch();
-    const {cities} = useAppSelector(selectCity)
-    useEffect(() => {
-        dispatch(listCity())
-    }, [dispatch])
+    const {data: cities = []} = useListCitiesQuery()
+    const [insertCity] = useInsertCityMutation()
+
+    const onInsertCity = () => {
+        const city: City = {
+            ...CityActionHandler.createNewCity(),
+            name: 'city dummy'
+        }
+        insertCity(city)
+    }
 
     return (
         <>
             <TopAppBar>
                 <Toolbar>
                     <AppBarTitle title={messages.menu.cities}/>
+                    <Button variant='contained' onClick={onInsertCity}>insert city</Button>
                 </Toolbar>
             </TopAppBar>
 

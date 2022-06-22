@@ -1,18 +1,16 @@
 import Grid from "@mui/material/Grid/Grid";
-import {useAppSelector} from "app/state/hooks";
 import {messages} from "common/i18n/messages";
 import * as React from "react";
 import {useState} from "react";
 import ItemSummaryTable, {ItemSummaryTableRow} from "features/storage/components/ItemSummaryTable";
 import TopAppBar from "common/components/TopAppBar";
 import {Toolbar} from "@mui/material";
-import {selectCity} from "features/cities/state/citiesSlice";
-import {selectStorage} from "features/storage/state/storageSlice";
 import AppBarTitle from "common/components/AppBarTitle";
+import {useListCitiesQuery, useListStoragesQuery} from "common/api/queryApi";
 
 const StoragesView = () => {
-    const {cities} = useAppSelector(selectCity)
-    const {storages} = useAppSelector(selectStorage)
+    const {data: cities = []} = useListCitiesQuery()
+    const {data: storages = []} = useListStoragesQuery()
     const [selectedRow, setSelectedRow] = useState<ItemSummaryTableRow | undefined>(undefined)
     const onUpdateItemSelection = (itemSummary: ItemSummaryTableRow | undefined) => {
         setSelectedRow(itemSummary)

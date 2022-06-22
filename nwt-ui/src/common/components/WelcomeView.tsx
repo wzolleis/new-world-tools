@@ -1,11 +1,9 @@
-import React, {useEffect} from 'react'
-import {useAppDispatch} from "app/state/hooks";
+import React from 'react'
 import {messages} from "common/i18n/messages";
 import {Toolbar, Typography} from "@mui/material";
 import {makeStyles} from "@mui/styles";
 import LayoutConstants from "common/constants/layoutConstants";
 import TopAppBar from "common/components/TopAppBar";
-import {loadData} from "features/data/state/dataSlice";
 import {AppTheme} from "app/components/appTheme";
 
 const useStyles = makeStyles((_: AppTheme) => {
@@ -21,11 +19,6 @@ const useStyles = makeStyles((_: AppTheme) => {
 
 const WelcomeView = () => {
     const classes = useStyles()
-    const dispatch = useAppDispatch()
-    useEffect(() => {
-        dispatch(loadData())
-    }, [])
-
     return (
         <>
             <TopAppBar>
