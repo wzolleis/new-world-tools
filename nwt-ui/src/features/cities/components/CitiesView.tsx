@@ -66,7 +66,7 @@ const CitiesView = () => {
             <TopAppBar>
                 <Toolbar>
                     <AppBarTitle title={messages.menu.cities}/>
-                    <Button variant='contained' onClick={onInsertCity}>insert city</Button>
+                    <Button variant='contained' onClick={onInsertCity}>{messages.cityEditor.insert.title}</Button>
                 </Toolbar>
             </TopAppBar>
 

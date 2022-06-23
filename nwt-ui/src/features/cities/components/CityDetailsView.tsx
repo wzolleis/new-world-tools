@@ -1,20 +1,27 @@
 import {Grid, Toolbar, Typography} from "@mui/material";
 import React from "react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import TopAppBar from "common/components/TopAppBar";
 import AppBarTitle from "common/components/AppBarTitle";
 import AppBarButton from "common/appbar/AppBarButton";
 import AppBarIcon from "common/appbar/AppBarIcon";
 import {useDeleteCityMutation, useListCitiesQuery, useUpdateCityMutation} from "common/api/queryApi";
 import Button from "@mui/material/Button";
+import {messages} from "common/i18n/messages";
 
-const BackButton = () => {
+
+interface NavigateButtonProps {
+    navigate: (offset: number) => void
+}
+
+const BackButton = (props: NavigateButtonProps) => {
+    const {navigate} = props
     return (
         <AppBarButton
             variant="outlined"
             startIcon={<AppBarIcon icon={"City"}/>}
             onClick={() => {
-                console.log('click back button')
+                navigate(-1)
             }}
         >
             {'Back'}
@@ -27,9 +34,10 @@ const CityDetailsView = () => {
     const [updateCity] = useUpdateCityMutation()
     const [deleteCity] = useDeleteCityMutation()
     const params = useParams();
+    const navigate = useNavigate()
     const city = cities.find(city => city.key === params.key)
-    if (!city) return null
 
+    if (!city) return null
     const onUpdateCity = () => {
         const toUpdate = {
             ...city,
@@ -42,13 +50,16 @@ const CityDetailsView = () => {
         deleteCity(city)
     }
 
+
+    const onNavigate = (offset: number) => navigate(offset)
+
     return (
         <div>
             <TopAppBar>
                 <Toolbar>
-                    <AppBarTitle children={<BackButton/>}/>
-                    <Button variant='contained' onClick={onUpdateCity}>update city</Button>
-                    <Button variant='contained' onClick={onDeleteCity}>delete city</Button>
+                    <AppBarTitle children={<BackButton navigate={onNavigate}/>}/>
+                    <Button variant='contained' onClick={onUpdateCity}>{messages.cityEditor.edit.title}</Button>
+                    <Button variant='contained' onClick={onDeleteCity}>{messages.cityEditor.delete.title}</Button>
                 </Toolbar>
             </TopAppBar>
             <Grid container direction="column" spacing={5}>
