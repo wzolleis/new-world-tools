@@ -5,17 +5,6 @@
       "name": "Dschaeck",
       "password": "geheim",
       "state": "active"
-    },
-    {
-      "key": "a2be5155-4933-4260-a16a-12e0fcb9c45c",
-      "name": "Dschaeck 2",
-      "password": "geheim"
-    }
-  ],
-  "worlds": [
-    {
-      "key": "489f0ec3-abc2-4abf-a67a-a9f0042ab09c",
-      "name": "Antilia"
     }
   ],
   "players": [
@@ -23,148 +12,109 @@
       "key": "4031e661-91a5-4130-b61e-6c063cfe48ac",
       "name": "Dschaeck",
       "user": "9f818bba-3c17-42e2-9aff-168cd2c8f387",
-      "world": "489f0ec3-abc2-4abf-a67a-a9f0042ab09c",
       "state": "active"
-    },
-    {
-      "key": "3aac79e8-8602-4bec-9af5-2a3a1e2ee3a5",
-      "name": "Dschaeck 2",
-      "user": "9f818bba-3c17-42e2-9aff-168cd2c8f387",
-      "world": "489f0ec3-abc2-4abf-a67a-a9f0042ab09c"
     }
   ],
   "cities": [
     {
       "key": "ae1b45cc-c380-4729-957d-bf4f7554f8af",
-      "name": "Everfall",
+      "name": "dummy Everfall",
       "details": "Metall, Stein, Leder, Schmelzen, Schmiede Lvl 4",
-      "world": "489f0ec3-abc2-4abf-a67a-a9f0042ab09c",
-      "player": "4031e661-91a5-4130-b61e-6c063cfe48ac"
+      "player": "4031e661-91a5-4130-b61e-6c063cfe48ac",
+      "storage": {
+        "key": "8720a226-885e-4e7e-8e6f-e899d11f2ecb",
+        "city": "ae1b45cc-c380-4729-957d-bf4f7554f8af",
+        "items": [
+          {
+            "key": "65a62fa7-cadc-48b9-9d6b-8c37527783bb",
+            "name": "Silver",
+            "category": "smelting",
+            "quantity": 500
+          },
+          {
+            "key": "5148d4da-9f00-4b87-8ecd-eae396b26c43",
+            "name": "Gold",
+            "category": "smelting",
+            "quantity": "1000"
+          },
+          {
+            "key": "151f1e8f-8e6b-47d1-9252-771dfa7b33cc",
+            "quantity": "1000",
+            "name": "Platin",
+            "attributes": {},
+            "category": "resource"
+          },
+          {
+            "key": "d1805ac9-9f1c-43a3-b6a0-398b53decfa6",
+            "quantity": "10",
+            "name": "Medal of Extra Honor",
+            "attributes": {},
+            "category": "resource"
+          }
+        ]
+      }
     },
     {
       "key": "ea92ca08-fa23-482e-9de5-196d0cb9628b",
       "name": "Monarch's Bluff",
       "details": "alles super",
-      "world": "489f0ec3-abc2-4abf-a67a-a9f0042ab09c",
-      "player": "4031e661-91a5-4130-b61e-6c063cfe48ac"
-    },
-    {
-      "name": "dummy Windsward",
-      "details": "nichts ausgebaut",
-      "key": "a28312e9-1064-4c35-a8de-14a8defb0ae7",
-      "world": "489f0ec3-abc2-4abf-a67a-a9f0042ab09c",
-      "player": "4031e661-91a5-4130-b61e-6c063cfe48ac"
+      "player": "4031e661-91a5-4130-b61e-6c063cfe48ac",
+      "storage": {
+        "key": "ffaab139-b258-455c-b8ba-b59f12f7564c",
+        "city": "ea92ca08-fa23-482e-9de5-196d0cb9628b",
+        "items": [
+          {
+            "key": "56afe97a-cde1-4a1c-a966-bb9e54d1ea7f",
+            "name": "Gold",
+            "category": "smelting",
+            "quantity": 500
+          }
+        ]
+      }
     },
     {
       "name": "First Light",
       "details": "Anfänger",
       "key": "efb2808d-a5c0-4aa4-b98c-0e93786004ac",
-      "world": "489f0ec3-abc2-4abf-a67a-a9f0042ab09c",
-      "player": "4031e661-91a5-4130-b61e-6c063cfe48ac"
+      "player": "4031e661-91a5-4130-b61e-6c063cfe48ac",
+      "storage": {
+        "key": "337d03a4-7cc1-4d44-96b5-610fead2b987",
+        "city": "efb2808d-a5c0-4aa4-b98c-0e93786004ac",
+        "items": [
+          {
+            "key": "1960eaf4-ca92-4721-95fb-c1cc0eeb995b",
+            "quantity": "1000",
+            "name": "test 2",
+            "attributes": {},
+            "category": "resource"
+          },
+          {
+            "key": "9d475944-714a-4080-93ac-96feed5793ba",
+            "quantity": 0,
+            "name": "test 3",
+            "attributes": {},
+            "category": "resource"
+          }
+        ]
+      }
     },
     {
       "key": "807f9bfa-c336-48dd-9978-5da5f8caa963",
       "details": "alles ok",
       "name": "Restless Shore City",
-      "player": "",
-      "world": ""
-    }
-  ],
-  "storages": [
-    {
-      "key": "8720a226-885e-4e7e-8e6f-e899d11f2ecb",
-      "city": "ae1b45cc-c380-4729-957d-bf4f7554f8af",
-      "items": [
-        {
-          "key": "65a62fa7-cadc-48b9-9d6b-8c37527783bb",
-          "name": "Silver",
-          "category": "smelting",
-          "quantity": 500
-        },
-        {
-          "key": "5148d4da-9f00-4b87-8ecd-eae396b26c43",
-          "name": "Gold",
-          "category": "smelting",
-          "quantity": "1000"
-        },
-        {
-          "key": "151f1e8f-8e6b-47d1-9252-771dfa7b33cc",
-          "quantity": "1000",
-          "name": "Platin",
-          "attributes": {},
-          "category": "resource"
-        },
-        {
-          "key": "d1805ac9-9f1c-43a3-b6a0-398b53decfa6",
-          "quantity": "10",
-          "name": "Medal of Extra Honor",
-          "attributes": {},
-          "category": "resource"
-        }
-      ]
-    },
-    {
-      "key": "ffaab139-b258-455c-b8ba-b59f12f7564c",
-      "city": "ea92ca08-fa23-482e-9de5-196d0cb9628b",
-      "items": [
-        {
-          "key": "56afe97a-cde1-4a1c-a966-bb9e54d1ea7f",
-          "name": "Gold",
-          "category": "smelting",
-          "quantity": 500
-        }
-      ]
-    },
-    {
-      "key": "337d03a4-7cc1-4d44-96b5-610fead2b987",
-      "city": "efb2808d-a5c0-4aa4-b98c-0e93786004ac",
-      "items": [
-        {
-          "key": "1960eaf4-ca92-4721-95fb-c1cc0eeb995b",
-          "quantity": "1000",
-          "name": "test 2",
-          "attributes": {},
-          "category": "resource"
-        },
-        {
-          "key": "9d475944-714a-4080-93ac-96feed5793ba",
-          "quantity": 0,
-          "name": "test 3",
-          "attributes": {},
-          "category": "resource"
-        }
-      ]
-    },
-    {
-      "key": "cf71ad85-8f5c-42ed-8933-634059112af1",
-      "city": "807f9bfa-c336-48dd-9978-5da5f8caa963",
-      "items": [
-        {
-          "key": "edc66f55-e828-4520-af73-50d1a56973d1",
-          "quantity": "1000",
-          "name": "Edelsteine",
-          "attributes": {},
-          "category": "resource"
-        }
-      ]
-    },
-    {
-      "key": "6d3c5195-f888-442c-888e-7abe7b712b6a",
-      "city": "a28312e9-1064-4c35-a8de-14a8defb0ae7",
-      "items": [
-        {
-          "key": "d5e4ba95-6292-4cbd-99bc-eddfed40d486",
-          "quantity": "100",
-          "name": "Edelsteine",
-          "attributes": {},
-          "category": "resource"
-        }
-      ]
-    },
-    {
-      "key": "a4489e91-eee3-4122-a24b-f52f49365b4c",
-      "city": "7f728ba0-48aa-442a-b63a-b4bb3ab6de3e",
-      "items": []
+      "player": "4031e661-91a5-4130-b61e-6c063cfe48ac",
+      "storage": {
+        "key": "cf71ad85-8f5c-42ed-8933-634059112af1",
+        "items": [
+          {
+            "key": "edc66f55-e828-4520-af73-50d1a56973d1",
+            "quantity": "1000",
+            "name": "Edelsteine",
+            "attributes": {},
+            "category": "resource"
+          }
+        ]
+      }
     }
   ]
 }
