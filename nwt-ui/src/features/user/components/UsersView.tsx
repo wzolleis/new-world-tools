@@ -33,9 +33,7 @@ const UserGrid = ({pending, users}: UserGridProps) => {
 }
 
 const UsersView = () => {
-    const {data: users = [], isLoading: userLoading} = useListUsersQuery()
-    const isPending = userLoading
-
+    const {data: users = [], isLoading} = useListUsersQuery()
     const user = users.find(user => user.key === dataKeys.users.dschaeck)
     const userName = user?.name || 'undefined user'
     return (
@@ -45,7 +43,7 @@ const UsersView = () => {
                     <AppBarTitle title={userName}/>
                 </Toolbar>
             </TopAppBar>
-            <UserGrid users={users} pending={isPending}/>
+            <UserGrid users={users} pending={isLoading}/>
         </>
     )
 }
