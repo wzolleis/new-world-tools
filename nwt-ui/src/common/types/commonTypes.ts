@@ -44,12 +44,12 @@ export interface User extends WithKey {
     name: string,
     password: string,
     state: string,
+    players: Player[]
 }
 
 export interface Player extends WithKey {
     name: string,
     user: ObjectKey
-    state: string, // dataStates
 }
 
 export interface City extends WithKey {

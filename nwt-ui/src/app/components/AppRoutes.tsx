@@ -5,12 +5,10 @@ import CitiesView from "features/cities/components/CitiesView";
 import {NotFoundView} from "common/components/NotFoundView";
 import WelcomeView from "common/components/WelcomeView";
 import UsersView from "features/user/components/UsersView";
-import {PlayersView} from "features/player/components/PlayersView";
 import {AppLinks} from "app/menu/data/appLinks";
 import Layout from "common/components/Layout";
 import CityDetailsView from "features/cities/components/CityDetailsView";
-
-// const UsersView = React.lazy(() => import("features/user/components/UsersView"))
+import StorageView from 'features/storage/components/StorageView'
 
 const nestedPaths: RouteObject[] = [
     {
@@ -34,8 +32,8 @@ const nestedPaths: RouteObject[] = [
                 element: <CityDetailsView/>
             },
             {
-                path: AppLinks.players,
-                element: <PlayersView/>
+                path: `${AppLinks.cities}/:cityKey/storage/:storageKey`,
+                element: <StorageView/>
             },
         ],
     },

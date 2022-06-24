@@ -4,11 +4,11 @@ export const AppLinks = {
     root: '/',
     cities: 'cities',
     users: 'users',
-    players: 'players',
     favorites: 'favorites'
 }
 
 
 export const AppLinksCreator = {
-    createCityDetailsLink: (city: City) => `/${AppLinks.cities}/${city.key}`
+    createCityDetailsLink: (city: City) => `/${AppLinks.cities}/${city.key}`,
+    createStorageLink: (city: City) => `/${AppLinks.cities}/${city.key}/storage/${city.storage.key}`
 }

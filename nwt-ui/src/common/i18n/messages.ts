@@ -5,7 +5,8 @@ export const messages = {
         noSelection: (startPage: string) => `Es sind keine Daten geladen. Bitte auf ${startPage} klicken`,
         saveButton: 'Speichern',
         cancelButton: 'Abbruch',
-        showDetailsButton: 'Details anzeigen'
+        showDetailsButton: 'Details anzeigen',
+        showStorageButton: 'Storage anzeigen'
     },
     crudActions: {
         edit: 'Ändern..',

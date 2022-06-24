@@ -24,6 +24,7 @@ const CityItem = ({city}: CityItemProps) => {
     const theme = useTheme<AppTheme>()
     const iconColor = theme.custom.menuIcons.color
     const detailsLink = AppLinksCreator.createCityDetailsLink(city)
+    const storageLink = AppLinksCreator.createStorageLink(city)
     return (
         <Card variant={"outlined"}>
             <CardHeader
@@ -44,6 +45,8 @@ const CityItem = ({city}: CityItemProps) => {
             <CardActions>
                 <Button component={RouterLink} to={detailsLink}
                         size="small">{messages.common.showDetailsButton}</Button>
+                <Button component={RouterLink} to={storageLink}
+                        size="small">{messages.common.showStorageButton}</Button>
             </CardActions>
         </Card>
     )

@@ -4,15 +4,15 @@
       "key": "9f818bba-3c17-42e2-9aff-168cd2c8f387",
       "name": "Dschaeck",
       "password": "geheim",
-      "state": "active"
-    }
-  ],
-  "players": [
-    {
-      "key": "4031e661-91a5-4130-b61e-6c063cfe48ac",
-      "name": "Dschaeck",
-      "user": "9f818bba-3c17-42e2-9aff-168cd2c8f387",
-      "state": "active"
+      "state": "active",
+      "players": [
+        {
+          "key": "4031e661-91a5-4130-b61e-6c063cfe48ac",
+          "name": "Dschaeck",
+          "user": "9f818bba-3c17-42e2-9aff-168cd2c8f387",
+          "state": "active"
+        }
+      ]
     }
   ],
   "cities": [

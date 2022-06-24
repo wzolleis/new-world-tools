@@ -6,9 +6,7 @@ import {
     CardActions,
     CardContent,
     CardHeader,
-    Checkbox,
     Collapse,
-    FormControlLabel,
     IconButton,
     List,
     ListItem,
@@ -25,8 +23,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {messages} from "common/i18n/messages";
 
 export interface UserCardProps {
-    user: User,
-    players: Player[]
+    user: User
 }
 
 const styles = {
@@ -75,18 +72,9 @@ const PlayerList = ({players}: PlayerListProps) => {
         <List>
             {
                 players.map(player => {
-                    const active = player.state === dataStates.active
                     return (
                         <ListItem key={player.key}>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={active}
-                                        disabled={true}
-                                    />
-                                }
-                                label={player.name}
-                            />
+                            {player.name}
                         </ListItem>
                     )
                 })
@@ -95,7 +83,7 @@ const PlayerList = ({players}: PlayerListProps) => {
     )
 }
 
-const UserCardContent = ({user, players}: UserCardProps) => {
+const UserCardContent = ({user, user: {players}}: UserCardProps) => {
     const detailsTxt = `${messages.userDetails.playersCount}: ${players.length}`
     const userActive = user.state === dataStates.active ? messages.userDetails.userActive : messages.userDetails.userNotActive
 
@@ -153,12 +141,11 @@ const UserCardMenu = ({handleUserMenuClose, anchorEl, open}: UserCardMenuProps) 
 }
 
 interface UserCardDetailViewProps {
-    user: User,
     players: Player[]
     expanded: boolean
 }
 
-const UserCardDetailView = ({user, players, expanded}: UserCardDetailViewProps) => {
+const UserCardDetailView = ({players, expanded}: UserCardDetailViewProps) => {
     return (
         <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent>
@@ -170,7 +157,7 @@ const UserCardDetailView = ({user, players, expanded}: UserCardDetailViewProps) 
 }
 
 
-const UserCard = ({user, players}: UserCardProps) => {
+const UserCard = ({user, user: {players}}: UserCardProps) => {
     const [expanded, setExpanded] = React.useState(false);
 
     const classes = useStyles()
@@ -194,13 +181,12 @@ const UserCard = ({user, players}: UserCardProps) => {
                           anchorEl={anchorEl}
                           handleUserMenuClose={handleUserMenuClose}
             />
-            <UserCardContent user={user} players={players}/>
+            <UserCardContent user={user}/>
             <UserCardActions classes={classes}
                              handleExpandClick={handleExpandClick}
                              expanded={expanded}
             />
             <UserCardDetailView
-                user={user}
                 players={players}
                 expanded={expanded}
             />
