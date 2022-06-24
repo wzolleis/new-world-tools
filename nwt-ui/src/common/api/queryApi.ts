@@ -1,14 +1,21 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
-import restApi from 'common/api/restApi'
-import {City, CityStorage} from "common/types/commonTypes";
+import {City, Player, User} from "common/types/commonTypes";
 
 const baseURL = 'http://localhost:5000/api'
 
+const restApi = {
+    path: {
+        users: `/users`,
+        players: `/players`,
+        cities: `/cities`,
+        city: (key: string) => `/cities/${key}`,
+    }
+}
 
 export const nwtApi = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({baseUrl: baseURL}),
-    tagTypes: ['Cities', 'Storages'],
+    tagTypes: ['Cities', 'Storages', 'Players', 'Users'],
     endpoints: (builder) => ({
         listCities: builder.query<Array<City>, void>({
             query: () => restApi.path.cities,
@@ -37,40 +44,22 @@ export const nwtApi = createApi({
             }),
             invalidatesTags: ['Cities']
         }),
-        listStorages: builder.query<Array<CityStorage>, void>({
-            query: () => restApi.path.storages,
-            providesTags: ['Storages']
+        listPlayers: builder.query<Array<Player>, void>({
+            query: () => restApi.path.players,
+            providesTags: ['Players']
         }),
-        insertStorage: builder.mutation({
-            query: (storage: CityStorage) => ({
-                url: restApi.path.storages,
-                method: 'POST',
-                body: storage
-            }),
-            invalidatesTags: ['Storages']
-        }),
-        updateStorage: builder.mutation({
-            query: (storage: CityStorage) => ({
-                url: restApi.path.storage(storage.key),
-                method: 'PUT',
-                body: storage
-            }),
-            invalidatesTags: ['Storages']
-        }),
-        deleteStorage: builder.mutation({
-            query: (storage: CityStorage) => ({
-                url: restApi.path.storage(storage.key),
-                method: 'DELETE'
-            }),
-            invalidatesTags: ['Storages']
+        listUsers: builder.query<Array<User>, void>({
+            query: () => restApi.path.users,
+            providesTags: ['Users']
         }),
     }),
 })
 
 export const {
     useListCitiesQuery,
-    useListStoragesQuery,
     useInsertCityMutation,
     useUpdateCityMutation,
     useDeleteCityMutation,
+    useListPlayersQuery,
+    useListUsersQuery
 } = nwtApi

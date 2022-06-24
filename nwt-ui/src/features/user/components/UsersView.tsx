@@ -1,14 +1,11 @@
-import React, {useEffect, useTransition} from "react";
+import React from "react";
 
 import {Grid, Toolbar} from "@mui/material";
 import {Player, User} from "common/types/commonTypes";
-import {useAppDispatch, useAppSelector} from "app/state/hooks";
 import UserCard from "features/user/components/UserCard";
 import TopAppBar from "common/components/TopAppBar";
-import {noDataMessage} from "common/i18n/messages";
-import {listUser, selectUser} from "features/user/state/userSlice";
 import AppBarTitle from "common/components/AppBarTitle";
-import {listPlayer, selectPlayer} from "features/player/state/playerSlice";
+import {useListPlayersQuery, useListUsersQuery} from "common/api/queryApi";
 
 interface UserGridProps {
     users: User[]
@@ -36,19 +33,12 @@ const UserGrid = ({pending, users, players}: UserGridProps) => {
 }
 
 const UsersView = () => {
-    const [isPending, startTransition] = useTransition()
-    const dispatch = useAppDispatch();
-    useEffect(() => {
-        startTransition(() => {
-            dispatch(listPlayer())
-            dispatch(listUser())
-        })
-    }, [dispatch])
+    const {data: players = [], isLoading: playerLoading} = useListPlayersQuery()
+    const {data: users = [], isLoading: userLoading} = useListUsersQuery()
+    const isPending = playerLoading || userLoading
 
-    const {user, users} = useAppSelector(selectUser)
-    const userName = `${user?.name || noDataMessage}`
-    const {players} = useAppSelector(selectPlayer)
-
+    const user = users.find(user => user.key == '4031e661-91a5-4130-b61e-6c063cfe48ac')
+    const userName = user?.name || 'undefined user'
     return (
         <>
             <TopAppBar>

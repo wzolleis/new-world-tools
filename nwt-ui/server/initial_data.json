@@ -49,7 +49,7 @@
       "player": "4031e661-91a5-4130-b61e-6c063cfe48ac"
     },
     {
-      "name": "Windsward",
+      "name": "dummy Windsward",
       "details": "nichts ausgebaut",
       "key": "a28312e9-1064-4c35-a8de-14a8defb0ae7",
       "world": "489f0ec3-abc2-4abf-a67a-a9f0042ab09c",
@@ -61,6 +61,13 @@
       "key": "efb2808d-a5c0-4aa4-b98c-0e93786004ac",
       "world": "489f0ec3-abc2-4abf-a67a-a9f0042ab09c",
       "player": "4031e661-91a5-4130-b61e-6c063cfe48ac"
+    },
+    {
+      "key": "807f9bfa-c336-48dd-9978-5da5f8caa963",
+      "details": "alles ok",
+      "name": "Restless Shore City",
+      "player": "",
+      "world": ""
     }
   ],
   "storages": [
@@ -81,18 +88,16 @@
           "quantity": "1000"
         },
         {
-          "key": "99c3b30e-f60d-4cde-9ac9-a05c732f8923",
-          "name": "Black Spear of Doom",
-          "category": "weapon",
-          "quantity": "1123",
-          "attributes": {
-            "damage": 200
-          }
-        },
-        {
           "key": "151f1e8f-8e6b-47d1-9252-771dfa7b33cc",
           "quantity": "1000",
           "name": "Platin",
+          "attributes": {},
+          "category": "resource"
+        },
+        {
+          "key": "d1805ac9-9f1c-43a3-b6a0-398b53decfa6",
+          "quantity": "10",
+          "name": "Medal of Extra Honor",
           "attributes": {},
           "category": "resource"
         }
@@ -113,6 +118,52 @@
     {
       "key": "337d03a4-7cc1-4d44-96b5-610fead2b987",
       "city": "efb2808d-a5c0-4aa4-b98c-0e93786004ac",
+      "items": [
+        {
+          "key": "1960eaf4-ca92-4721-95fb-c1cc0eeb995b",
+          "quantity": "1000",
+          "name": "test 2",
+          "attributes": {},
+          "category": "resource"
+        },
+        {
+          "key": "9d475944-714a-4080-93ac-96feed5793ba",
+          "quantity": 0,
+          "name": "test 3",
+          "attributes": {},
+          "category": "resource"
+        }
+      ]
+    },
+    {
+      "key": "cf71ad85-8f5c-42ed-8933-634059112af1",
+      "city": "807f9bfa-c336-48dd-9978-5da5f8caa963",
+      "items": [
+        {
+          "key": "edc66f55-e828-4520-af73-50d1a56973d1",
+          "quantity": "1000",
+          "name": "Edelsteine",
+          "attributes": {},
+          "category": "resource"
+        }
+      ]
+    },
+    {
+      "key": "6d3c5195-f888-442c-888e-7abe7b712b6a",
+      "city": "a28312e9-1064-4c35-a8de-14a8defb0ae7",
+      "items": [
+        {
+          "key": "d5e4ba95-6292-4cbd-99bc-eddfed40d486",
+          "quantity": "100",
+          "name": "Edelsteine",
+          "attributes": {},
+          "category": "resource"
+        }
+      ]
+    },
+    {
+      "key": "a4489e91-eee3-4122-a24b-f52f49365b4c",
+      "city": "7f728ba0-48aa-442a-b63a-b4bb3ab6de3e",
       "items": []
     }
   ]

@@ -6,7 +6,6 @@ import AppBarTitle from "common/components/AppBarTitle";
 import AppBarButton from "common/appbar/AppBarButton";
 import AppBarIcon from "common/appbar/AppBarIcon";
 import {useDeleteCityMutation, useListCitiesQuery, useUpdateCityMutation} from "common/api/queryApi";
-import Button from "@mui/material/Button";
 import {messages} from "common/i18n/messages";
 
 
@@ -58,8 +57,8 @@ const CityDetailsView = () => {
             <TopAppBar>
                 <Toolbar>
                     <AppBarTitle children={<BackButton navigate={onNavigate}/>}/>
-                    <Button variant='contained' onClick={onUpdateCity}>{messages.cityEditor.edit.title}</Button>
-                    <Button variant='contained' onClick={onDeleteCity}>{messages.cityEditor.delete.title}</Button>
+                    <AppBarButton onClick={onUpdateCity}>{messages.cityEditor.edit.title}</AppBarButton>
+                    <AppBarButton onClick={onDeleteCity}>{messages.cityEditor.delete.title}</AppBarButton>
                 </Toolbar>
             </TopAppBar>
             <Grid container direction="column" spacing={5}>
@@ -70,7 +69,7 @@ const CityDetailsView = () => {
                 </Grid>
                 <Grid item xs={6} sm={6}>
                     <Typography variant="h6" align="left" margin="dense">
-                        {city.details}
+                        {city.name}
                     </Typography>
                 </Grid>
             </Grid>

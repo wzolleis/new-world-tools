@@ -1,12 +1,8 @@
 import {configureStore} from '@reduxjs/toolkit'
-import userReducer from 'features/user/state/userSlice'
-import playerReducer from 'features/player/state/playerSlice'
 import {nwtApi} from "common/api/queryApi";
 
 const store = configureStore({
     reducer: {
-        playerState: playerReducer,
-        userState: userReducer,
         [nwtApi.reducerPath]: nwtApi.reducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(nwtApi.middleware)

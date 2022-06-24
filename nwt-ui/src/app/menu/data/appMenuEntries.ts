@@ -21,10 +21,4 @@ export const menuItems: AppMenuEntry[] = [
         key: 'cities',
         iconType: "City"
     },
-    {
-        path: `/${AppLinks.storages}`,
-        title: messages.menu.storages,
-        key: 'storages',
-        iconType: "Storage"
-    },
 ]

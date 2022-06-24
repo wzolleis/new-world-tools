@@ -14,7 +14,7 @@ import {AppLinksCreator} from "app/menu/data/appLinks";
 import AppBarTitle from "common/components/AppBarTitle";
 import TopAppBar from "common/components/TopAppBar";
 import {useInsertCityMutation, useListCitiesQuery} from 'common/api/queryApi'
-import {CityActionHandler} from "features/cities/actions/CityActionHandler";
+import {createNewCity} from "features/cities/actions/CityActionHandler";
 
 interface CityItemProps {
     city: City
@@ -55,7 +55,7 @@ const CitiesView = () => {
 
     const onInsertCity = () => {
         const city: City = {
-            ...CityActionHandler.createNewCity(),
+            ...createNewCity(),
             name: 'city dummy'
         }
         insertCity(city)

@@ -1,20 +1,16 @@
 import React from "react";
-import {useAppSelector} from "app/state/hooks";
-import {noDataMessage} from "common/i18n/messages";
-import {Toolbar} from "@mui/material";
-import TopAppBar from "common/components/TopAppBar";
-import {selectPlayer} from "features/player/state/playerSlice";
-import AppBarTitle from "common/components/AppBarTitle";
+import {useListPlayersQuery} from "common/api/queryApi";
 
 export const PlayersView = () => {
-    const {player} = useAppSelector(selectPlayer)
+    const {data: players = []} = useListPlayersQuery()
+
     return (
         <>
-            <TopAppBar>
-                <Toolbar>
-                    <AppBarTitle title={player?.name || noDataMessage}/>
-                </Toolbar>
-            </TopAppBar>
+            {
+                players.map(player => {
+                    return <div>{player.name}</div>
+                })
+            }
         </>
     )
 }

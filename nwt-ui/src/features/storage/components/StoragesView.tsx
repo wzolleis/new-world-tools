@@ -6,11 +6,11 @@ import ItemSummaryTable, {ItemSummaryTableRow} from "features/storage/components
 import TopAppBar from "common/components/TopAppBar";
 import {Toolbar} from "@mui/material";
 import AppBarTitle from "common/components/AppBarTitle";
-import {useListCitiesQuery, useListStoragesQuery} from "common/api/queryApi";
+import {useListCitiesQuery} from "common/api/queryApi";
 
 const StoragesView = () => {
     const {data: cities = []} = useListCitiesQuery()
-    const {data: storages = []} = useListStoragesQuery()
+    const storages = cities.map(city => city.storage)
     const [selectedRow, setSelectedRow] = useState<ItemSummaryTableRow | undefined>(undefined)
     const onUpdateItemSelection = (itemSummary: ItemSummaryTableRow | undefined) => {
         setSelectedRow(itemSummary)

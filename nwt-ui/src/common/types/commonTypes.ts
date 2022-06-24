@@ -48,7 +48,6 @@ export interface User extends WithKey {
 
 export interface Player extends WithKey {
     name: string,
-    world: ObjectKey
     user: ObjectKey
     state: string, // dataStates
 }
@@ -56,8 +55,8 @@ export interface Player extends WithKey {
 export interface City extends WithKey {
     name: string
     details: string
-    world: ObjectKey
     player: ObjectKey
+    storage: CityStorage
 }
 
 export interface CityStorage extends WithKey {
