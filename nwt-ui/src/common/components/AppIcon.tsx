@@ -6,6 +6,7 @@ import {IconType} from "common/types/iconType";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import TimelineOutlinedIcon from '@mui/icons-material/TimelineOutlined';
 
 export interface AppIconProps {
     icon: IconType
@@ -37,6 +38,8 @@ const AppIcon = ({icon, ...rest}: AppIconProps) => {
             return <EditIcon  {...rest}/>
         case "Delete":
             return <DeleteIcon  {...rest}/>
+        case "Marketplace":
+            return <TimelineOutlinedIcon {...rest}/>
         default:
             return <DeviceUnknown  {...rest}/>
     }

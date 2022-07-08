@@ -21,4 +21,10 @@ export const menuItems: AppMenuEntry[] = [
         key: 'cities',
         iconType: "City"
     },
+    {
+        path: `/${AppLinks.marketplace}`,
+        title: messages.menu.marketplace,
+        key: 'marketplace',
+        iconType: "Marketplace"
+    },
 ]

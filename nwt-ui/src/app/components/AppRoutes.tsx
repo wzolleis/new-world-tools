@@ -9,6 +9,7 @@ import {AppLinks} from "app/menu/data/appLinks";
 import Layout from "common/components/Layout";
 import CityDetailsView from "features/cities/components/CityDetailsView";
 import StorageView from 'features/storage/components/StorageView'
+import MarketplaceView from "features/marketplace/components/MarketplaceView";
 
 const nestedPaths: RouteObject[] = [
     {
@@ -26,6 +27,10 @@ const nestedPaths: RouteObject[] = [
             {
                 path: AppLinks.cities,
                 element: <CitiesView/>,
+            },
+            {
+                path: AppLinks.marketplace,
+                element: <MarketplaceView/>,
             },
             {
                 path: `${AppLinks.cities}/:key`,

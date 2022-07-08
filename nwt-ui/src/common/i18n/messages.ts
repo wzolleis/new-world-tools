@@ -19,6 +19,7 @@ export const messages = {
         user: 'User',
         player: 'Spieler',
         cities: 'Städte',
+        marketplace: "Handelsplatz",
         favorites: 'Lesezeichen'
     },
     success: {

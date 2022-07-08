@@ -4,6 +4,7 @@ export const AppLinks = {
     root: '/',
     cities: 'cities',
     users: 'users',
+    marketplace: "economy",
     favorites: 'favorites'
 }
 

@@ -15,6 +15,8 @@ import AppBarTitle from "common/components/AppBarTitle";
 import TopAppBar from "common/components/TopAppBar";
 import {useInsertCityMutation, useListCitiesQuery} from 'common/api/queryApi'
 import {createNewCity} from "features/cities/actions/CityActionHandler";
+import AppBarButton from "common/appbar/AppBarButton";
+import AppBarIcon from "common/appbar/AppBarIcon";
 
 interface CityItemProps {
     city: City
@@ -53,7 +55,7 @@ const CityItem = ({city}: CityItemProps) => {
 }
 
 const CitiesView = () => {
-    const {data: cities = []} = useListCitiesQuery()
+    const {data: cities = [], isLoading} = useListCitiesQuery()
     const [insertCity] = useInsertCityMutation()
 
     const onInsertCity = () => {
@@ -69,10 +71,14 @@ const CitiesView = () => {
             <TopAppBar>
                 <Toolbar>
                     <AppBarTitle title={messages.menu.cities}/>
-                    <Button variant='contained' onClick={onInsertCity}>{messages.cityEditor.insert.title}</Button>
+                    <AppBarButton startIcon={<AppBarIcon icon={"Add"}/>}
+                                  onClick={onInsertCity}>
+                        {messages.cityEditor.insert.title}
+                    </AppBarButton>
                 </Toolbar>
             </TopAppBar>
 
+            {isLoading && <div>loading...</div>}
             <Grid sx={{flexGrow: 1}} container direction={"column"} spacing={{xs: 2, md: 3}}
                   columns={{xs: 1, sm: 1, md: 1}}>
                 <Grid item>
@@ -84,7 +90,6 @@ const CitiesView = () => {
                                         <CityItem city={city}/>
                                     </Grid>)
                             })
-
                         }
                     </Grid>
                 </Grid>
