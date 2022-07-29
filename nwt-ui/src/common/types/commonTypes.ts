@@ -73,6 +73,20 @@ export interface Item extends WithKey {
     }
 }
 
+export interface Price {
+    amount: number
+    date: string
+}
+
+export interface MarketPlaceItem extends WithKey {
+    name: string
+    prices: Price[]
+}
+
+export interface MarketPlace {
+    items: MarketPlaceItem[]
+}
+
 export type Nullable<T> = T | null
 export type Undefined<T> = T | undefined
 

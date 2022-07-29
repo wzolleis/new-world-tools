@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
-import {City, Player, User} from "common/types/commonTypes";
+import {City, MarketPlace, Player, User} from "common/types/commonTypes";
 
 const baseURL = 'http://localhost:5000/api'
 
@@ -8,6 +8,7 @@ const restApi = {
         users: `/users`,
         players: `/players`,
         cities: `/cities`,
+        marketplace: 'marketplace',
         city: (key: string) => `/cities/${key}`,
     }
 }
@@ -15,7 +16,7 @@ const restApi = {
 export const nwtApi = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({baseUrl: baseURL}),
-    tagTypes: ['Cities', 'Storages', 'Players', 'Users'],
+    tagTypes: ['Cities', 'Storages', 'Players', 'Users', 'Marketplace'],
     endpoints: (builder) => ({
         listCities: builder.query<Array<City>, void>({
             query: () => restApi.path.cities,
@@ -52,7 +53,11 @@ export const nwtApi = createApi({
             query: () => restApi.path.users,
             providesTags: ['Users']
         }),
-    }),
+        listMarketPlace: builder.query<MarketPlace, void>({
+            query: () => restApi.path.marketplace,
+            providesTags: ['Marketplace']
+        })
+    })
 })
 
 export const {
@@ -61,5 +66,6 @@ export const {
     useUpdateCityMutation,
     useDeleteCityMutation,
     useListPlayersQuery,
-    useListUsersQuery
+    useListUsersQuery,
+    useListMarketPlaceQuery
 } = nwtApi

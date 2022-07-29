@@ -1,4 +1,4 @@
-import {City} from "common/types/commonTypes";
+import {City, MarketPlaceItem} from "common/types/commonTypes";
 
 export const AppLinks = {
     root: '/',
@@ -11,5 +11,6 @@ export const AppLinks = {
 
 export const AppLinksCreator = {
     createCityDetailsLink: (city: City) => `/${AppLinks.cities}/${city.key}`,
+    createMarketPlaceItemDetailsLink: (item: MarketPlaceItem) => `/${AppLinks.marketplace}/${item.key}`,
     createStorageLink: (city: City) => `/${AppLinks.cities}/${city.key}/storage/${city.storage.key}`
 }
