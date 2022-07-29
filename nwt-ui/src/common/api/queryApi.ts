@@ -8,7 +8,7 @@ const restApi = {
         users: `/users`,
         players: `/players`,
         cities: `/cities`,
-        marketplace: 'marketplace',
+        marketplace: '/marketplace',
         city: (key: string) => `/cities/${key}`,
     }
 }
