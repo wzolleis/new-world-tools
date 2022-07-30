@@ -5,58 +5,50 @@ import {Outlet} from "react-router-dom";
 import AppMenu from "common/components/AppMenu";
 import LayoutConstants from "common/constants/layoutConstants";
 import {AppTheme} from "app/components/appTheme";
+import {styled} from "@mui/material/styles";
 
 const useStyles = makeStyles((theme: AppTheme) => {
     const {drawerWidth} = LayoutConstants
 
     return {
-        page: {
-            width: '100%',
-            padding: theme.spacing(3),
-        },
-        root: {
-            display: 'flex',
-        },
-        drawer: {
-            width: drawerWidth,
-        },
-        drawerPaper: {
-            width: drawerWidth,
-        },
-        title: {
-            padding: theme.spacing(2),
-        },
-        appBar: {
-            width: `calc(100% - ${drawerWidth}px)`,
-
-        },
-        date: {
-            flexGrow: 1
-        },
         toolbar: theme.mixins.toolbar
     }
 })
 
+const Root = styled('div')(({theme}) => ({
+    display: 'flex',
+}))
+
+const Page = styled('div')(({theme}) => ({
+    width: '100%',
+    padding: theme.spacing(3),
+}))
+
+const Toolbar = styled('div')(({theme}) => ({
+    toolbar: theme.mixins.toolbar
+}))
+
 const Layout = ({children}: PropsWithChildren<{}>) => {
     const classes = useStyles()
+    const {drawerWidth} = LayoutConstants
+
     return (
-        <div className={classes.root}>
+        <Root>
             {/* side drawer */}
             <Drawer
-                className={classes.drawer}
+                sx={{width: drawerWidth}}
                 variant="permanent"
-                classes={{paper: classes.drawerPaper}}
                 anchor="left"
             >
                 {/* links/list section */}
                 <AppMenu/>
             </Drawer>
             {/* main content */}
-            <div className={classes.page}>
-                <div className={classes.toolbar}/>
+            <Page>
+                <Toolbar/>
                 <Outlet/>
-            </div>
-        </div>
+            </Page>
+        </Root>
     )
 }
 
