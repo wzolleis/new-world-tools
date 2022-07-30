@@ -1,22 +1,9 @@
 import {useNavigate} from "react-router-dom";
 import {Button, Card, CardActions, CardContent, CardMedia, Grid, Typography} from "@mui/material";
 import React from "react";
-import {makeStyles} from "@mui/styles";
 import {AppLinks} from "app/menu/data/appLinks";
 
-const styles = {
-    parentFlexSplit: {
-        display: "flex",
-        justifyContent: "space-between"
-    },
-    rightAlignItem: {
-        marginLeft: "auto"
-    }
-}
-const useStyles = makeStyles(styles)
-
 export const NotFoundView = () => {
-    const classes = useStyles()
     const navigate = useNavigate()
     const navigateToHome = () => {
         navigate(AppLinks.root)
@@ -46,11 +33,13 @@ export const NotFoundView = () => {
                         <Typography variant="body1" color="text.secondary">
                             This page isn't here. Maybe it moved. Or maybe it never existed.
                         </Typography>
-                        <Typography variant="body1" color="text.secondary">Sorry. That's how it goes sometimes.</Typography>
+                        <Typography variant="body1" color="text.secondary">Sorry. That's how it goes
+                            sometimes.</Typography>
                     </CardContent>
-                    <CardActions disableSpacing className={classes.parentFlexSplit}>
+                    <CardActions disableSpacing sx={{display: "flex", justifyContent: "space-between"}}>
                         <Button onClick={navigateToHome} size="large">Zurück</Button>
-                        <Typography className={classes.rightAlignItem} variant="subtitle2"><a href='https://www.freepik.com'>www.freepik.com</a>.</Typography>
+                        <Typography sx={{marginLeft: "auto"}} variant="subtitle2"><a
+                            href='https://www.freepik.com'>www.freepik.com</a>.</Typography>
                     </CardActions>
                 </Card>
             </Grid>
