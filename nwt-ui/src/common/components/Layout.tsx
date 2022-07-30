@@ -1,21 +1,11 @@
-import React, {PropsWithChildren} from "react";
+import React from "react";
 import {Drawer} from "@mui/material";
-import {makeStyles} from '@mui/styles';
 import {Outlet} from "react-router-dom";
 import AppMenu from "common/components/AppMenu";
 import LayoutConstants from "common/constants/layoutConstants";
-import {AppTheme} from "app/components/appTheme";
 import {styled} from "@mui/material/styles";
 
-const useStyles = makeStyles((theme: AppTheme) => {
-    const {drawerWidth} = LayoutConstants
-
-    return {
-        toolbar: theme.mixins.toolbar
-    }
-})
-
-const Root = styled('div')(({theme}) => ({
+const Root = styled('div')(() => ({
     display: 'flex',
 }))
 
@@ -24,12 +14,7 @@ const Page = styled('div')(({theme}) => ({
     padding: theme.spacing(3),
 }))
 
-const Toolbar = styled('div')(({theme}) => ({
-    toolbar: theme.mixins.toolbar
-}))
-
-const Layout = ({children}: PropsWithChildren<{}>) => {
-    const classes = useStyles()
+const Layout = () => {
     const {drawerWidth} = LayoutConstants
 
     return (
@@ -45,7 +30,6 @@ const Layout = ({children}: PropsWithChildren<{}>) => {
             </Drawer>
             {/* main content */}
             <Page>
-                <Toolbar/>
                 <Outlet/>
             </Page>
         </Root>
