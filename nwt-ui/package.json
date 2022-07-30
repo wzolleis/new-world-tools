@@ -7,7 +7,6 @@
     "@emotion/styled": "^11.9.3",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.7",
-    "@mui/styles": "^5.8.7",
     "@mui/x-data-grid": "^5.13.0",
     "@reduxjs/toolkit": "^1.8.3",
     "axios": "^0.27.2",
@@ -38,7 +37,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/uuid": "^8.3.4",
     "canvas": "^2.9.3",
-    "jest-extended": "^2.0.0",
+    "jest-extended": "^3.0.1",
     "npm-run-all": "^4.1.5",
     "typescript": "^4.7.4"
   },
