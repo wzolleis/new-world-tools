@@ -14,7 +14,6 @@ import {
     MenuItem,
     Typography
 } from "@mui/material";
-import {ClassNameMap, makeStyles} from "@mui/styles";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -26,36 +25,23 @@ export interface UserCardProps {
     user: User
 }
 
-const styles = {
-    parentFlexSplit: {
-        display: "flex",
-        justifyContent: "space-between"
-    },
-    rightAlignItem: {
-        marginLeft: "auto"
-    }
-}
-type UserCardStyles = keyof typeof styles
-const useStyles = makeStyles(styles)
-
 interface UserCardHeaderProps {
     handleMoreActionsClick: (event: React.MouseEvent<HTMLButtonElement>) => void
     user: User
 }
 
 interface UserCardActionsProps {
-    classes: ClassNameMap<UserCardStyles>
     handleExpandClick: () => void
     expanded: boolean
 }
 
-const UserCardActions = ({classes, handleExpandClick, expanded}: UserCardActionsProps) => {
+const UserCardActions = ({handleExpandClick, expanded}: UserCardActionsProps) => {
     return (
-        <CardActions disableSpacing className={classes.parentFlexSplit}>
+        <CardActions disableSpacing sx={{display: "flex", justifyContent: "space-between"}}>
             <IconButton>
                 <FavoriteIcon/>
             </IconButton>
-            <IconButton onClick={handleExpandClick} className={classes.rightAlignItem}
+            <IconButton onClick={handleExpandClick} sx={{marginLeft: "auto"}}
             >
                 {expanded ? <ExpandLessIcon/> : <ExpandMoreIcon/>}
             </IconButton>
@@ -159,8 +145,6 @@ const UserCardDetailView = ({players, expanded}: UserCardDetailViewProps) => {
 
 const UserCard = ({user, user: {players}}: UserCardProps) => {
     const [expanded, setExpanded] = React.useState(false);
-
-    const classes = useStyles()
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleMoreActionsClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -182,8 +166,7 @@ const UserCard = ({user, user: {players}}: UserCardProps) => {
                           handleUserMenuClose={handleUserMenuClose}
             />
             <UserCardContent user={user}/>
-            <UserCardActions classes={classes}
-                             handleExpandClick={handleExpandClick}
+            <UserCardActions handleExpandClick={handleExpandClick}
                              expanded={expanded}
             />
             <UserCardDetailView
