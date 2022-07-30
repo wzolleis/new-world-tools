@@ -16,21 +16,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import {ClassNameMap, makeStyles} from "@mui/styles";
 import {messages} from "common/i18n/messages";
 import {City} from "common/types/commonTypes";
-
-const styles = {
-    parentFlexSplit: {
-        display: "flex",
-        justifyContent: "space-between"
-    },
-    rightAlignItem: {
-        marginLeft: "auto"
-    }
-}
-type CityCardStyles = keyof typeof styles
-const useStyles = makeStyles(styles)
 
 export interface CityCardProps {
     city: City
@@ -41,18 +28,17 @@ interface CityCardHeaderProps extends CityCardProps {
 }
 
 interface CityCardActionsProps extends CityCardProps {
-    classes: ClassNameMap<CityCardStyles>
     handleExpandClick: () => void
     expanded: boolean
 }
 
-const CityCardActions = ({classes, handleExpandClick, expanded}: CityCardActionsProps) => {
+const CityCardActions = ({handleExpandClick, expanded}: CityCardActionsProps) => {
     return (
-        <CardActions disableSpacing className={classes.parentFlexSplit}>
+        <CardActions disableSpacing sx={{display: "flex", justifyContent: "space-between"}}>
             <IconButton>
                 <FavoriteIcon/>
             </IconButton>
-            <IconButton onClick={handleExpandClick} className={classes.rightAlignItem}
+            <IconButton onClick={handleExpandClick} sx={{marginLeft: "auto"}}
             >
                 {expanded ? <ExpandLessIcon/> : <ExpandMoreIcon/>}
             </IconButton>
@@ -108,6 +94,7 @@ const CityCardMenu = ({handleCityMenuClose, anchorEl, open}: CityCardMenuProps) 
         </Menu>
     )
 }
+
 interface CityCardDetailViewProps extends CityCardProps {
     expanded: boolean
 }
@@ -126,7 +113,6 @@ const CityCardDetailView = ({expanded}: CityCardDetailViewProps) => {
 
 const CityCard = (props: CityCardProps) => {
     const [expanded, setExpanded] = React.useState(false);
-    const classes = useStyles()
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleMoreActionsClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -147,8 +133,8 @@ const CityCard = (props: CityCardProps) => {
             <CityCardHeader city={city} handleMoreActionsClick={handleMoreActionsClick}/>
             <CityCardMenu city={city} open={open} anchorEl={anchorEl} handleCityMenuClose={handleCityMenuClose}/>
             <CityCardContent city={city}/>
-            <CityCardActions city={city} classes={classes} handleExpandClick={handleExpandClick} expanded={expanded}/>
-           <CityCardDetailView city={city} expanded={expanded}/>
+            <CityCardActions city={city} handleExpandClick={handleExpandClick} expanded={expanded}/>
+            <CityCardDetailView city={city} expanded={expanded}/>
         </Card>
     )
 }
