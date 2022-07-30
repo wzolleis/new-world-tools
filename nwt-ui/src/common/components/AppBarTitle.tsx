@@ -1,32 +1,25 @@
 import {Typography} from "@mui/material";
 import React, {PropsWithChildren} from "react";
-import {makeStyles} from "@mui/styles";
 import LayoutConstants from "common/constants/layoutConstants";
-import {AppTheme} from "app/components/appTheme";
+import {styled} from '@mui/material/styles';
 
 interface AppBarTitleProps {
     title?: string
 }
 
-const useStyles = makeStyles((_: AppTheme) => {
-    const {drawerWidth} = LayoutConstants
-
-    return {
-        title: {
-            marginLeft: drawerWidth,
-            flexGrow: 1
-        },
-    }
-})
+const {drawerWidth} = LayoutConstants
+const Root = styled('div')(({theme}) => ({
+    display: 'flex',
+    marginLeft: drawerWidth,
+    flexGrow: 1
+}))
 
 const AppBarTitle: React.FC<PropsWithChildren<AppBarTitleProps>> = ({title, children}) => {
-    const classes = useStyles()
-
     return (
-        <div className={classes.title}>
+        <Root>
             {children}
             {!!title && <Typography>{title}</Typography>}
-        </div>
+        </Root>
     )
 }
 
